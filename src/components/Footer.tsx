@@ -17,7 +17,7 @@ export function Footer() {
           <use href="#paisley-m" />
         </svg>
         <p className="mt-5 font-italicserif italic text-burgundy text-xl sm:text-2xl">
-          With love, the family.
+          With love, the Tanwar family.
         </p>
         <p className="mt-1 font-italicserif italic text-inkSoft text-sm">
           {EVENT.couple.groom.split(' ')[0]} &amp; {EVENT.couple.bride.split(' ')[0]}
@@ -29,10 +29,7 @@ export function Footer() {
         </div>
 
         <p className="mt-6 smallcaps text-pink">
-          {EVENT.name} &nbsp;·&nbsp; {EVENT.date.dayNum} . {EVENT.date.monthRoman} . {EVENT.date.yearRoman} &nbsp;·&nbsp; {EVENT.city}
-        </p>
-        <p className="mt-3 text-xs text-inkSoft/70 font-italicserif italic">
-          Printed in warm cream and Jaipur pink, for a family, by a family.
+          {EVENT.name} &nbsp;·&nbsp; {EVENT.date.yearRoman}
         </p>
         <p className="mt-6 text-[11px] text-inkSoft/60">
           <a href="#top" onClick={returnToTop} className="hover:text-pink transition-colors">

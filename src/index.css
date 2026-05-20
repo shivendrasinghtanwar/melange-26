@@ -554,24 +554,30 @@ body {
   z-index: 2;
 }
 
-/* state: opening — play the keyframe animations */
-.fold-overlay--opening .fold-overlay__lid         { animation: foldOpen   1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
-.fold-overlay--opening .fold-overlay__lid::after  { animation: foldShadow 1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
-.fold-overlay--opening .fold-overlay__lid::before { animation: hingeFade  0.5s ease-out forwards; }
+/* state: opening — play the open animations */
+.fold-overlay--opening .fold-overlay__lid         { animation: foldOpen      1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
+.fold-overlay--opening .fold-overlay__lid::after  { animation: foldShadowIn  1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
+.fold-overlay--opening .fold-overlay__lid::before { animation: hingeFadeOut  0.5s ease-out forwards; }
+
+/* state: closing — mirror of opening (lid drops back into place) */
+.fold-overlay--closing .fold-overlay__lid         { animation: foldClose     1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
+.fold-overlay--closing .fold-overlay__lid::after  { animation: foldShadowOut 1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
+.fold-overlay--closing .fold-overlay__lid::before { animation: hingeFadeIn   0.5s 0.7s ease-out both; }
 
 @keyframes foldOpen {
   0%   { transform: rotateX(0deg);   opacity: 1; }
   70%  { transform: rotateX(85deg);  opacity: 1; }
   100% { transform: rotateX(110deg); opacity: 0; }
 }
-@keyframes foldShadow {
-  0%   { opacity: 0; }
-  100% { opacity: 1; }
+@keyframes foldClose {
+  0%   { transform: rotateX(110deg); opacity: 0; }
+  30%  { transform: rotateX(85deg);  opacity: 1; }
+  100% { transform: rotateX(0deg);   opacity: 1; }
 }
-@keyframes hingeFade {
-  0%   { opacity: 1; }
-  100% { opacity: 0; }
-}
+@keyframes foldShadowIn  { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes foldShadowOut { 0% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes hingeFadeOut  { 0% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes hingeFadeIn   { 0% { opacity: 0; } 100% { opacity: 1; } }
 
 /* ─── Reduced motion ─────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

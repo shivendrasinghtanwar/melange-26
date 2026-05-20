@@ -16,6 +16,11 @@ build/
 .env.local
 .env.*.local
 
+# TypeScript composite build outputs
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+
 # Misc
 .cache/
 coverage/

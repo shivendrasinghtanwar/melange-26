@@ -203,6 +203,13 @@ body {
   background-size: 32px 22px;
   opacity: 0.7;
 }
+/* Inverse colour variant for the divider on dark sections (e.g. the
+   burgundy Particulars). Stroke goes from pink #C53A56 → goldSoft
+   #D4B57C; marigold dots are unchanged. */
+.blockprint-band.on-dark {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 46'><g fill='none' stroke='%23D4B57C' stroke-width='1.2'><path d='M32 8c-7 0-12 6-12 13 0 8 6 14 12 17 6-3 12-9 12-17 0-7-5-13-12-13z'/><circle cx='32' cy='21' r='3'/><path d='M4 23h12M48 23h12'/><circle cx='2' cy='23' r='1.4' fill='%23E0A436' stroke='none'/><circle cx='62' cy='23' r='1.4' fill='%23E0A436' stroke='none'/></g></svg>");
+  opacity: 1;
+}
 
 /* ─── Milestones (Style I, with combined palette) ────────────────────── */
 .milestones__grid {
@@ -525,8 +532,13 @@ body {
 .field-label {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  color: var(--inkSoft);
-  font-size: 0.95rem;
+  /* Pushed darker than var(--ink) #3B1410 per user preference —
+     a near-black warm tone (#1A0805) to keep field labels firmly
+     readable while staying inside the warm brown family rather
+     than going to pure black. */
+  color: #1A0805;
+  font-size: 1.05rem;
+  font-weight: 500;
 }
 .field-error {
   font-family: 'Cormorant Garamond', serif;

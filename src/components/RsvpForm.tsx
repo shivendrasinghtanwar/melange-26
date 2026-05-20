@@ -45,40 +45,55 @@ export function RsvpForm() {
 
   if (status === 'success') {
     return (
-      <section id="rsvp" className="px-5 sm:px-10 max-w-6xl mx-auto pt-4 pb-16">
-        <div className="text-center max-w-2xl mx-auto">
-          <p className="smallcaps text-emerald">Reply received</p>
-          <h2 className="mt-4 font-display text-burgundy leading-[1.05] text-4xl sm:text-5xl md:text-[3.4rem]">
-            Thank you, <span className="font-italicserif italic text-pink">{values.Name.split(' ')[0]}.</span>
-          </h2>
-          <p className="mt-5 font-italicserif italic text-inkSoft text-base sm:text-lg">
-            A seat (or {values.Guests}) has been kept for you. See you on {EVENT.date.day}.
-          </p>
+      <section id="rsvp" className="min-h-screen flex flex-col">
+        <div className="flex-1 flex flex-col justify-center px-5 sm:px-10">
+          <div className="text-center max-w-2xl mx-auto">
+            <p className="smallcaps text-emerald">Reply received</p>
+            <h2 className="mt-4 font-display text-burgundy leading-[1.05] text-4xl sm:text-5xl md:text-[3.4rem]">
+              Thank you, <span className="font-italicserif italic text-pink">{values.Name.split(' ')[0]}.</span>
+            </h2>
+            <p className="mt-5 font-italicserif italic text-inkSoft text-base sm:text-lg">
+              A seat (or {values.Guests}) has been kept for you. See you on {EVENT.date.day}.
+            </p>
+          </div>
+        </div>
+        <div className="px-0 py-6 sm:py-8" aria-hidden="true">
+          <div className="blockprint-band" />
         </div>
       </section>
     );
   }
 
+  /* Same three-part 100vh pattern as Milestones / Gallery / Details:
+     — Header (eyebrow + headline + intro) at top
+     — Content (the reply card form) fills the middle via flex-1
+     — Bottom divider sits at the foot of the section
+     pt-16/20 mirrors Details, giving the header breathing room from
+     the on-dark divider that sits at the bottom of the burgundy
+     Particulars section above. */
   return (
-    <section id="rsvp" className="px-5 sm:px-10 max-w-6xl mx-auto pt-4 pb-16">
-      <div className="text-center max-w-2xl mx-auto">
-        <Reveal>
-          <p className="smallcaps text-emerald">The favour of a reply</p>
-        </Reveal>
-        <Reveal delay={80}>
-          <h2 className="mt-4 font-display text-burgundy leading-[1.05] text-4xl sm:text-5xl md:text-[3.4rem]">
-            Kindly <span className="font-italicserif italic text-pink">RSVP.</span>
-          </h2>
-        </Reveal>
-        <Reveal delay={140}>
-          <p className="mt-5 font-italicserif italic text-inkSoft text-base sm:text-lg">
-            A short note from you so we can lay an extra plate, and find you in the crowd.
-          </p>
-        </Reveal>
+    <section id="rsvp" className="min-h-screen flex flex-col pt-16 sm:pt-20">
+      <div className="px-5 sm:px-10 max-w-6xl mx-auto w-full">
+        <div className="text-center max-w-2xl mx-auto">
+          <Reveal>
+            <p className="smallcaps text-emerald">The favour of a reply</p>
+          </Reveal>
+          <Reveal delay={80}>
+            <h2 className="mt-4 font-display text-burgundy leading-[1.05] text-4xl sm:text-5xl md:text-[3.4rem]">
+              Kindly <span className="font-italicserif italic text-pink">RSVP.</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={140}>
+            <p className="mt-5 font-italicserif italic text-inkSoft text-base sm:text-lg">
+              A short note from you so we can lay an extra plate, and find you in the crowd.
+            </p>
+          </Reveal>
+        </div>
       </div>
 
-      <Reveal delay={200} className="relative mt-12 max-w-2xl mx-auto">
-        <form className="reply-card relative p-7 sm:p-10" onSubmit={onSubmit} noValidate autoComplete="on">
+      <div className="flex-1 flex flex-col justify-center px-5 sm:px-10 py-8 sm:py-10">
+        <Reveal delay={200} className="relative max-w-2xl mx-auto w-full">
+          <form className="reply-card relative p-7 sm:p-10" onSubmit={onSubmit} noValidate autoComplete="on">
           {/* corner flourishes */}
           <svg className="absolute top-2 left-2" width="56" height="56" aria-hidden="true">
             <use href="#corner-flourish" />
@@ -97,7 +112,7 @@ export function RsvpForm() {
             <span className="smallcaps">Reply Card</span>
           </div>
 
-          <p className="font-italicserif italic text-center text-inkSoft mb-7">
+          <p className="font-italicserif italic text-center text-[#1A0805] font-medium text-lg mb-7">
             Please reply on or before <span className="text-pink">{EVENT.date.rsvpBy}</span>
           </p>
 
@@ -177,7 +192,7 @@ export function RsvpForm() {
             </label>
 
             <div className="sm:col-span-2 mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
-              <p className="font-italicserif italic text-inkSoft/85 text-sm" aria-live="polite">
+              <p className="font-italicserif italic text-[#1A0805] font-medium text-base" aria-live="polite">
                 {status === 'error' && serverError
                   ? <span className="text-pinkDeep">{serverError}</span>
                   : 'We’ll save you a seat, and a marigold.'}
@@ -193,6 +208,11 @@ export function RsvpForm() {
           </div>
         </form>
       </Reveal>
+      </div>
+
+      <div className="px-0 py-6 sm:py-8" aria-hidden="true">
+        <div className="blockprint-band" />
+      </div>
     </section>
   );
 }

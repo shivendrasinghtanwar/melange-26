@@ -3,8 +3,18 @@ import { Reveal } from './Reveal';
 
 export function Details() {
   return (
-    <section id="details" className="section--burgundy relative px-5 sm:px-10 py-24 sm:py-28">
-      <div className="max-w-6xl mx-auto">
+    /* Same three-part 100vh pattern as Milestones/Gallery:
+       — Header (eyebrow + headline + floret) at top
+       — Content (two-column grid) fills the middle via flex-1
+       — Bottom divider sits at the foot of the section
+       Burgundy background extends through the full min-h-screen, and
+       the inline trailing divider uses the .on-dark variant so it's
+       legible against the dark backdrop. */
+    <section
+      id="details"
+      className="section--burgundy relative min-h-screen flex flex-col"
+    >
+      <div className="px-5 sm:px-10 pt-16 sm:pt-20 max-w-6xl mx-auto w-full">
         <div className="text-center">
           <Reveal>
             <p className="smallcaps text-goldSoft">The Particulars</p>
@@ -24,8 +34,10 @@ export function Details() {
             </div>
           </Reveal>
         </div>
+      </div>
 
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-[1.1fr,1fr] gap-16 md:gap-12 lg:gap-20">
+      <div className="flex-1 flex flex-col justify-center px-5 sm:px-10 py-10 sm:py-12">
+        <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-[1.1fr,1fr] gap-12 md:gap-12 lg:gap-20">
           {/* LEFT: itinerary */}
           <Reveal delay={120}>
             <div>
@@ -112,6 +124,10 @@ export function Details() {
             </aside>
           </Reveal>
         </div>
+      </div>
+
+      <div className="px-0 py-6 sm:py-8" aria-hidden="true">
+        <div className="blockprint-band on-dark" />
       </div>
     </section>
   );

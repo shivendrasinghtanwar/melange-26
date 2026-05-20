@@ -142,9 +142,20 @@ function MarqueeRow({ direction, photos, label }: { direction: 'rtl' | 'ltr'; ph
 
 export function Gallery() {
   return (
-    <section id="album" className="pt-4 pb-10" aria-labelledby="album-title">
-      <div className="px-5 sm:px-10 max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+    /* Three-part vertical section, sized to one viewport (min-h-screen):
+       — header at top (eyebrow + Moments, kept. + intro)
+       — content (two marquee rows) fills the middle via flex-1
+       — bottom divider sits at the foot of the section
+       The trailing blockprint-band that used to live in App.tsx now
+       belongs to this section, so the section + divider together fit
+       within one 100vh — same vertical rhythm as the Milestones screen. */
+    <section
+      id="album"
+      className="min-h-screen flex flex-col pt-6 sm:pt-10"
+      aria-labelledby="album-title"
+    >
+      <div className="px-5 sm:px-10 max-w-6xl mx-auto w-full">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6">
           <div className="max-w-xl">
             <Reveal>
               <p className="smallcaps text-emerald">A Memory Album</p>
@@ -152,7 +163,7 @@ export function Gallery() {
             <Reveal delay={80}>
               <h2
                 id="album-title"
-                className="mt-4 font-display text-burgundy leading-[1.05] text-4xl sm:text-5xl md:text-[3.4rem]"
+                className="mt-3 sm:mt-4 font-display text-burgundy leading-[1.05] text-4xl sm:text-5xl md:text-[3.4rem]"
               >
                 Moments, <span className="font-italicserif italic text-pink">kept.</span>
               </h2>
@@ -166,20 +177,13 @@ export function Gallery() {
         </div>
       </div>
 
-      <div className="mt-12 sm:mt-14">
+      <div className="flex-1 flex flex-col justify-center gap-6 sm:gap-8 py-6 sm:py-8">
         <MarqueeRow direction="rtl" photos={ROW_TOP} label="Memory album, top row" />
-        <div className="mt-8 sm:mt-10">
-          <MarqueeRow direction="ltr" photos={ROW_BOTTOM} label="Memory album, bottom row" />
-        </div>
+        <MarqueeRow direction="ltr" photos={ROW_BOTTOM} label="Memory album, bottom row" />
       </div>
 
-      <div className="px-5 sm:px-10 max-w-3xl mx-auto mt-14 sm:mt-20">
-        <div className="ornament-rule">
-          <span className="smallcaps text-pink">a film reel of memories</span>
-        </div>
-        <p className="mt-4 text-center font-italicserif italic text-inkSoft text-sm sm:text-base">
-          Real photographs will replace these gradients in the weeks before the evening.
-        </p>
+      <div className="px-0 py-6 sm:py-8" aria-hidden="true">
+        <div className="blockprint-band" />
       </div>
     </section>
   );

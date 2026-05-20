@@ -16,25 +16,32 @@ export function Footer() {
         <svg width="120" height="92" aria-hidden="true">
           <use href="#paisley-m" />
         </svg>
-        <p className="mt-5 font-italicserif italic text-burgundy text-xl sm:text-2xl">
+        <p className="mt-5 font-italicserif italic text-burgundy text-2xl sm:text-3xl">
           With love, the Tanwar family.
         </p>
-        <p className="mt-1 font-italicserif italic text-inkSoft text-sm">
+        <p className="mt-2 font-italicserif italic text-inkSoft text-base sm:text-lg">
           {/* Each pair wrapped in whitespace-nowrap so name pairs don't
-              split awkwardly when the line wraps at narrow widths. */}
-          <span className="whitespace-nowrap">The Tanwars</span>
-          &nbsp;·&nbsp;
+              split awkwardly when the line wraps at narrow widths.
+              Female names listed first in each pair. */}
           <span className="whitespace-nowrap">
-            {EVENT.honoree.spouse.split(' ')[0]} &amp; {EVENT.honoree.name.split(' ')[0]}
+            {EVENT.honoree.name.split(' ')[0]} &amp; {EVENT.honoree.spouse.split(' ')[0]}
           </span>
           &nbsp;·&nbsp;
           <span className="whitespace-nowrap">
-            {EVENT.couple.groom.split(' ')[0]} &amp; {EVENT.couple.bride.split(' ')[0]}
+            {EVENT.couple.bride.split(' ')[0]} &amp; {EVENT.couple.groom.split(' ')[0]}
           </span>
         </p>
 
-        <div className="mt-7 w-full max-w-md">
-          <div className="blockprint-band thin" />
+        {/* Thin line with three centered dots — replaces the busier
+            blockprint thin band that used to sit here. Reuses the
+            shared .ornament-rule (thin pink line on either side,
+            gradient-faded edges). */}
+        <div className="mt-7 w-full max-w-md ornament-rule">
+          <span className="flex items-center gap-1.5" aria-hidden="true">
+            <span className="block h-[3px] w-[3px] rounded-full bg-current opacity-70" />
+            <span className="block h-1 w-1 rounded-full bg-current opacity-90" />
+            <span className="block h-[3px] w-[3px] rounded-full bg-current opacity-70" />
+          </span>
         </div>
 
         <p className="mt-6 smallcaps text-pink">

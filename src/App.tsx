@@ -33,23 +33,19 @@ export default function App() {
           <div className="blockprint-band" />
         </div>
 
+        {/* Gallery owns its own trailing blockprint divider as the
+            "bottom divider" part of its three-part 100vh layout — no
+            separator needed here between Gallery and Details. */}
         <Gallery />
 
-        <div className="px-0 py-8 sm:py-12" aria-hidden="true">
-          <div className="blockprint-band" />
-        </div>
-
+        {/* Details owns its trailing (on-dark) blockprint divider as
+            the "bottom divider" part of its three-part 100vh layout —
+            no separator needed here between Details and RsvpForm. */}
         <Details />
 
-        <div className="px-0 py-8 sm:py-12" aria-hidden="true">
-          <div className="blockprint-band" />
-        </div>
-
+        {/* RsvpForm owns its trailing blockprint divider as the
+            "bottom divider" part of its three-part 100vh layout. */}
         <RsvpForm />
-
-        <div className="px-0 pt-2 pb-6" aria-hidden="true">
-          <div className="blockprint-band thin" />
-        </div>
 
         <Footer />
       </main>

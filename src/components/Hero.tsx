@@ -31,18 +31,19 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
       </svg>
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 sm:px-10 pt-8 pb-4 text-center">
-        {/* Arch frame — tall enough (aspect 15/22 ≈ 600×880 viewBox) for
-            the legs to run all the way from the wordmark at the top down
-            past the RSVP at the bottom. Inner content is absolute-
-            positioned (inset-0) so the top stack (family / wordmark /
-            tagline) sits in the upper portion and the bottom stack
-            (date + RSVP) is pushed near the leg-pegs by a flex spacer. */}
-        <div className="arch-wrap w-[min(94vw,720px)] aspect-[15/22] max-h-[82svh] relative">
+        {/* Arch + wordmark. Arch-wrap dimensions are unchanged from the
+            original (aspect 5/6, max-h 72svh, max-w 780). The mihrab
+            SVG's viewBox is taller than 5/6, and the CSS now renders it
+            with width:100% / height:auto so the SVG OVERFLOWS the wrap
+            downward — its legs run past the bottom of the wrap into the
+            date/RSVP area below, with the corner pegs landing near the
+            RSVP line. The curve at the top is identical to the original. */}
+        <div className="arch-wrap w-[min(94vw,780px)] aspect-[5/6] max-h-[72svh] flex items-center justify-center">
           <svg className="arch" aria-hidden="true">
             <use href="#mihrab" />
           </svg>
 
-          <div className="absolute inset-0 px-6 sm:px-12 pt-[14%] pb-[6%] flex flex-col items-center text-center">
+          <div className="relative px-6 sm:px-12 pt-6 sm:pt-8 flex flex-col items-center">
             <p className="smallcaps text-pink mb-2">{EVENT.family}</p>
             <p className="font-italicserif italic text-inkSoft text-base sm:text-lg mb-2">
               — invites you to —
@@ -73,32 +74,29 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
                 {EVENT.tagline}
               </p>
             </div>
-
-            {/* Flexible spacer pushes the date + RSVP to the bottom of
-                the arch so they sit just above the leg-pegs (instead of
-                bunching up under the tagline). */}
-            <div className="flex-1 min-h-[1.5rem]" aria-hidden="true" />
-
-            <div className="flex items-center justify-center text-ink">
-              <span className="stamp text-base sm:text-lg text-pink whitespace-nowrap">
-                {EVENT.date.dayNum} {EVENT.date.month} {EVENT.date.year}
-              </span>
-            </div>
-
-            <a
-              href="#rsvp"
-              className="ink-link ink-link--center mt-4 sm:mt-5 smallcaps text-pink"
-              onClick={smoothScroll}
-            >
-              RSVP
-            </a>
           </div>
         </div>
+
+        {/* Date — visually framed by the arch legs which extend down
+            from the wrap above into this area. */}
+        <div className="mt-6 sm:mt-8 flex items-center justify-center text-ink">
+          <span className="stamp text-base sm:text-lg text-pink whitespace-nowrap">
+            {EVENT.date.dayNum} {EVENT.date.month} {EVENT.date.year}
+          </span>
+        </div>
+
+        <a
+          href="#rsvp"
+          className="ink-link ink-link--center mt-5 smallcaps text-pink"
+          onClick={smoothScroll}
+        >
+          RSVP
+        </a>
 
         <a
           href="#milestones"
           onClick={smoothScroll}
-          className="mt-6 sm:mt-8 text-inkSoft hover:text-pink transition-colors text-sm font-italicserif italic flex flex-col items-center gap-1"
+          className="mt-8 sm:mt-10 text-inkSoft hover:text-pink transition-colors text-sm font-italicserif italic flex flex-col items-center gap-1"
         >
           unfold
           <span aria-hidden="true" className="text-base">↓</span>

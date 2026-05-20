@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node / Vite (for the upcoming React build)
+node_modules/
+dist/
+build/
+*.log
+.env
+.env.local
+.env.*.local
+
+# Misc
+.cache/
+coverage/

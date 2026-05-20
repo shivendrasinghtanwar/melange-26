@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mélange · A Celebration of Love, Life &amp; Legacy · 30 June 2026</title>
+  <meta name="description" content="Three milestones, one evening. The wedding reception of Shivendra &amp; Devyani, the 60th of Sarandha, and her retirement from Sophia School. 30 June 2026." />
+  <meta name="theme-color" content="#5C1A2B" />
+
+  <meta property="og:title" content="Mélange — A Celebration of Love, Life &amp; Legacy" />
+  <meta property="og:description" content="Three milestones, one evening. 30 June 2026." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_IN" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F8F4ED'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%235C1A2B' font-style='italic'%3EM%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Italiana&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory:   '#F8F4ED',
+            cream:   '#EFE7D8',
+            blush:   '#EAD7C4',
+            burgundy:'#5C1A2B',
+            wine:    '#7A2235',
+            rose:    '#C77F73',
+            gold:    '#B08D57',
+            goldSoft:'#D4B57C',
+            navy:    '#1F2A44',
+            ink:     '#2A1F1A',
+            inkSoft: '#5B4A40',
+          },
+          fontFamily: {
+            display:  ['"Cormorant Garamond"','serif'],
+            italiana: ['Italiana','serif'],
+            body:     ['Manrope','sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="bg-ivory text-ink font-body antialiased overflow-x-hidden">
+
+  <!-- Decorative SVG library, referenced via <use> elsewhere -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <!-- Filigree divider: a thin horizontal stroke with a small diamond + flourish centerpiece -->
+      <symbol id="ornament" viewBox="0 0 220 24">
+        <g fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round">
+          <line x1="0" y1="12" x2="78" y2="12" />
+          <line x1="142" y1="12" x2="220" y2="12" />
+          <path d="M 84 12 q 8 -8 16 0 q 8 8 16 0 q 8 -8 16 0" />
+          <circle cx="110" cy="12" r="2.4" fill="currentColor" stroke="none" />
+          <circle cx="84"  cy="12" r="1.2" fill="currentColor" stroke="none" />
+          <circle cx="136" cy="12" r="1.2" fill="currentColor" stroke="none" />
+        </g>
+      </symbol>
+
+      <!-- Monogram M with subtle leaf flourishes -->
+      <symbol id="monogram" viewBox="0 0 120 120">
+        <g fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="60" cy="60" r="54" stroke-width="0.5" />
+          <circle cx="60" cy="60" r="48" stroke-width="0.5" opacity="0.5" />
+          <!-- leafy flourishes left + right -->
+          <path d="M 18 60 q 6 -10 14 -6 q -2 -8 6 -10" />
+          <path d="M 102 60 q -6 -10 -14 -6 q 2 -8 -6 -10" />
+          <path d="M 18 60 q 6 10 14 6 q -2 8 6 10" />
+          <path d="M 102 60 q -6 10 -14 6 q 2 8 -6 10" />
+        </g>
+        <text x="60" y="78" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-weight="500" font-size="56" fill="currentColor">M</text>
+      </symbol>
+
+      <!-- Tiny floret used as bullet/separator -->
+      <symbol id="floret" viewBox="0 0 16 16">
+        <g fill="currentColor">
+          <circle cx="8" cy="8" r="1.4" />
+          <circle cx="8" cy="2.4" r="0.9" />
+          <circle cx="8" cy="13.6" r="0.9" />
+          <circle cx="2.4" cy="8" r="0.9" />
+          <circle cx="13.6" cy="8" r="0.9" />
+        </g>
+      </symbol>
+
+      <!-- Corner flourish used in the RSVP card -->
+      <symbol id="corner" viewBox="0 0 60 60">
+        <g fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round">
+          <path d="M 4 30 Q 4 4 30 4" />
+          <path d="M 12 30 Q 12 12 30 12" opacity="0.5" />
+          <circle cx="30" cy="4" r="1.2" fill="currentColor" stroke="none" />
+          <circle cx="4" cy="30" r="1.2" fill="currentColor" stroke="none" />
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ───────────────────────────── HERO ───────────────────────────── -->
+  <header id="top" class="hero relative min-h-[100svh] flex items-center justify-center px-6 py-20">
+    <!-- soft grain + vignette layers -->
+    <div class="hero__grain absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+    <div class="hero__glow absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+
+    <!-- top + bottom tick marks (invitation ticket vibe) -->
+    <div class="hero__ticks absolute inset-x-0 top-6 flex justify-between px-6 text-gold/70 text-[10px] tracking-[0.4em] uppercase" aria-hidden="true">
+      <span>Est. 2026</span>
+      <span>No. III</span>
+    </div>
+    <div class="hero__ticks absolute inset-x-0 bottom-6 flex justify-between px-6 text-gold/70 text-[10px] tracking-[0.4em] uppercase" aria-hidden="true">
+      <span>Mélange</span>
+      <span>Jaipur · Rajasthan</span>
+    </div>
+
+    <div class="hero__inner relative w-full max-w-3xl text-center">
+      <p class="hero__kicker font-body text-[11px] sm:text-xs tracking-[0.45em] uppercase text-gold reveal" data-reveal-delay="0">
+        Together with their families
+      </p>
+
+      <h1 class="hero__title font-display italic font-light leading-[0.92] text-burgundy mt-6 sm:mt-8" aria-label="Mélange">
+        <span class="letter" style="--i:0">M</span><span class="letter" style="--i:1">é</span><span class="letter" style="--i:2">l</span><span class="letter" style="--i:3">a</span><span class="letter" style="--i:4">n</span><span class="letter" style="--i:5">g</span><span class="letter" style="--i:6">e</span>
+      </h1>
+
+      <div class="mt-6 sm:mt-8 flex items-center justify-center text-gold reveal" data-reveal-delay="600">
+        <svg class="w-44 sm:w-56" aria-hidden="true"><use href="#ornament" /></svg>
+      </div>
+
+      <p class="hero__tagline font-display italic font-light text-ink/80 mt-6 sm:mt-7 text-xl sm:text-2xl md:text-[1.7rem] leading-snug reveal" data-reveal-delay="700">
+        A celebration of <span class="text-burgundy">love</span>, <span class="text-burgundy">life</span> &amp; <span class="text-burgundy">legacy</span>.
+      </p>
+
+      <div class="hero__date mt-10 sm:mt-12 reveal" data-reveal-delay="900">
+        <div class="inline-flex items-center gap-5 sm:gap-7">
+          <span class="hero__date-part">
+            <span class="block font-display text-burgundy text-3xl sm:text-4xl leading-none">Tuesday</span>
+            <span class="block text-[10px] tracking-[0.4em] uppercase text-inkSoft mt-2">the day</span>
+          </span>
+          <span class="text-gold/70 font-italiana text-3xl sm:text-4xl leading-none" aria-hidden="true">·</span>
+          <span class="hero__date-part">
+            <span class="block font-italiana text-burgundy text-4xl sm:text-5xl leading-none tracking-wider">30 · VI</span>
+            <span class="block text-[10px] tracking-[0.4em] uppercase text-inkSoft mt-2">June</span>
+          </span>
+          <span class="text-gold/70 font-italiana text-3xl sm:text-4xl leading-none" aria-hidden="true">·</span>
+          <span class="hero__date-part">
+            <span class="block font-display text-burgundy text-3xl sm:text-4xl leading-none">2026</span>
+            <span class="block text-[10px] tracking-[0.4em] uppercase text-inkSoft mt-2">the year</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="mt-12 sm:mt-14 reveal" data-reveal-delay="1100">
+        <a href="#rsvp" class="btn-primary group" data-scroll>
+          <span class="btn-primary__inner">
+            <span>RSVP with us</span>
+            <svg class="btn-primary__arrow" width="18" height="10" viewBox="0 0 18 10" fill="none" aria-hidden="true">
+              <path d="M0 5 H16 M11 1 L17 5 L11 9" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <a href="#milestones" class="hero__scroll mt-14 sm:mt-16 inline-flex flex-col items-center text-inkSoft/60 hover:text-burgundy transition-colors reveal" data-scroll data-reveal-delay="1300">
+        <span class="text-[10px] tracking-[0.4em] uppercase">Unfold</span>
+        <span class="hero__scroll-line mt-3" aria-hidden="true"></span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ─────────────────────────── MILESTONES ─────────────────────────── -->
+  <section id="milestones" class="section section--cream relative px-6 py-28 sm:py-36">
+    <div class="mx-auto max-w-6xl">
+      <div class="section__head text-center">
+        <p class="font-body text-[11px] sm:text-xs tracking-[0.45em] uppercase text-gold reveal">The Three Milestones</p>
+        <h2 class="font-display italic font-light text-burgundy text-4xl sm:text-5xl md:text-6xl mt-5 leading-[1.02] reveal" data-reveal-delay="80">
+          One evening,<br/>three reasons to gather.
+        </h2>
+        <div class="mt-7 flex justify-center text-gold reveal" data-reveal-delay="160">
+          <svg class="w-40" aria-hidden="true"><use href="#ornament" /></svg>
+        </div>
+        <p class="mt-7 max-w-xl mx-auto text-inkSoft text-[15px] leading-relaxed reveal" data-reveal-delay="220">
+          A wedding reception, a milestone birthday, and the close of a long teaching life — folded into a single, unhurried evening.
+        </p>
+      </div>
+
+      <ol class="milestones__grid mt-20 sm:mt-24" role="list">
+
+        <li class="milestone reveal" data-reveal-delay="100">
+          <span class="milestone__numeral font-italiana text-gold" aria-hidden="true">I</span>
+          <p class="milestone__eyebrow">The reason</p>
+          <h3 class="milestone__title font-display italic text-burgundy">Love</h3>
+          <div class="milestone__rule" aria-hidden="true"></div>
+          <p class="milestone__body">
+            The wedding reception of <em class="font-display not-italic font-medium text-burgundy">Shivendra</em> &amp; <em class="font-display not-italic font-medium text-burgundy">Devyani</em>, who were quietly married on the 12<sup>th</sup> of December, 2025.
+          </p>
+          <p class="milestone__meta">Reception · the marriage</p>
+        </li>
+
+        <li class="milestone milestone--center reveal" data-reveal-delay="180">
+          <span class="milestone__numeral font-italiana text-gold" aria-hidden="true">II</span>
+          <p class="milestone__eyebrow">The occasion</p>
+          <h3 class="milestone__title font-display italic text-burgundy">Life</h3>
+          <div class="milestone__rule" aria-hidden="true"></div>
+          <p class="milestone__body">
+            The 60<sup>th</sup> birthday of <em class="font-display not-italic font-medium text-burgundy">Sarandha</em> — six decades lived with grace, curiosity, and a great deal of laughter.
+          </p>
+          <p class="milestone__meta">Sashtipoorti · sixty turns of the sun</p>
+        </li>
+
+        <li class="milestone reveal" data-reveal-delay="260">
+          <span class="milestone__numeral font-italiana text-gold" aria-hidden="true">III</span>
+          <p class="milestone__eyebrow">The farewell</p>
+          <h3 class="milestone__title font-display italic text-burgundy">Legacy</h3>
+          <div class="milestone__rule" aria-hidden="true"></div>
+          <p class="milestone__body">
+            Sarandha&rsquo;s retirement from <em class="font-display not-italic font-medium text-burgundy">Sophia School</em>, where she has taught — and shaped — a generation of students.
+          </p>
+          <p class="milestone__meta">Sophia School · a teaching life</p>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────── GALLERY ─────────────────────────── -->
+  <section id="gallery" class="section section--ivory relative px-6 py-28 sm:py-36">
+    <div class="mx-auto max-w-6xl">
+      <div class="gallery__head flex items-end justify-between gap-8 flex-wrap">
+        <div>
+          <p class="font-body text-[11px] sm:text-xs tracking-[0.45em] uppercase text-gold reveal">A Memory Album</p>
+          <h2 class="font-display italic font-light text-burgundy text-4xl sm:text-5xl md:text-6xl mt-4 leading-[1.02] reveal" data-reveal-delay="80">
+            Moments,<br/>kept for keeping.
+          </h2>
+        </div>
+        <p class="max-w-sm text-inkSoft text-[15px] leading-relaxed reveal" data-reveal-delay="160">
+          A small album from the December ceremony &mdash; with a few quiet portraits of the family to come.
+        </p>
+      </div>
+
+      <!-- Asymmetric editorial grid. Replace src="" with /assets/gallery/01.jpg etc. -->
+      <div class="gallery__grid mt-16">
+        <figure class="gallery__item gallery__item--tall reveal" data-reveal-delay="40" data-caption="The ceremony · 12 December 2025">
+          <img alt="The ceremony, December 2025" data-src="assets/gallery/01.jpg" />
+          <figcaption>The ceremony · 12 . XII . 2025</figcaption>
+        </figure>
+
+        <figure class="gallery__item gallery__item--wide reveal" data-reveal-delay="120" data-caption="The family · a portrait">
+          <img alt="The family, a portrait" data-src="assets/gallery/02.jpg" />
+          <figcaption>The family · a portrait</figcaption>
+        </figure>
+
+        <figure class="gallery__item reveal" data-reveal-delay="180" data-caption="Sarandha · 1965 — present">
+          <img alt="Sarandha through the years" data-src="assets/gallery/03.jpg" />
+          <figcaption>Sarandha · a life in chapters</figcaption>
+        </figure>
+
+        <figure class="gallery__item reveal" data-reveal-delay="240" data-caption="Sophia School · the classroom years">
+          <img alt="Sophia School, the classroom years" data-src="assets/gallery/04.jpg" />
+          <figcaption>Sophia School · the classroom years</figcaption>
+        </figure>
+
+        <figure class="gallery__item gallery__item--tall reveal" data-reveal-delay="300" data-caption="Devyani &amp; Shivendra">
+          <img alt="Devyani and Shivendra" data-src="assets/gallery/05.jpg" />
+          <figcaption>Devyani &amp; Shivendra · the couple</figcaption>
+        </figure>
+
+        <figure class="gallery__item gallery__item--wide reveal" data-reveal-delay="360" data-caption="Together · the day of">
+          <img alt="The whole family together" data-src="assets/gallery/06.jpg" />
+          <figcaption>Together · the day of</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────  DETAILS  ───────────────────────────── -->
+  <section id="details" class="section section--burgundy relative px-6 py-28 sm:py-36 text-cream">
+    <div class="mx-auto max-w-6xl">
+
+      <div class="text-center">
+        <p class="font-body text-[11px] sm:text-xs tracking-[0.45em] uppercase text-goldSoft reveal">The Particulars</p>
+        <h2 class="font-display italic font-light text-cream text-4xl sm:text-5xl md:text-6xl mt-5 leading-[1.02] reveal" data-reveal-delay="80">
+          Where to be,<br/>and when.
+        </h2>
+        <div class="mt-7 flex justify-center text-goldSoft reveal" data-reveal-delay="160">
+          <svg class="w-40" aria-hidden="true"><use href="#ornament" /></svg>
+        </div>
+      </div>
+
+      <div class="details__grid mt-20">
+
+        <!-- LEFT: itinerary timeline -->
+        <div class="details__col reveal" data-reveal-delay="120">
+          <h3 class="details__col-title">The Evening</h3>
+          <p class="details__col-sub">A loose order of things. Stay for any of it, or for all of it.</p>
+
+          <ol class="timeline mt-10" role="list">
+            <li class="timeline__row">
+              <span class="timeline__time">6 : 00 PM</span>
+              <span class="timeline__dot" aria-hidden="true"></span>
+              <div class="timeline__body">
+                <p class="timeline__title">Arrival &amp; high tea</p>
+                <p class="timeline__note">Welcome drinks, conversation, the garden lit warm.</p>
+              </div>
+            </li>
+            <li class="timeline__row">
+              <span class="timeline__time">7 : 00 PM</span>
+              <span class="timeline__dot" aria-hidden="true"></span>
+              <div class="timeline__body">
+                <p class="timeline__title">Toasts &amp; tributes</p>
+                <p class="timeline__note">A few words for the couple, the teacher, the year.</p>
+              </div>
+            </li>
+            <li class="timeline__row">
+              <span class="timeline__time">8 : 30 PM</span>
+              <span class="timeline__dot" aria-hidden="true"></span>
+              <div class="timeline__body">
+                <p class="timeline__title">Dinner is served</p>
+                <p class="timeline__note">A long table. A longer menu. Please come hungry.</p>
+              </div>
+            </li>
+            <li class="timeline__row">
+              <span class="timeline__time">10 : 00 PM</span>
+              <span class="timeline__dot" aria-hidden="true"></span>
+              <div class="timeline__body">
+                <p class="timeline__title">Music &amp; dancing</p>
+                <p class="timeline__note">The dance floor opens. So does the second bar.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- RIGHT: venue card -->
+        <aside class="details__col details__venue reveal" data-reveal-delay="220">
+          <h3 class="details__col-title">The Place</h3>
+          <p class="details__col-sub">Held under one roof, with parking on-site.</p>
+
+          <div class="venue mt-10">
+            <p class="venue__label">Venue</p>
+            <p class="venue__name font-display italic text-cream text-3xl sm:text-4xl mt-2 leading-tight">
+              [ Venue Name ]
+            </p>
+            <p class="venue__addr mt-4">
+              [ Street Address ]<br/>
+              [ Locality ], [ City ] — [ PIN ]<br/>
+              Rajasthan, India
+            </p>
+
+            <!-- Replace the data-q value below with the venue's address / coordinates -->
+            <a class="venue__cta mt-8" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Jaipur%2C+Rajasthan" data-maps-link>
+              <span>Get directions</span>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3 11 L11 3 M5 3 H11 V9" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+
+            <p class="venue__note mt-10">
+              <svg class="inline-block w-3 h-3 mr-2 align-[-1px] text-goldSoft" aria-hidden="true"><use href="#floret" /></svg>
+              Dress code: <span class="text-cream">Indian formal, or as you please.</span>
+            </p>
+            <p class="venue__note mt-2">
+              <svg class="inline-block w-3 h-3 mr-2 align-[-1px] text-goldSoft" aria-hidden="true"><use href="#floret" /></svg>
+              Children most welcome.
+            </p>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── RSVP ─────────────────────────────── -->
+  <section id="rsvp" class="section section--blush relative px-6 py-28 sm:py-36">
+    <div class="mx-auto max-w-3xl">
+
+      <div class="text-center">
+        <p class="font-body text-[11px] sm:text-xs tracking-[0.45em] uppercase text-gold reveal">The favour of a reply</p>
+        <h2 class="font-display italic font-light text-burgundy text-4xl sm:text-5xl md:text-6xl mt-5 leading-[1.02] reveal" data-reveal-delay="80">
+          Kindly RSVP.
+        </h2>
+        <p class="mt-7 max-w-xl mx-auto text-inkSoft text-[15px] leading-relaxed reveal" data-reveal-delay="140">
+          A note back, so we know to keep a seat (or two) at the table for you.
+        </p>
+      </div>
+
+      <form
+        id="rsvp-form"
+        class="rsvp-card mt-16 reveal"
+        data-reveal-delay="200"
+        method="POST"
+        novalidate
+        autocomplete="on"
+      >
+        <!-- decorative corners -->
+        <svg class="rsvp-card__corner rsvp-card__corner--tl text-gold" aria-hidden="true"><use href="#corner" /></svg>
+        <svg class="rsvp-card__corner rsvp-card__corner--tr text-gold" aria-hidden="true"><use href="#corner" /></svg>
+        <svg class="rsvp-card__corner rsvp-card__corner--bl text-gold" aria-hidden="true"><use href="#corner" /></svg>
+        <svg class="rsvp-card__corner rsvp-card__corner--br text-gold" aria-hidden="true"><use href="#corner" /></svg>
+
+        <div class="rsvp-card__head">
+          <p class="text-[10px] tracking-[0.4em] uppercase text-gold">Reply card</p>
+          <p class="font-display italic text-burgundy text-2xl mt-1">No. ___</p>
+        </div>
+
+        <div class="rsvp-grid">
+          <label class="field field--full">
+            <span class="field__label">Your name</span>
+            <input type="text" name="Name" required autocomplete="name" placeholder="As it should appear on the seating card" />
+            <span class="field__error" data-error-for="Name">Please tell us your name.</span>
+          </label>
+
+          <label class="field">
+            <span class="field__label">WhatsApp / Phone</span>
+            <input type="tel" name="Phone" required autocomplete="tel" inputmode="tel" placeholder="+91 ·  · · · ·  · · · · ·" pattern="[0-9 +()\-]{7,}" />
+            <span class="field__error" data-error-for="Phone">A working number, please.</span>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Guests attending</span>
+            <span class="select-wrap">
+              <select name="Guests" required>
+                <option value="" disabled selected>Including yourself…</option>
+                <option value="1">1 &nbsp;·&nbsp; just me</option>
+                <option value="2">2 &nbsp;·&nbsp; a pair</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              <svg class="select-wrap__chev" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+                <path d="M1 1 L5 5 L9 1" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="field__error" data-error-for="Guests">Pick a number, any number.</span>
+          </label>
+
+          <label class="field field--full">
+            <span class="field__label">A note for the family <span class="field__opt">— optional</span></span>
+            <textarea name="Message" rows="4" placeholder="A wish, a memory, a song request…"></textarea>
+          </label>
+        </div>
+
+        <div class="rsvp-card__foot">
+          <button type="submit" class="btn-primary btn-primary--solid" id="rsvp-submit">
+            <span class="btn-primary__inner">
+              <span class="btn-primary__label">Send with love</span>
+              <svg class="btn-primary__arrow" width="18" height="10" viewBox="0 0 18 10" fill="none" aria-hidden="true">
+                <path d="M0 5 H16 M11 1 L17 5 L11 9" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </button>
+
+          <p class="rsvp-card__legal">
+            By replying you agree to a great evening &amp; at least one slow dance.
+          </p>
+        </div>
+
+        <!-- live status region -->
+        <div class="rsvp-status" role="status" aria-live="polite" data-status></div>
+      </form>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── FOOTER ─────────────────────────────── -->
+  <footer class="footer relative px-6 pt-24 pb-12 bg-ivory">
+    <div class="mx-auto max-w-3xl text-center">
+      <div class="text-burgundy/85 inline-block">
+        <svg class="w-16 h-16 mx-auto" aria-hidden="true"><use href="#monogram" /></svg>
+      </div>
+      <p class="font-display italic text-burgundy text-2xl sm:text-3xl mt-6">
+        With love,
+      </p>
+      <p class="font-display text-ink/80 text-lg mt-1">the family</p>
+
+      <div class="mt-10 flex justify-center text-gold/80">
+        <svg class="w-32" aria-hidden="true"><use href="#ornament" /></svg>
+      </div>
+
+      <p class="mt-8 text-[10px] tracking-[0.4em] uppercase text-inkSoft/70">
+        Mélange &nbsp;·&nbsp; 30 . VI . MMXXVI
+      </p>
+      <p class="mt-3 text-[11px] text-inkSoft/60">
+        <a href="#top" data-scroll class="hover:text-burgundy transition-colors">Return to the top</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

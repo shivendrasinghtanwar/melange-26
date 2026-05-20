@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mélange — Style Choices · Pick a Direction</title>
+  <meta name="description" content="Four visual directions for the Mélange event landing page. Pick one." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,ital@9..144,300..700,0;9..144,300..700,1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #F4EFE7;
+      --surface: #FBF7F0;
+      --ink: #1A1A1A;
+      --inkSoft: #5C5147;
+      --rule: #C5AE94;
+      --accent: #6B3A2E;
+      --gold: #B08D57;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+    }
+
+    header.page {
+      padding: 4rem 2rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: .45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+    }
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-variation-settings: "opsz" 144;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1.05;
+      margin: 1.25rem 0 .75rem;
+      color: var(--accent);
+    }
+    .lede {
+      max-width: 38rem;
+      margin: 0 auto;
+      color: var(--inkSoft);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    .lede strong { color: var(--ink); font-weight: 500; }
+    .rule {
+      width: 80px;
+      height: 1px;
+      background: var(--rule);
+      margin: 1.5rem auto 0;
+    }
+
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    @media (min-width: 880px) {
+      main {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem 2.5rem;
+      }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid rgba(176,141,87,.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .card__frame {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      background: #fff;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(176,141,87,.25);
+    }
+    .card__frame iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* render the iframe at 1400×1750 then scale down to fit */
+      width: 1400px;
+      height: 1750px;
+      border: 0;
+      transform: scale(0.35);
+      transform-origin: top left;
+      pointer-events: none;             /* avoid hijacking scroll */
+    }
+    @media (max-width: 600px) {
+      .card__frame iframe {
+        width: 1200px;
+        height: 1500px;
+        transform: scale(0.28);
+      }
+    }
+    .card__body {
+      padding: 1.5rem 1.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+    }
+    .card__index {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-variation-settings: "opsz" 60;
+      color: var(--gold);
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+    .card__title {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-variation-settings: "opsz" 60;
+      font-size: 2rem;
+      line-height: 1.05;
+      margin: 0;
+      color: var(--ink);
+    }
+    .card__desc {
+      color: var(--inkSoft);
+      line-height: 1.65;
+      font-size: 14px;
+      margin: 0;
+      max-width: 42ch;
+    }
+    .card__meta {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .4rem 1.25rem;
+      margin-top: .25rem;
+      font-size: 12px;
+      color: var(--inkSoft);
+    }
+    .card__meta dt { color: var(--gold); letter-spacing: .25em; text-transform: uppercase; font-size: 10px; }
+    .card__meta dd { margin: 0; }
+
+    .swatches { display: flex; gap: .25rem; margin-top: .75rem; }
+    .swatches span {
+      width: 28px;
+      height: 28px;
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.5);
+    }
+
+    .card__actions {
+      display: flex;
+      gap: .75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .7rem 1.1rem;
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .25s ease, color .25s ease;
+    }
+    .btn:hover { background: var(--accent); color: var(--surface); }
+    .btn--ghost {
+      border-color: rgba(0,0,0,.18);
+      color: var(--inkSoft);
+    }
+    .btn--ghost:hover {
+      background: rgba(0,0,0,.05);
+      color: var(--ink);
+    }
+
+    .legend {
+      max-width: 1400px;
+      margin: 0 auto 6rem;
+      padding: 0 2rem;
+      font-size: 13px;
+      color: var(--inkSoft);
+      line-height: 1.7;
+    }
+    .legend p { margin: 0 0 1rem; }
+  </style>
+</head>
+<body>
+
+  <header class="page">
+    <p class="eyebrow">Mélange · Style Direction</p>
+    <h1>Four directions.<br/>Pick one.</h1>
+    <p class="lede">
+      Four distinct visual directions for the <strong>Mélange</strong> event landing page (30 June 2026).
+      Each thumbnail is a live, working mockup — click <em>Open in full</em> to inspect any of them.
+      The React build will follow whichever direction you choose.
+    </p>
+    <div class="rule"></div>
+  </header>
+
+  <main>
+
+    <!-- 01 -->
+    <article class="card">
+      <div class="card__frame">
+        <iframe src="01-editorial-letterpress.html" loading="lazy" title="Editorial Letterpress preview" tabindex="-1"></iframe>
+      </div>
+      <div class="card__body">
+        <span class="card__index">I</span>
+        <h2 class="card__title">Editorial Letterpress</h2>
+        <p class="card__desc">
+          A stately wedding-invitation aesthetic. Ivory, burgundy and brushed gold; high-contrast serif typography; Roman numerals on the milestones; symmetric, centred composition. The safest, most traditional choice.
+        </p>
+        <div class="swatches" aria-hidden="true">
+          <span style="background:#F8F4ED"></span>
+          <span style="background:#EFE7D8"></span>
+          <span style="background:#5C1A2B"></span>
+          <span style="background:#B08D57"></span>
+          <span style="background:#2A1F1A"></span>
+        </div>
+        <dl class="card__meta">
+          <dt>Type</dt><dd>Cormorant Garamond · Italiana · Manrope</dd>
+          <dt>Voice</dt><dd>Restrained · classical · ceremonial</dd>
+          <dt>Best for</dt><dd>Guests who expect a formal invitation</dd>
+        </dl>
+        <div class="card__actions">
+          <a class="btn" href="01-editorial-letterpress.html" target="_blank">Open in full ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 02 -->
+    <article class="card">
+      <div class="card__frame">
+        <iframe src="02-jaipur-heirloom.html" loading="lazy" title="Jaipur Heirloom preview" tabindex="-1"></iframe>
+      </div>
+      <div class="card__body">
+        <span class="card__index">II</span>
+        <h2 class="card__title">Jaipur Heirloom</h2>
+        <p class="card__desc">
+          The warmth of an Indian heirloom wedding card, refined and editorial. Cream + Jaipur pink + marigold + emerald; mihrab arch in the hero; block-print dividers; hand-drawn marigold motifs. Festive without being kitschy.
+        </p>
+        <div class="swatches" aria-hidden="true">
+          <span style="background:#FAF1E4"></span>
+          <span style="background:#F2D6CC"></span>
+          <span style="background:#C53A56"></span>
+          <span style="background:#E0A436"></span>
+          <span style="background:#1B5E3F"></span>
+        </div>
+        <dl class="card__meta">
+          <dt>Type</dt><dd>Marcellus · Cormorant italic · Outfit</dd>
+          <dt>Voice</dt><dd>Warm · joyful · Indian heritage</dd>
+          <dt>Best for</dt><dd>Leaning into the Rajasthani context</dd>
+        </dl>
+        <div class="card__actions">
+          <a class="btn" href="02-jaipur-heirloom.html" target="_blank">Open in full ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03 -->
+    <article class="card">
+      <div class="card__frame">
+        <iframe src="03-midnight-brass.html" loading="lazy" title="Midnight Brass preview" tabindex="-1"></iframe>
+      </div>
+      <div class="card__body">
+        <span class="card__index">III</span>
+        <h2 class="card__title">Midnight Brass</h2>
+        <p class="card__desc">
+          A modern black-tie gala. Deep midnight blue with cream type and brushed champagne brass accents; restrained ornament; dramatic negative space; cinematic photography. <em>Wallpaper</em> magazine, not wedding card.
+        </p>
+        <div class="swatches" aria-hidden="true">
+          <span style="background:#0E1326"></span>
+          <span style="background:#161B33"></span>
+          <span style="background:#F2E9D8"></span>
+          <span style="background:#C9A961"></span>
+          <span style="background:#7A2235"></span>
+        </div>
+        <dl class="card__meta">
+          <dt>Type</dt><dd>Fraunces (variable) · Outfit · JetBrains Mono</dd>
+          <dt>Voice</dt><dd>Confident · modern · gala-formal</dd>
+          <dt>Best for</dt><dd>A grown-up, evening-led celebration</dd>
+        </dl>
+        <div class="card__actions">
+          <a class="btn" href="03-midnight-brass.html" target="_blank">Open in full ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 -->
+    <article class="card">
+      <div class="card__frame">
+        <iframe src="04-botanical-garden.html" loading="lazy" title="Botanical Garden preview" tabindex="-1"></iframe>
+      </div>
+      <div class="card__body">
+        <span class="card__index">IV</span>
+        <h2 class="card__title">Botanical Garden</h2>
+        <p class="card__desc">
+          A soft daylight garden wedding. Warm white with sage, dusty rose and terracotta; hand-drawn olive branches and eucalyptus stems; polaroid-feel photo frames; asymmetric, magazine-editorial layout. The friendliest of the four.
+        </p>
+        <div class="swatches" aria-hidden="true">
+          <span style="background:#FDFBF7"></span>
+          <span style="background:#6B7F5C"></span>
+          <span style="background:#C28987"></span>
+          <span style="background:#B5644A"></span>
+          <span style="background:#3A3933"></span>
+        </div>
+        <dl class="card__meta">
+          <dt>Type</dt><dd>DM Serif Display · Outfit · Caveat (sparingly)</dd>
+          <dt>Voice</dt><dd>Personal · warm · garden-party</dd>
+          <dt>Best for</dt><dd>A lived-in, less-formal evening</dd>
+        </dl>
+        <div class="card__actions">
+          <a class="btn" href="04-botanical-garden.html" target="_blank">Open in full ↗</a>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <aside class="legend">
+    <p>
+      <strong>How to view:</strong> the thumbnails above are live previews scaled to ~35% of the actual mockup. To inspect any one, click <em>Open in full</em> — that will render the file at full size in a new tab, where you can scroll through the hero, milestones, gallery, details, RSVP and footer sections at 375px (mobile) and at desktop.
+    </p>
+    <p>
+      <strong>What's already wired up:</strong> palette, typography, ornamentation, motion (letter-stagger on the wordmark, fade-up on scroll), reduced-motion fallback, mobile-first responsive layout, and Open Graph metadata for WhatsApp link previews.
+    </p>
+    <p>
+      <strong>Next step:</strong> pick one direction. The React + Vite + Tailwind build (per <code>docs/superpowers/plans/2026-05-20-melange-event-site.md</code>) will transcribe that direction's tokens into <code>tailwind.config.ts</code> and proceed with the production site.
+    </p>
+  </aside>
+
+</body>
+</html>

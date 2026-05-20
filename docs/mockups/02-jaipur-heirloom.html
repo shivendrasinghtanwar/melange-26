@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mélange — A celebration of love, life & legacy · 30 . VI . 2026</title>
+  <meta name="description" content="Mélange — Tuesday, 30 June 2026. The wedding reception of Shivendra & Devyani, the 60th birthday of Sarandha, and her retirement from Sophia School. Rajasthan, India." />
+  <meta property="og:title" content="Mélange · 30 . VI . 2026" />
+  <meta property="og:description" content="A celebration of love, life & legacy. One evening, three reasons to gather." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream:    '#FAF1E4',
+            rose:     '#F2D6CC',
+            primary:  '#C53A56',
+            maroon:   '#3B1410',
+            emerald:  '#1B5E3F',
+            marigold: '#E0A436',
+            ink:      '#6F4640',
+          },
+          fontFamily: {
+            display:    ['"Marcellus"', 'serif'],
+            italicserif:['"Cormorant Garamond"', 'serif'],
+            body:       ['"Outfit"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    :root{
+      --cream:#FAF1E4;
+      --rose:#F2D6CC;
+      --primary:#C53A56;
+      --maroon:#3B1410;
+      --emerald:#1B5E3F;
+      --marigold:#E0A436;
+      --ink:#6F4640;
+    }
+    html,body{ background:var(--cream); color:var(--maroon); }
+    body{
+      font-family:"Outfit", system-ui, sans-serif;
+      font-weight:400;
+      /* the printed-paper texture: subtle grain + tiny ink flecks */
+      background-image:
+        radial-gradient(circle at 22% 14%, rgba(197,58,86,0.045) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 73% 41%, rgba(59,20,16,0.05) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 38% 78%, rgba(224,164,54,0.06) 0 1.2px, transparent 2px),
+        radial-gradient(circle at 86% 88%, rgba(59,20,16,0.04) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 12% 60%, rgba(197,58,86,0.05) 0 1px, transparent 1.5px);
+      background-size: 380px 380px, 290px 290px, 510px 510px, 430px 430px, 360px 360px;
+      background-attachment: fixed;
+    }
+
+    /* deckle / paper edge wrapping the page */
+    .paper-edge{
+      box-shadow:
+        inset 0 0 0 1px rgba(59,20,16,0.06),
+        inset 0 0 0 14px transparent,
+        inset 0 0 0 15px rgba(197,58,86,0.08);
+    }
+
+    .smallcaps{
+      font-family:"Outfit", sans-serif;
+      font-weight:500;
+      text-transform:uppercase;
+      letter-spacing:0.32em;
+      font-size:0.72rem;
+    }
+    @media (min-width: 768px){ .smallcaps{ font-size:0.78rem; } }
+
+    .ornament-rule{
+      display:flex; align-items:center; gap:0.9rem;
+      color:var(--primary);
+    }
+    .ornament-rule::before, .ornament-rule::after{
+      content:""; flex:1; height:1px;
+      background: linear-gradient(to right, transparent, currentColor 30%, currentColor 70%, transparent);
+      opacity:0.55;
+    }
+
+    /* the arch container — sits behind the hero wordmark */
+    .arch-wrap{ position:relative; }
+    .arch-wrap > svg.arch{
+      position:absolute; inset:0; width:100%; height:100%;
+      pointer-events:none;
+    }
+
+    /* wordmark letter stagger */
+    .wordmark span{
+      display:inline-block;
+      transform: translateY(28px);
+      opacity:0;
+      animation: rise 900ms cubic-bezier(.2,.7,.2,1) forwards;
+    }
+    @keyframes rise{ to{ transform:translateY(0); opacity:1; } }
+
+    /* CTA underline draw */
+    .ink-link{ position:relative; display:inline-block; }
+    .ink-link::after{
+      content:""; position:absolute; left:0; right:0; bottom:-6px; height:2px;
+      background: var(--marigold);
+      transform-origin:left center;
+      transform: scaleX(0.18);
+      transition: transform 600ms cubic-bezier(.2,.7,.2,1);
+    }
+    .ink-link:hover::after, .ink-link:focus-visible::after{ transform: scaleX(1); }
+
+    /* block-print band — repeating tiny mango motif */
+    .blockprint-band{
+      height:46px;
+      background-color: transparent;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 46'><g fill='none' stroke='%23C53A56' stroke-width='1.2'><path d='M32 8c-7 0-12 6-12 13 0 8 6 14 12 17 6-3 12-9 12-17 0-7-5-13-12-13z'/><circle cx='32' cy='21' r='3'/><path d='M4 23h12M48 23h12'/><circle cx='2' cy='23' r='1.4' fill='%23E0A436' stroke='none'/><circle cx='62' cy='23' r='1.4' fill='%23E0A436' stroke='none'/></g></svg>");
+      background-repeat: repeat-x;
+      background-position: center;
+      background-size: 64px 46px;
+      opacity:0.95;
+    }
+    .blockprint-band.thin{
+      height:22px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 22'><g fill='none' stroke='%23C53A56' stroke-width='1'><path d='M16 4c-3.5 0-6 3-6 6 0 3.5 3 6.5 6 7.5 3-1 6-4 6-7.5 0-3-2.5-6-6-6z'/><circle cx='2' cy='11' r='1' fill='%23E0A436' stroke='none'/><circle cx='30' cy='11' r='1' fill='%23E0A436' stroke='none'/></g></svg>");
+      background-size: 32px 22px;
+      opacity:0.7;
+    }
+
+    /* Gallery placeholder gradients (no broken images) */
+    .photo-1{
+      background:
+        radial-gradient(120% 80% at 30% 20%, rgba(255,255,255,0.35), transparent 60%),
+        linear-gradient(135deg, #C53A56 0%, #8E2740 55%, #3B1410 100%);
+    }
+    .photo-2{
+      background:
+        radial-gradient(120% 80% at 70% 30%, rgba(255,255,255,0.3), transparent 60%),
+        linear-gradient(135deg, #E0A436 0%, #C53A56 60%, #6F2238 100%);
+    }
+    .photo-3{
+      background:
+        radial-gradient(120% 80% at 50% 40%, rgba(255,255,255,0.28), transparent 60%),
+        linear-gradient(135deg, #1B5E3F 0%, #3B1410 70%, #2A0A08 100%);
+    }
+    .photo-frame{
+      position:relative;
+      box-shadow:
+        inset 0 0 0 1px rgba(250,241,228,0.5),
+        inset 0 0 0 10px rgba(0,0,0,0.0),
+        inset 0 0 0 11px rgba(250,241,228,0.65),
+        0 1px 0 rgba(59,20,16,0.12);
+    }
+    .photo-caption-num{
+      font-family:"Cormorant Garamond", serif;
+      font-style:italic;
+      font-size: 4.2rem;
+      line-height:0.85;
+      color: rgba(250,241,228,0.85);
+      letter-spacing:-0.02em;
+    }
+
+    /* Reply card */
+    .reply-card{
+      background:#FBF6EC;
+      border:1px solid rgba(59,20,16,0.18);
+      box-shadow:
+        0 0 0 8px var(--cream),
+        0 0 0 9px rgba(197,58,86,0.35);
+    }
+    .field{
+      border:none; outline:none; background:transparent;
+      width:100%;
+      border-bottom:1px dotted rgba(59,20,16,0.45);
+      padding:0.5rem 0;
+      color:var(--maroon);
+      font-family:"Outfit", sans-serif;
+    }
+    .field::placeholder{ color: rgba(111,70,64,0.55); font-style:italic; }
+    .field-label{
+      font-family:"Cormorant Garamond", serif;
+      font-style:italic;
+      color:var(--ink);
+      font-size:0.95rem;
+    }
+
+    /* Stamp separators in hero date row */
+    .stamp{
+      font-family:"Marcellus", serif;
+      letter-spacing:0.08em;
+    }
+
+    /* Tiny diamond bullet */
+    .diamond{
+      display:inline-block; width:5px; height:5px;
+      background: var(--marigold);
+      transform: rotate(45deg);
+      margin: 0 0.6rem 0.2rem;
+      vertical-align: middle;
+    }
+
+    /* selection */
+    ::selection{ background: var(--marigold); color: var(--maroon); }
+
+    @media (prefers-reduced-motion: reduce){
+      *, *::before, *::after{
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+      .wordmark span{ transform:none; opacity:1; }
+      .ink-link::after{ transform: scaleX(1); }
+    }
+  </style>
+</head>
+<body class="text-maroon font-body antialiased">
+
+  <!-- ============ SVG defs: all motifs live here ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <!-- Mihrab arch frame (double stroke) -->
+      <symbol id="mihrab" viewBox="0 0 600 720" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#C53A56" stroke-linecap="round" stroke-linejoin="round">
+          <!-- outer arch -->
+          <path d="M40 700 V300
+                   C40 170 160 40 300 40
+                   C440 40 560 170 560 300
+                   V700"
+                stroke-width="1.6"/>
+          <!-- inner arch -->
+          <path d="M60 700 V304
+                   C60 184 168 60 300 60
+                   C432 60 540 184 540 304
+                   V700"
+                stroke-width="0.9" opacity="0.85"/>
+          <!-- crown ornament at apex -->
+          <g stroke-width="1.2">
+            <path d="M285 36 C292 18, 308 18, 315 36"/>
+            <circle cx="300" cy="22" r="3" fill="#E0A436" stroke="none"/>
+            <path d="M278 30 L266 18 M322 30 L334 18"/>
+          </g>
+          <!-- corner medallions -->
+          <g stroke-width="1" opacity="0.85">
+            <circle cx="40" cy="700" r="14" fill="none"/>
+            <circle cx="40" cy="700" r="6" fill="#E0A436" stroke="none"/>
+            <circle cx="560" cy="700" r="14" fill="none"/>
+            <circle cx="560" cy="700" r="6" fill="#E0A436" stroke="none"/>
+          </g>
+        </g>
+      </symbol>
+
+      <!-- Marigold floret A: 8 petals -->
+      <symbol id="marigold-a" viewBox="0 0 64 64">
+        <g fill="none" stroke="#C53A56" stroke-width="1.2" stroke-linecap="round">
+          <g>
+            <ellipse cx="32" cy="14" rx="5" ry="9"/>
+            <ellipse cx="32" cy="50" rx="5" ry="9"/>
+            <ellipse cx="14" cy="32" rx="9" ry="5"/>
+            <ellipse cx="50" cy="32" rx="9" ry="5"/>
+            <ellipse cx="20" cy="20" rx="5" ry="9" transform="rotate(-45 20 20)"/>
+            <ellipse cx="44" cy="20" rx="5" ry="9" transform="rotate(45 44 20)"/>
+            <ellipse cx="20" cy="44" rx="5" ry="9" transform="rotate(45 20 44)"/>
+            <ellipse cx="44" cy="44" rx="5" ry="9" transform="rotate(-45 44 44)"/>
+          </g>
+          <circle cx="32" cy="32" r="6" fill="#E0A436" stroke="none"/>
+          <circle cx="32" cy="32" r="9" stroke-width="0.8"/>
+        </g>
+      </symbol>
+
+      <!-- Marigold floret B: 6 petals, denser core -->
+      <symbol id="marigold-b" viewBox="0 0 64 64">
+        <g fill="none" stroke="#C53A56" stroke-width="1.2" stroke-linecap="round">
+          <g>
+            <path d="M32 8 C28 18, 28 22, 32 28 C36 22, 36 18, 32 8 Z"/>
+            <path d="M32 56 C28 46, 28 42, 32 36 C36 42, 36 46, 32 56 Z"/>
+            <path d="M8 32 C18 28, 22 28, 28 32 C22 36, 18 36, 8 32 Z"/>
+            <path d="M56 32 C46 28, 42 28, 36 32 C42 36, 46 36, 56 32 Z"/>
+            <path d="M16 16 C22 22, 24 24, 28 28 M48 16 C42 22, 40 24, 36 28
+                     M16 48 C22 42, 24 40, 28 36 M48 48 C42 42, 40 40, 36 36"/>
+          </g>
+          <circle cx="32" cy="32" r="4.5" fill="#E0A436" stroke="none"/>
+        </g>
+      </symbol>
+
+      <!-- Marigold floret C: stylised sun-bud -->
+      <symbol id="marigold-c" viewBox="0 0 64 64">
+        <g fill="none" stroke="#C53A56" stroke-width="1.2" stroke-linecap="round">
+          <circle cx="32" cy="32" r="7"/>
+          <circle cx="32" cy="32" r="3.5" fill="#E0A436" stroke="none"/>
+          <g>
+            <path d="M32 6 V18"/><path d="M32 46 V58"/>
+            <path d="M6 32 H18"/><path d="M46 32 H58"/>
+            <path d="M14 14 L22 22"/><path d="M50 14 L42 22"/>
+            <path d="M14 50 L22 42"/><path d="M50 50 L42 42"/>
+          </g>
+          <g stroke-width="0.9">
+            <circle cx="32" cy="10" r="1.6" fill="#E0A436" stroke="none"/>
+            <circle cx="32" cy="54" r="1.6" fill="#E0A436" stroke="none"/>
+            <circle cx="10" cy="32" r="1.6" fill="#E0A436" stroke="none"/>
+            <circle cx="54" cy="32" r="1.6" fill="#E0A436" stroke="none"/>
+          </g>
+        </g>
+      </symbol>
+
+      <!-- Paisley monogram M -->
+      <symbol id="paisley-m" viewBox="0 0 160 120">
+        <g fill="none" stroke="#C53A56" stroke-linecap="round" stroke-linejoin="round">
+          <!-- left paisley -->
+          <path d="M30 100 C20 60, 50 30, 70 60 C56 50, 40 70, 50 100" stroke-width="1.3"/>
+          <!-- right paisley -->
+          <path d="M130 100 C140 60, 110 30, 90 60 C104 50, 120 70, 110 100" stroke-width="1.3"/>
+          <!-- center stem -->
+          <path d="M80 100 V52 C80 38, 92 32, 96 44" stroke-width="1.3"/>
+          <path d="M80 52 C80 38, 68 32, 64 44" stroke-width="1.3"/>
+          <!-- dot crown -->
+          <circle cx="80" cy="28" r="3" fill="#E0A436" stroke="none"/>
+          <circle cx="80" cy="28" r="6"/>
+          <!-- baseline rule with little buds -->
+          <path d="M20 108 H140" stroke-width="0.9" opacity="0.7"/>
+          <circle cx="20" cy="108" r="2" fill="#E0A436" stroke="none"/>
+          <circle cx="140" cy="108" r="2" fill="#E0A436" stroke="none"/>
+        </g>
+      </symbol>
+
+      <!-- Corner flourish for reply card -->
+      <symbol id="corner-flourish" viewBox="0 0 80 80">
+        <g fill="none" stroke="#C53A56" stroke-width="1" stroke-linecap="round">
+          <path d="M4 40 C4 20, 20 4, 40 4"/>
+          <path d="M10 40 C10 22, 22 10, 40 10" opacity="0.7"/>
+          <path d="M18 18 C26 14, 34 14, 40 20" opacity="0.85"/>
+          <circle cx="14" cy="14" r="2.5" fill="#E0A436" stroke="none"/>
+          <circle cx="40" cy="4" r="1.5" fill="#C53A56"/>
+          <circle cx="4" cy="40" r="1.5" fill="#C53A56"/>
+        </g>
+      </symbol>
+
+      <!-- Small bird / chidiya for ornament -->
+      <symbol id="chidiya" viewBox="0 0 40 40">
+        <g fill="none" stroke="#C53A56" stroke-width="1" stroke-linecap="round">
+          <path d="M6 24 C10 16, 18 12, 28 14 L34 10 L32 16 C36 20, 34 26, 28 28 C22 30, 14 30, 8 28 Z"/>
+          <circle cx="30" cy="17" r="0.9" fill="#3B1410"/>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- =================== PAGE =================== -->
+  <main class="paper-edge">
+
+    <!-- ============ HERO ============ -->
+    <header class="relative min-h-[100svh] flex flex-col">
+      <!-- top meta strip -->
+      <div class="px-5 sm:px-10 pt-6 sm:pt-8 flex items-center justify-between text-ink">
+        <span class="smallcaps text-primary">Mélange &nbsp;·&nbsp; MMXXVI</span>
+        <span class="smallcaps hidden sm:inline text-ink/80">Jaipur &nbsp;·&nbsp; Rajasthan</span>
+        <span class="smallcaps text-ink/80">No. <span class="text-primary">001</span></span>
+      </div>
+
+      <!-- hero center -->
+      <div class="flex-1 flex flex-col items-center justify-center px-5 sm:px-10 pt-6 pb-12 text-center">
+
+        <p class="smallcaps text-primary mb-6 sm:mb-8">Together with their families</p>
+
+        <!-- Arch + wordmark -->
+        <div class="arch-wrap w-[min(92vw,560px)] aspect-[5/6] sm:aspect-[5/6] flex items-center justify-center">
+          <svg class="arch" aria-hidden="true"><use href="#mihrab"/></svg>
+
+          <div class="relative px-6 sm:px-10 pt-10 sm:pt-14 flex flex-col items-center">
+            <!-- tiny inner kicker -->
+            <p class="font-italicserif italic text-ink text-base sm:text-lg mb-2">— invites you to —</p>
+
+            <!-- WORDMARK -->
+            <h1 class="wordmark font-display text-primary leading-[0.92] tracking-tight"
+                style="font-size: clamp(4rem, 18vw, 9rem);">
+              <span style="animation-delay:40ms">M</span><span style="animation-delay:120ms">é</span><span style="animation-delay:200ms">l</span><span style="animation-delay:280ms">a</span><span style="animation-delay:360ms">n</span><span style="animation-delay:440ms">g</span><span style="animation-delay:520ms">e</span>
+            </h1>
+
+            <!-- floret + tagline -->
+            <div class="mt-5 sm:mt-7 flex flex-col items-center">
+              <svg width="34" height="34" aria-hidden="true"><use href="#marigold-a"/></svg>
+              <p class="mt-3 font-italicserif italic text-maroon text-lg sm:text-2xl leading-snug max-w-xs">
+                A celebration of love, life &amp; legacy.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- DATE stamps -->
+        <div class="mt-10 sm:mt-12 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-maroon">
+          <span class="stamp text-sm sm:text-base">TUESDAY</span>
+          <span class="w-px h-5 bg-primary/40"></span>
+          <span class="stamp text-base sm:text-lg text-primary">30 &middot; VI &middot; 2026</span>
+          <span class="w-px h-5 bg-primary/40"></span>
+          <span class="stamp text-sm sm:text-base">JAIPUR</span>
+        </div>
+
+        <!-- CTA -->
+        <a href="#rsvp" class="ink-link mt-10 smallcaps text-primary">
+          RSVP with us
+        </a>
+
+        <!-- spacer pushes unfold to bottom only if viewport allows -->
+        <div class="grow"></div>
+
+        <a href="#milestones" class="mt-14 sm:mt-16 text-ink/80 hover:text-primary transition-colors text-sm font-italicserif italic flex flex-col items-center gap-1">
+          unfold
+          <span aria-hidden="true" class="text-base">↓</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- ============ DIVIDER ============ -->
+    <div class="px-0 py-6 sm:py-10" aria-hidden="true">
+      <div class="blockprint-band"></div>
+    </div>
+
+    <!-- ============ MILESTONES ============ -->
+    <section id="milestones" class="px-5 sm:px-10 max-w-6xl mx-auto pt-6 sm:pt-10 pb-10">
+      <div class="max-w-3xl">
+        <p class="smallcaps text-emerald">The three milestones</p>
+        <h2 class="mt-4 font-display text-maroon leading-[1.05]"
+            style="font-size: clamp(2rem, 5.5vw, 3.6rem);">
+          One evening,
+          <span class="font-italicserif italic text-primary">three reasons</span>
+          to&nbsp;gather.
+        </h2>
+        <p class="mt-5 font-italicserif italic text-ink text-lg sm:text-xl max-w-xl">
+          Three quiet stories, folded together into one warm Jaipur night — the kind of night a family remembers out loud, for years.
+        </p>
+      </div>
+
+      <!-- cards: asymmetric vertical offsets on md+ -->
+      <div class="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10">
+
+        <!-- I — LOVE -->
+        <article class="relative md:mt-0">
+          <div class="flex items-baseline justify-between">
+            <span class="font-display text-primary leading-none" style="font-size: clamp(3.2rem, 6vw, 4.5rem);">I</span>
+            <span class="smallcaps text-ink/70">The reason</span>
+          </div>
+          <div class="mt-3 h-px bg-primary/40"></div>
+          <h3 class="mt-6 font-display text-maroon" style="font-size: clamp(1.9rem, 3.5vw, 2.5rem);">
+            Love
+          </h3>
+          <div class="mt-3 flex items-center gap-3 text-primary/80">
+            <svg width="26" height="26" aria-hidden="true"><use href="#marigold-a"/></svg>
+            <span class="font-italicserif italic text-ink">Shivendra &amp; Devyani</span>
+          </div>
+          <p class="mt-5 text-maroon/90 leading-relaxed">
+            The wedding reception of <span class="font-italicserif italic text-primary">Shivendra &amp; Devyani</span>, who were quietly married on the twelfth of December, two thousand and twenty-five.
+          </p>
+          <p class="mt-6 font-italicserif italic text-sm text-ink">
+            <span class="diamond"></span> Married 12 . XII . 2025
+          </p>
+        </article>
+
+        <!-- II — LIFE (offset down) -->
+        <article class="relative md:mt-16">
+          <div class="flex items-baseline justify-between">
+            <span class="font-display text-primary leading-none" style="font-size: clamp(3.2rem, 6vw, 4.5rem);">II</span>
+            <span class="smallcaps text-ink/70">The occasion</span>
+          </div>
+          <div class="mt-3 h-px bg-primary/40"></div>
+          <h3 class="mt-6 font-display text-maroon" style="font-size: clamp(1.9rem, 3.5vw, 2.5rem);">
+            Life
+          </h3>
+          <div class="mt-3 flex items-center gap-3 text-primary/80">
+            <svg width="26" height="26" aria-hidden="true"><use href="#marigold-b"/></svg>
+            <span class="font-italicserif italic text-ink">Sarandha at sixty</span>
+          </div>
+          <p class="mt-5 text-maroon/90 leading-relaxed">
+            The <span class="font-italicserif italic text-primary">sixtieth birthday</span> of Sarandha — matriarch, teacher, gentle keeper of every family story worth keeping.
+          </p>
+          <p class="mt-6 font-italicserif italic text-sm text-ink">
+            <span class="diamond"></span> Sixty, with grace
+          </p>
+        </article>
+
+        <!-- III — LEGACY -->
+        <article class="relative md:mt-0">
+          <div class="flex items-baseline justify-between">
+            <span class="font-display text-primary leading-none" style="font-size: clamp(3.2rem, 6vw, 4.5rem);">III</span>
+            <span class="smallcaps text-ink/70">The farewell</span>
+          </div>
+          <div class="mt-3 h-px bg-primary/40"></div>
+          <h3 class="mt-6 font-display text-maroon" style="font-size: clamp(1.9rem, 3.5vw, 2.5rem);">
+            Legacy
+          </h3>
+          <div class="mt-3 flex items-center gap-3 text-primary/80">
+            <svg width="26" height="26" aria-hidden="true"><use href="#marigold-c"/></svg>
+            <span class="font-italicserif italic text-ink">Sophia School, with thanks</span>
+          </div>
+          <p class="mt-5 text-maroon/90 leading-relaxed">
+            Sarandha's <span class="font-italicserif italic text-primary">retirement from Sophia School</span> — a long teaching life closes one chapter, and we&nbsp;raise a glass to all the chapters it began.
+          </p>
+          <p class="mt-6 font-italicserif italic text-sm text-ink">
+            <span class="diamond"></span> A teacher, retiring
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ DIVIDER ============ -->
+    <div class="px-0 py-8 sm:py-12" aria-hidden="true">
+      <div class="blockprint-band"></div>
+    </div>
+
+    <!-- ============ MEMORY GALLERY ============ -->
+    <section class="px-5 sm:px-10 max-w-6xl mx-auto pt-4 pb-10">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+        <div class="max-w-xl">
+          <p class="smallcaps text-emerald">A memory album</p>
+          <h2 class="mt-4 font-display text-maroon leading-[1.05]"
+              style="font-size: clamp(2rem, 5.5vw, 3.4rem);">
+            Moments,
+            <span class="font-italicserif italic text-primary">kept.</span>
+          </h2>
+        </div>
+        <p class="font-italicserif italic text-ink text-base sm:text-lg max-w-sm sm:text-right">
+          A few photographs from a year that took the long way round to this evening.
+        </p>
+      </div>
+
+      <!-- asymmetric grid: tall left, wide top-right, square bottom-right -->
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6">
+
+        <!-- tall left -->
+        <figure class="md:col-span-5 md:row-span-2">
+          <div class="photo-frame photo-1 aspect-[3/4] w-full p-6 flex flex-col justify-between">
+            <span class="smallcaps text-cream/80">No. I</span>
+            <div class="photo-caption-num">XII<span class="text-cream/60">·</span>25</div>
+          </div>
+          <figcaption class="mt-3 smallcaps text-ink/80">
+            The ceremony &nbsp;·&nbsp; 12 . XII . 2025
+          </figcaption>
+        </figure>
+
+        <!-- wide top right -->
+        <figure class="md:col-span-7">
+          <div class="photo-frame photo-2 aspect-[16/9] w-full p-6 flex items-end justify-between">
+            <span class="smallcaps text-cream/80">No. II</span>
+            <div class="font-italicserif italic text-cream/90 text-2xl sm:text-3xl">
+              the morning after
+            </div>
+          </div>
+          <figcaption class="mt-3 smallcaps text-ink/80">
+            Around the haveli &nbsp;·&nbsp; spring 2026
+          </figcaption>
+        </figure>
+
+        <!-- square bottom right -->
+        <figure class="md:col-span-7">
+          <div class="photo-frame photo-3 aspect-[4/3] w-full p-6 flex items-start justify-between">
+            <div class="font-italicserif italic text-cream/90 text-2xl sm:text-3xl leading-tight max-w-[16ch]">
+              a classroom,<br/>thirty&nbsp;years on
+            </div>
+            <span class="smallcaps text-cream/80">No. III</span>
+          </div>
+          <figcaption class="mt-3 smallcaps text-ink/80">
+            Sophia School &nbsp;·&nbsp; last bell
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ DIVIDER ============ -->
+    <div class="px-0 py-8 sm:py-12" aria-hidden="true">
+      <div class="blockprint-band"></div>
+    </div>
+
+    <!-- ============ RSVP CARD ============ -->
+    <section id="rsvp" class="px-5 sm:px-10 max-w-6xl mx-auto pt-4 pb-16">
+      <div class="text-center max-w-2xl mx-auto">
+        <p class="smallcaps text-emerald">The favour of a reply</p>
+        <h2 class="mt-4 font-display text-maroon leading-[1.05]"
+            style="font-size: clamp(2rem, 5.5vw, 3.4rem);">
+          Kindly
+          <span class="font-italicserif italic text-primary">RSVP.</span>
+        </h2>
+        <p class="mt-5 font-italicserif italic text-ink text-base sm:text-lg">
+          A short note from you so we can lay an extra plate, and find you in the crowd.
+        </p>
+      </div>
+
+      <!-- card -->
+      <div class="relative mt-12 max-w-2xl mx-auto">
+        <div class="reply-card relative p-7 sm:p-10">
+          <!-- corner flourishes -->
+          <svg class="absolute top-2 left-2" width="56" height="56" aria-hidden="true">
+            <use href="#corner-flourish"/>
+          </svg>
+          <svg class="absolute top-2 right-2" width="56" height="56" style="transform: scaleX(-1);" aria-hidden="true">
+            <use href="#corner-flourish"/>
+          </svg>
+          <svg class="absolute bottom-2 left-2" width="56" height="56" style="transform: scaleY(-1);" aria-hidden="true">
+            <use href="#corner-flourish"/>
+          </svg>
+          <svg class="absolute bottom-2 right-2" width="56" height="56" style="transform: scale(-1,-1);" aria-hidden="true">
+            <use href="#corner-flourish"/>
+          </svg>
+
+          <!-- card header -->
+          <div class="ornament-rule mb-5">
+            <span class="smallcaps">Reply Card &nbsp;·&nbsp; No. ____</span>
+          </div>
+
+          <p class="font-italicserif italic text-center text-ink mb-7">
+            Please reply on or before <span class="text-primary">15 . VI . 2026</span>
+          </p>
+
+          <!-- fields -->
+          <form onsubmit="event.preventDefault();" class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+            <label class="sm:col-span-2 block">
+              <span class="field-label">Your name, in full</span>
+              <input class="field font-display text-lg" type="text" placeholder="e.g. Asha &amp; Family" />
+            </label>
+
+            <label class="block">
+              <span class="field-label">WhatsApp / phone</span>
+              <input class="field text-base" type="tel" placeholder="+91 ·" />
+            </label>
+
+            <label class="block">
+              <span class="field-label">Guests attending</span>
+              <select class="field text-base">
+                <option>1 — just me</option>
+                <option>2 — and one more</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </label>
+
+            <label class="sm:col-span-2 block">
+              <span class="field-label">A note for the family</span>
+              <textarea rows="2" class="field text-base" placeholder="A line, a memory, a song request…"></textarea>
+            </label>
+
+            <div class="sm:col-span-2 mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+              <p class="font-italicserif italic text-ink/80 text-sm">
+                We'll save you a seat, and a marigold.
+              </p>
+              <button type="submit"
+                      class="ink-link smallcaps text-primary border border-primary/40 px-6 py-3 hover:bg-primary hover:text-cream transition-colors duration-300">
+                Send with love &nbsp;→
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- venue beneath card -->
+        <div class="mt-10 text-center text-ink/90">
+          <p class="smallcaps text-primary">The venue</p>
+          <p class="mt-3 font-display text-xl sm:text-2xl text-maroon">[ Venue Name ]</p>
+          <p class="mt-2 font-italicserif italic text-base sm:text-lg leading-relaxed">
+            [ Street Address ] &nbsp;·&nbsp; [ Locality ]<br/>
+            [ City ] &nbsp;·&nbsp; [ PIN ] &nbsp;·&nbsp; Rajasthan, India
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DIVIDER THIN ============ -->
+    <div class="px-0 pt-2 pb-6" aria-hidden="true">
+      <div class="blockprint-band thin"></div>
+    </div>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="px-5 sm:px-10 pb-14 pt-8 text-center">
+      <div class="flex flex-col items-center">
+        <svg width="120" height="92" aria-hidden="true">
+          <use href="#paisley-m"/>
+        </svg>
+        <p class="mt-5 font-italicserif italic text-maroon text-xl sm:text-2xl">
+          With love, the family.
+        </p>
+
+        <div class="mt-7 w-full max-w-md">
+          <div class="blockprint-band thin"></div>
+        </div>
+
+        <p class="mt-6 smallcaps text-primary">
+          Mélange &nbsp;·&nbsp; 30 . VI . MMXXVI
+        </p>
+        <p class="mt-3 text-xs text-ink/60 font-italicserif italic">
+          Printed in warm cream and Jaipur pink, for a family, by a family.
+        </p>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // Defensive: if fonts haven't loaded yet, still reveal letters after 1.4s
+    setTimeout(function(){
+      document.querySelectorAll('.wordmark span').forEach(function(s){
+        s.style.opacity = 1;
+        s.style.transform = 'none';
+      });
+    }, 1600);
+  </script>
+</body>
+</html>

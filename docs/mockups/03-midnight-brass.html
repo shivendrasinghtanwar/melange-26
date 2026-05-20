@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Mélange — A celebration of love, life & legacy · 30 . VI . 2026</title>
+  <meta name="description" content="Mélange — an evening to celebrate love, life and legacy. The wedding reception of Shivendra & Devyani, Sarandha's 60th birthday and her retirement from Sophia School. Tuesday, 30 June 2026." />
+  <meta property="og:title" content="Mélange — 30 . VI . 2026" />
+  <meta property="og:description" content="A celebration of love, life & legacy. Tuesday, 30 June 2026." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200..700;1,9..144,200..700&family=Outfit:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink:        '#0E1326',   // background — deep midnight
+            surface:    '#161B33',   // one notch lighter
+            raised:     '#1F2540',   // cards on cards
+            cream:      '#F2E9D8',
+            mute:       '#A89E8B',
+            brass:      '#C9A961',
+            burgundy:   '#7A2235',
+            indigo:     '#1F2A44',
+          },
+          fontFamily: {
+            display: ['Fraunces', 'serif'],
+            sans:    ['Outfit', 'system-ui', 'sans-serif'],
+            mono:    ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+          letterSpacing: {
+            'gala': '0.32em',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --ink:      #0E1326;
+      --surface:  #161B33;
+      --raised:   #1F2540;
+      --cream:    #F2E9D8;
+      --mute:     #A89E8B;
+      --brass:    #C9A961;
+      --burgundy: #7A2235;
+      --indigo:   #1F2A44;
+    }
+
+    html { background: var(--ink); }
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      color: var(--cream);
+      background: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ----- Variable-font axes ----- */
+    .f-display   { font-family: 'Fraunces', serif; font-variation-settings: "opsz" 144, "wght" 300, "SOFT" 50; }
+    .f-display-md{ font-family: 'Fraunces', serif; font-variation-settings: "opsz" 48,  "wght" 300; }
+    .f-display-sm{ font-family: 'Fraunces', serif; font-variation-settings: "opsz" 24,  "wght" 300; }
+    .f-italic    { font-family: 'Fraunces', serif; font-style: italic; font-variation-settings: "opsz" 36, "wght" 300; }
+    .f-italic-sm { font-family: 'Fraunces', serif; font-style: italic; font-variation-settings: "opsz" 14, "wght" 300; }
+    .f-numeral   { font-family: 'Fraunces', serif; font-variation-settings: "opsz" 144, "wght" 300; }
+
+    /* ----- Film grain overlay ----- */
+    .grain::before {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.045;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.91  0 0 0 0 0.84  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+
+    /* ----- Hero radial: a beam of light from above ----- */
+    .beam {
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 0%, rgba(201,169,97,0.10) 0%, rgba(201,169,97,0.04) 28%, rgba(14,19,38,0) 62%),
+        radial-gradient(ellipse 120% 80% at 50% 100%, rgba(31,42,68,0.55) 0%, rgba(14,19,38,0) 60%);
+    }
+
+    /* ----- Thin brass rule ----- */
+    .brass-rule {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(201,169,97,0), rgba(201,169,97,0.9) 50%, rgba(201,169,97,0));
+    }
+    .brass-rule-solid {
+      height: 1px;
+      background: var(--brass);
+    }
+
+    /* ----- Small caps gala kicker ----- */
+    .kicker {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--brass);
+    }
+    .kicker-cream {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    /* ----- Mono mark ----- */
+    .mono-mark {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--brass);
+      text-transform: uppercase;
+    }
+
+    /* ----- Letter stagger ----- */
+    .stagger > span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(0.4em);
+      animation: rise 1100ms cubic-bezier(.2,.7,.2,1) forwards;
+    }
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      opacity: 0;
+      animation: fade 1200ms ease-out 900ms forwards;
+    }
+    @keyframes fade { to { opacity: 1; } }
+
+    /* ----- Ghost RSVP button ----- */
+    .ghost-brass {
+      border: 1px solid var(--brass);
+      color: var(--cream);
+      background: transparent;
+      padding: 14px 34px;
+      letter-spacing: 0.32em;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      transition: background 280ms ease, color 280ms ease, letter-spacing 320ms ease;
+    }
+    .ghost-brass:hover {
+      background: var(--brass);
+      color: var(--ink);
+      letter-spacing: 0.42em;
+    }
+
+    /* ----- Solid brass button ----- */
+    .solid-brass {
+      background: var(--brass);
+      color: var(--ink);
+      padding: 14px 30px;
+      letter-spacing: 0.28em;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      transition: background 220ms ease;
+    }
+    .solid-brass:hover { background: #d8b876; }
+
+    /* ----- Form brass underline inputs ----- */
+    .brass-input {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid rgba(201,169,97,0.35);
+      color: var(--cream);
+      padding: 14px 2px 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 280ms ease;
+    }
+    .brass-input::placeholder { color: rgba(168,158,139,0.55); }
+    .brass-input:focus { border-bottom-color: var(--brass); }
+    .brass-input option { background: var(--raised); color: var(--cream); }
+
+    /* ----- Gallery placeholders ----- */
+    .plate {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 30% 30%, rgba(201,169,97,0.10), transparent 55%),
+        linear-gradient(135deg, #2a1620 0%, #1a1a2e 55%, #0b1024 100%);
+      filter: saturate(0.85) brightness(0.92) sepia(0.18) hue-rotate(-12deg);
+      transition: filter 600ms ease, transform 600ms ease;
+    }
+    .plate::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 75% 80%, rgba(122,34,53,0.35), transparent 60%),
+        linear-gradient(0deg, rgba(14,19,38,0.55), rgba(14,19,38,0));
+    }
+    .plate:hover {
+      filter: saturate(1) brightness(1.05) sepia(0.10) hue-rotate(-6deg);
+      transform: scale(1.012);
+    }
+
+    /* ----- Corner ticks helper ----- */
+    .tick-corners > * {
+      position: absolute;
+      width: 14px; height: 14px;
+      border-color: var(--brass);
+    }
+
+    /* ----- Continue affordance ----- */
+    .continue-arrow {
+      width: 1px; height: 36px;
+      background: linear-gradient(180deg, rgba(201,169,97,0), rgba(201,169,97,0.9));
+      animation: drip 2400ms ease-in-out infinite;
+    }
+    @keyframes drip {
+      0%   { transform: scaleY(0.2); transform-origin: top; opacity: 0.2; }
+      50%  { transform: scaleY(1);   transform-origin: top; opacity: 1; }
+      100% { transform: scaleY(0.2); transform-origin: bottom; opacity: 0.2; }
+    }
+
+    /* ----- Reduced motion ----- */
+    @media (prefers-reduced-motion: reduce) {
+      .stagger > span { opacity: 1; transform: none; animation: none; }
+      .fade-in { opacity: 1; animation: none; }
+      .continue-arrow { animation: none; }
+      .plate { transition: none; }
+      .ghost-brass, .solid-brass, .brass-input { transition: none; }
+    }
+
+    /* ----- A bit of body type polish ----- */
+    .lede { font-weight: 300; color: var(--mute); line-height: 1.65; }
+    a { color: inherit; }
+    a.underline-brass {
+      text-decoration: none;
+      border-bottom: 1px solid var(--brass);
+      padding-bottom: 2px;
+    }
+    a.underline-brass:hover { color: var(--brass); }
+
+    /* ----- Section side rails (vertical brass on lg) ----- */
+    .rail-l, .rail-r {
+      position: absolute; top: 0; bottom: 0; width: 1px;
+      background: linear-gradient(180deg, rgba(201,169,97,0), rgba(201,169,97,0.35) 30%, rgba(201,169,97,0.35) 70%, rgba(201,169,97,0));
+    }
+
+    /* ----- Date stamp ----- */
+    .date-stamp {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--brass);
+    }
+
+    /* Burgundy single-word accent (used once) */
+    .burgundy-word { color: var(--burgundy); font-style: italic; }
+
+  </style>
+</head>
+<body class="grain antialiased">
+
+  <!-- =================== HERO =================== -->
+  <section class="relative min-h-[100svh] beam overflow-hidden">
+
+    <!-- Corner ticks: Est. 2026 / No. III -->
+    <div class="absolute top-6 left-6 sm:top-8 sm:left-10 z-10 flex items-center gap-3">
+      <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+        <path d="M5 0 L5 10 M0 5 L10 5" stroke="#C9A961" stroke-width="0.6"/>
+      </svg>
+      <span class="mono-mark">Est. MMXXVI</span>
+    </div>
+    <div class="absolute top-6 right-6 sm:top-8 sm:right-10 z-10 flex items-center gap-3">
+      <span class="mono-mark">No. III</span>
+      <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+        <path d="M5 0 L5 10 M0 5 L10 5" stroke="#C9A961" stroke-width="0.6"/>
+      </svg>
+    </div>
+
+    <!-- Thin brass frame line at very top -->
+    <div class="absolute top-0 left-0 right-0 h-px" style="background: linear-gradient(90deg, transparent, rgba(201,169,97,0.4) 20%, rgba(201,169,97,0.4) 80%, transparent);"></div>
+
+    <!-- Center content -->
+    <div class="relative z-[2] min-h-[100svh] flex flex-col items-center justify-center px-6 py-24 text-center">
+
+      <p class="kicker mb-10 fade-in">Together with their families</p>
+
+      <h1 class="f-display stagger leading-[0.92] text-cream"
+          style="font-size: clamp(4rem, 14vw, 11rem);"
+          aria-label="Mélange">
+        <span style="animation-delay:  80ms">M</span><span style="animation-delay: 160ms">é</span><span style="animation-delay: 240ms">l</span><span style="animation-delay: 320ms">a</span><span style="animation-delay: 400ms">n</span><span style="animation-delay: 480ms">g</span><span style="animation-delay: 560ms">e</span>
+      </h1>
+
+      <div class="brass-rule mt-10 mb-8" style="width: 72px;"></div>
+
+      <p class="f-italic text-cream/90 fade-in" style="font-size: clamp(1.05rem, 1.6vw, 1.35rem);">
+        A celebration of love, life &amp; legacy.
+      </p>
+
+      <div class="mt-12 flex items-center gap-5 sm:gap-7 fade-in">
+        <span class="date-stamp">Tuesday</span>
+        <span class="text-brass/50">·</span>
+        <span class="date-stamp">30 . VI</span>
+        <span class="text-brass/50">·</span>
+        <span class="date-stamp">2026</span>
+      </div>
+
+      <div class="mt-14 fade-in">
+        <a href="#rsvp" class="ghost-brass inline-block">R · S · V · P</a>
+      </div>
+
+      <!-- Continue affordance -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 fade-in">
+        <span class="kicker-cream text-cream/70" style="font-size: 9px;">Continue</span>
+        <div class="continue-arrow"></div>
+      </div>
+    </div>
+
+    <!-- Side rails on large screens -->
+    <div class="hidden lg:block rail-l" style="left: 56px;"></div>
+    <div class="hidden lg:block rail-r" style="right: 56px;"></div>
+
+  </section>
+
+
+  <!-- =================== THREE MILESTONES =================== -->
+  <section id="milestones" class="relative px-6 py-28 sm:py-36">
+    <div class="mx-auto max-w-6xl">
+
+      <header class="text-center mb-20">
+        <p class="kicker mb-5">The Three Milestones</p>
+        <h2 class="f-display-md text-cream" style="font-size: clamp(2rem, 4.4vw, 3.4rem); font-variation-settings: 'opsz' 72, 'wght' 300;">
+          One evening, three milestones.
+        </h2>
+        <div class="brass-rule mx-auto mt-10" style="width: 56px;"></div>
+      </header>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-14 md:gap-10 lg:gap-16">
+
+        <!-- I — LOVE -->
+        <article class="relative md:px-2">
+          <div class="text-brass f-numeral leading-none mb-8" style="font-size: 4.5rem; font-variation-settings: 'opsz' 144, 'wght' 300;">I</div>
+          <p class="kicker mb-3">Love</p>
+          <h3 class="f-italic text-cream mb-5" style="font-size: 2rem;">
+            Shivendra <span class="text-mute">&amp;</span> Devyani
+          </h3>
+          <p class="lede mb-6">
+            The wedding reception of two who were quietly married on the 12<sup>th</sup> of December, 2025 — a private vow now offered to the people they love.
+          </p>
+          <div class="brass-rule" style="width: 36px;"></div>
+          <p class="mono-mark mt-5">Reception · 12 . XII . 2025</p>
+        </article>
+
+        <!-- II — LIFE -->
+        <article class="relative md:px-2 md:border-l md:border-r md:border-brass/15 md:px-10">
+          <div class="text-brass f-numeral leading-none mb-8" style="font-size: 4.5rem; font-variation-settings: 'opsz' 144, 'wght' 300;">II</div>
+          <p class="kicker mb-3">Life</p>
+          <h3 class="f-italic text-cream mb-5" style="font-size: 2rem;">
+            Sarandha, at sixty
+          </h3>
+          <p class="lede mb-6">
+            Sixty laps around an indulgent sun. We mark the matriarch's <span class="burgundy-word">sixtieth</span> with the quiet pride of a family that owes her almost everything.
+          </p>
+          <div class="brass-rule" style="width: 36px;"></div>
+          <p class="mono-mark mt-5">Sixtieth Year · MMXXVI</p>
+        </article>
+
+        <!-- III — LEGACY -->
+        <article class="relative md:px-2">
+          <div class="text-brass f-numeral leading-none mb-8" style="font-size: 4.5rem; font-variation-settings: 'opsz' 144, 'wght' 300;">III</div>
+          <p class="kicker mb-3">Legacy</p>
+          <h3 class="f-italic text-cream mb-5" style="font-size: 2rem;">
+            A teacher takes her leave
+          </h3>
+          <p class="lede mb-6">
+            After a long, generous career, Sarandha retires from Sophia School — a final bell for a teacher whose classrooms shaped more than a few of us in this room.
+          </p>
+          <div class="brass-rule" style="width: 36px;"></div>
+          <p class="mono-mark mt-5">Sophia School · Retired</p>
+        </article>
+
+      </div>
+
+      <!-- Tiny brass asterisk divider -->
+      <div class="flex justify-center mt-24">
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+          <g stroke="#C9A961" stroke-width="0.8" stroke-linecap="round">
+            <line x1="7" y1="1" x2="7" y2="13"/>
+            <line x1="1" y1="7" x2="13" y2="7"/>
+            <line x1="2.6" y1="2.6" x2="11.4" y2="11.4"/>
+            <line x1="11.4" y1="2.6" x2="2.6" y2="11.4"/>
+          </g>
+        </svg>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =================== MEMORY GALLERY =================== -->
+  <section id="gallery" class="relative px-6 py-24 sm:py-32">
+    <div class="mx-auto max-w-6xl">
+
+      <header class="mb-16">
+        <p class="kicker mb-5">A Quiet Album</p>
+        <div class="flex items-baseline justify-between gap-6 flex-wrap">
+          <h2 class="f-display-md text-cream" style="font-size: clamp(2rem, 4.4vw, 3.4rem); font-variation-settings: 'opsz' 72, 'wght' 300;">
+            Moments, <span class="f-italic" style="font-size: inherit;">kept</span>.
+          </h2>
+          <p class="f-italic-sm text-mute" style="font-size: 14px;">— a preview · the full album awaits the evening.</p>
+        </div>
+        <div class="brass-rule mt-10" style="width: 100%; max-width: 100%;"></div>
+      </header>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-5">
+
+        <!-- Tall left -->
+        <figure class="md:col-span-7">
+          <div class="plate aspect-[4/5] md:aspect-[4/5]">
+            <!-- soft brass corner ticks -->
+            <span class="absolute top-3 left-3 w-3 h-3" style="border-top: 1px solid #C9A961; border-left: 1px solid #C9A961;"></span>
+            <span class="absolute top-3 right-3 w-3 h-3" style="border-top: 1px solid #C9A961; border-right: 1px solid #C9A961;"></span>
+            <span class="absolute bottom-3 left-3 w-3 h-3" style="border-bottom: 1px solid #C9A961; border-left: 1px solid #C9A961;"></span>
+            <span class="absolute bottom-3 right-3 w-3 h-3" style="border-bottom: 1px solid #C9A961; border-right: 1px solid #C9A961;"></span>
+            <div class="absolute inset-0 flex items-end p-6">
+              <span class="f-italic text-cream/70" style="font-size: 14px;">Plate I</span>
+            </div>
+          </div>
+          <figcaption class="mt-4 flex items-center justify-between">
+            <span class="kicker">The ceremony</span>
+            <span class="mono-mark">12 . XII . 2025</span>
+          </figcaption>
+        </figure>
+
+        <div class="md:col-span-5 grid grid-rows-2 gap-5">
+          <!-- Top right -->
+          <figure>
+            <div class="plate aspect-[5/4]">
+              <span class="absolute top-3 left-3 w-3 h-3" style="border-top: 1px solid #C9A961; border-left: 1px solid #C9A961;"></span>
+              <span class="absolute top-3 right-3 w-3 h-3" style="border-top: 1px solid #C9A961; border-right: 1px solid #C9A961;"></span>
+              <span class="absolute bottom-3 left-3 w-3 h-3" style="border-bottom: 1px solid #C9A961; border-left: 1px solid #C9A961;"></span>
+              <span class="absolute bottom-3 right-3 w-3 h-3" style="border-bottom: 1px solid #C9A961; border-right: 1px solid #C9A961;"></span>
+              <div class="absolute inset-0 flex items-end p-5">
+                <span class="f-italic text-cream/70" style="font-size: 14px;">Plate II</span>
+              </div>
+            </div>
+            <figcaption class="mt-4 flex items-center justify-between">
+              <span class="kicker">The classroom</span>
+              <span class="mono-mark">Sophia · 1989</span>
+            </figcaption>
+          </figure>
+
+          <!-- Bottom right -->
+          <figure>
+            <div class="plate aspect-[5/4]">
+              <span class="absolute top-3 left-3 w-3 h-3" style="border-top: 1px solid #C9A961; border-left: 1px solid #C9A961;"></span>
+              <span class="absolute top-3 right-3 w-3 h-3" style="border-top: 1px solid #C9A961; border-right: 1px solid #C9A961;"></span>
+              <span class="absolute bottom-3 left-3 w-3 h-3" style="border-bottom: 1px solid #C9A961; border-left: 1px solid #C9A961;"></span>
+              <span class="absolute bottom-3 right-3 w-3 h-3" style="border-bottom: 1px solid #C9A961; border-right: 1px solid #C9A961;"></span>
+              <div class="absolute inset-0 flex items-end p-5">
+                <span class="f-italic text-cream/70" style="font-size: 14px;">Plate III</span>
+              </div>
+            </div>
+            <figcaption class="mt-4 flex items-center justify-between">
+              <span class="kicker">A summer, long ago</span>
+              <span class="mono-mark">Family · n.d.</span>
+            </figcaption>
+          </figure>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =================== THE PARTICULARS =================== -->
+  <section id="particulars" class="relative px-6 py-24 sm:py-32">
+    <div class="mx-auto max-w-5xl">
+
+      <header class="text-center mb-14">
+        <p class="kicker mb-5">The Particulars</p>
+        <h2 class="f-display-md text-cream" style="font-size: clamp(1.8rem, 3.6vw, 2.6rem); font-variation-settings: 'opsz' 60, 'wght' 300;">
+          Where, <span class="f-italic">when</span>, and how it unfolds.
+        </h2>
+      </header>
+
+      <!-- Raised card -->
+      <div class="relative bg-raised border border-brass/25 px-7 py-10 sm:px-12 sm:py-14">
+        <!-- Corner ticks -->
+        <span class="absolute -top-px -left-px w-4 h-4" style="border-top: 1px solid #C9A961; border-left: 1px solid #C9A961;"></span>
+        <span class="absolute -top-px -right-px w-4 h-4" style="border-top: 1px solid #C9A961; border-right: 1px solid #C9A961;"></span>
+        <span class="absolute -bottom-px -left-px w-4 h-4" style="border-bottom: 1px solid #C9A961; border-left: 1px solid #C9A961;"></span>
+        <span class="absolute -bottom-px -right-px w-4 h-4" style="border-bottom: 1px solid #C9A961; border-right: 1px solid #C9A961;"></span>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+
+          <!-- ITINERARY -->
+          <div>
+            <p class="kicker mb-7">The Order of the Evening</p>
+            <ul class="space-y-5">
+              <li class="flex items-baseline gap-5">
+                <span class="mono-mark w-16 shrink-0">06:00 PM</span>
+                <span class="f-display-sm text-cream" style="font-size: 18px;">Arrival &amp; aperitifs</span>
+              </li>
+              <li class="flex items-baseline gap-5">
+                <div class="w-16 shrink-0"><div class="brass-rule-solid opacity-30" style="width: 100%;"></div></div>
+              </li>
+              <li class="flex items-baseline gap-5">
+                <span class="mono-mark w-16 shrink-0">07:00 PM</span>
+                <span class="f-display-sm text-cream" style="font-size: 18px;">Toasts &amp; remembrances</span>
+              </li>
+              <li class="flex items-baseline gap-5">
+                <div class="w-16 shrink-0"><div class="brass-rule-solid opacity-30" style="width: 100%;"></div></div>
+              </li>
+              <li class="flex items-baseline gap-5">
+                <span class="mono-mark w-16 shrink-0">08:30 PM</span>
+                <span class="f-display-sm text-cream" style="font-size: 18px;">Dinner is served</span>
+              </li>
+              <li class="flex items-baseline gap-5">
+                <div class="w-16 shrink-0"><div class="brass-rule-solid opacity-30" style="width: 100%;"></div></div>
+              </li>
+              <li class="flex items-baseline gap-5">
+                <span class="mono-mark w-16 shrink-0">10:00 PM</span>
+                <span class="f-display-sm text-cream" style="font-size: 18px;">Music, until late</span>
+              </li>
+            </ul>
+
+            <p class="f-italic-sm text-mute mt-9" style="font-size: 13px;">
+              Black-tie, or your warmest finery. We will be on our feet.
+            </p>
+          </div>
+
+          <!-- VENUE -->
+          <div class="md:border-l md:border-brass/20 md:pl-12">
+            <p class="kicker mb-7">The Venue</p>
+
+            <div class="f-display-sm text-cream mb-2" style="font-size: 26px;">[ Venue Name ]</div>
+
+            <address class="not-italic lede mt-4 leading-relaxed">
+              [ Street Address ]<br/>
+              [ Locality ]<br/>
+              [ City ] — [ PIN ]<br/>
+              Rajasthan, India.
+            </address>
+
+            <div class="brass-rule mt-8 mb-7" style="width: 48px;"></div>
+
+            <div class="flex flex-col gap-3">
+              <a href="#" class="underline-brass kicker-cream inline-block w-fit">Get directions ↗</a>
+              <a href="#" class="underline-brass kicker-cream inline-block w-fit">Add to calendar ↗</a>
+            </div>
+
+            <div class="mt-10">
+              <div class="date-stamp">Tuesday · 30 . VI · 2026</div>
+              <div class="mono-mark mt-2">Doors at six.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =================== RSVP =================== -->
+  <section id="rsvp" class="relative px-6 py-24 sm:py-32">
+    <div class="mx-auto max-w-2xl">
+
+      <header class="text-center mb-12">
+        <p class="kicker mb-5">Kindly Reply</p>
+        <h2 class="f-display text-cream" style="font-size: clamp(3rem, 7vw, 5rem); font-variation-settings: 'opsz' 120, 'wght' 300;">
+          R<span class="f-italic" style="font-size: inherit;">.</span> S<span class="f-italic" style="font-size: inherit;">.</span> V<span class="f-italic" style="font-size: inherit;">.</span> P<span class="f-italic" style="font-size: inherit;">.</span>
+        </h2>
+        <p class="lede mt-6 max-w-md mx-auto">
+          A small note from you helps the family plan a room that feels full.
+        </p>
+      </header>
+
+      <!-- Reply card -->
+      <form class="relative bg-raised border border-brass/30 px-7 py-10 sm:px-12 sm:py-14" onsubmit="event.preventDefault();">
+
+        <!-- corner ticks -->
+        <span class="absolute -top-px -left-px w-4 h-4" style="border-top: 1px solid #C9A961; border-left: 1px solid #C9A961;"></span>
+        <span class="absolute -top-px -right-px w-4 h-4" style="border-top: 1px solid #C9A961; border-right: 1px solid #C9A961;"></span>
+        <span class="absolute -bottom-px -left-px w-4 h-4" style="border-bottom: 1px solid #C9A961; border-left: 1px solid #C9A961;"></span>
+        <span class="absolute -bottom-px -right-px w-4 h-4" style="border-bottom: 1px solid #C9A961; border-right: 1px solid #C9A961;"></span>
+
+        <div class="flex items-center justify-between mb-10">
+          <p class="kicker">Reply Card · No. ____</p>
+          <svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true">
+            <g stroke="#C9A961" stroke-width="0.8" stroke-linecap="round">
+              <line x1="7" y1="1" x2="7" y2="13"/>
+              <line x1="1" y1="7" x2="13" y2="7"/>
+              <line x1="2.6" y1="2.6" x2="11.4" y2="11.4"/>
+              <line x1="11.4" y1="2.6" x2="2.6" y2="11.4"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="space-y-7">
+          <label class="block">
+            <span class="kicker block mb-1">Your name</span>
+            <input type="text" class="brass-input" placeholder="As you would like us to write it" />
+          </label>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-7">
+            <label class="block">
+              <span class="kicker block mb-1">WhatsApp / Phone</span>
+              <input type="tel" class="brass-input" placeholder="+91" />
+            </label>
+
+            <label class="block">
+              <span class="kicker block mb-1">Guests attending</span>
+              <select class="brass-input">
+                <option>One</option>
+                <option>Two</option>
+                <option>Three</option>
+                <option>Four</option>
+                <option>Five</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="block">
+            <span class="kicker block mb-1">A note for the family</span>
+            <textarea rows="3" class="brass-input" style="resize: none;" placeholder="A line, a wish, a memory — anything at all."></textarea>
+          </label>
+        </div>
+
+        <div class="brass-rule my-10"></div>
+
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <p class="f-italic-sm text-mute" style="font-size: 13px;">
+            Replies appreciated by the 10<sup>th</sup> of June.
+          </p>
+          <button type="submit" class="solid-brass">Send &nbsp;→</button>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+
+  <!-- =================== FOOTER =================== -->
+  <footer class="relative px-6 pt-20 pb-16 text-center">
+
+    <div class="mx-auto max-w-3xl">
+
+      <!-- Brass asterisk -->
+      <div class="flex justify-center mb-10">
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+          <g stroke="#C9A961" stroke-width="0.8" stroke-linecap="round">
+            <line x1="7" y1="1" x2="7" y2="13"/>
+            <line x1="1" y1="7" x2="13" y2="7"/>
+            <line x1="2.6" y1="2.6" x2="11.4" y2="11.4"/>
+            <line x1="11.4" y1="2.6" x2="2.6" y2="11.4"/>
+          </g>
+        </svg>
+      </div>
+
+      <p class="f-italic text-cream/90 mb-10" style="font-size: 22px;">
+        With every regard, <span class="text-mute">— the family</span>
+      </p>
+
+      <div class="brass-rule mx-auto mb-8" style="width: 70%; max-width: 360px;"></div>
+
+      <div class="flex items-center justify-center gap-4 flex-wrap">
+        <span class="date-stamp">Mélange</span>
+        <span class="text-brass/40">·</span>
+        <span class="date-stamp">30 . VI . MMXXVI</span>
+      </div>
+
+      <p class="mono-mark mt-8 text-mute/60">No. III · A private invitation.</p>
+    </div>
+  </footer>
+
+  <script>
+    // No JS needed beyond the staggered hero CSS animations,
+    // but we honour reduced-motion at runtime too:
+    (function () {
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.querySelectorAll('.stagger > span').forEach(function (el) {
+          el.style.animation = 'none';
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Mélange · A celebration of love, life & legacy · 30 June 2026</title>
+<meta name="description" content="Mélange — the wedding reception of Shivendra & Devyani, the 60th birthday of Sarandha, and her retirement from Sophia School. One long table, one long evening. Tuesday, 30 June 2026, Rajasthan." />
+<meta property="og:title" content="Mélange · 30 June 2026" />
+<meta property="og:description" content="A celebration of love, life & legacy. One long table, one long evening, and a lot of flowers." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500&family=Caveat:wght@500&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg:       '#FDFBF7',
+          surface:  '#F4EFE5',
+          sage:     '#6B7F5C',
+          'sage-deep': '#4A5A3F',
+          rose:     '#C28987',
+          terra:    '#B5644A',
+          ink:      '#3A3933',
+          leaf:     '#E8EBE2',
+        },
+        fontFamily: {
+          display: ['"DM Serif Display"', 'Georgia', 'serif'],
+          body:    ['"Outfit"', 'system-ui', 'sans-serif'],
+          script:  ['"Caveat"', 'cursive'],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background: #FDFBF7;
+    color: #3A3933;
+    font-family: "Outfit", system-ui, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Tiny paper grain — applied very softly via SVG noise */
+  .paper {
+    background-image:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(107,127,92,0.05), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 90% 80%, rgba(181,100,74,0.04), transparent 65%);
+  }
+
+  /* Headline letter stagger */
+  .wm-letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.4em);
+    animation: wm-rise 0.9s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes wm-rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Polaroid frame */
+  .polaroid {
+    background: #F4EFE5;
+    padding: 0.85rem 0.85rem 2.6rem 0.85rem;
+    box-shadow:
+      0 1px 0 rgba(58,57,51,0.04),
+      0 14px 22px -18px rgba(74,90,63,0.35);
+    transition: transform 0.5s cubic-bezier(.2,.7,.2,1);
+  }
+  .polaroid:hover { transform: rotate(0deg) translateY(-4px) !important; }
+  .polaroid .frame {
+    background: #E8EBE2;
+    aspect-ratio: 3/4;
+    position: relative;
+    overflow: hidden;
+  }
+  .rot-l1 { transform: rotate(-1.5deg); }
+  .rot-r1 { transform: rotate(1.2deg); }
+  .rot-l2 { transform: rotate(-0.7deg); }
+  .rot-r2 { transform: rotate(1.8deg); }
+
+  /* Underline-only form fields */
+  .field {
+    border: 0;
+    border-bottom: 1px solid rgba(107,127,92,0.45);
+    background: transparent;
+    padding: 0.65rem 0.1rem;
+    font: 400 1rem/1.4 "Outfit", sans-serif;
+    color: #3A3933;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.25s ease;
+  }
+  .field:focus { border-bottom-color: #B5644A; }
+  .field::placeholder { color: rgba(58,57,51,0.42); }
+  select.field { appearance: none; cursor: pointer; }
+
+  /* Buttons */
+  .btn-sage {
+    background: #6B7F5C;
+    color: #FDFBF7;
+    transition: background 0.25s ease, transform 0.25s ease;
+    letter-spacing: 0.02em;
+  }
+  .btn-sage:hover { background: #C28987; }
+  .btn-ghost {
+    color: #4A5A3F;
+    border-bottom: 1px solid rgba(74,90,63,0.4);
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .btn-ghost:hover { color: #B5644A; border-bottom-color: #B5644A; }
+
+  /* Eyebrow */
+  .eyebrow {
+    font: 500 0.72rem/1 "Outfit", sans-serif;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #B5644A;
+  }
+
+  /* Tiny leaf bullet */
+  .leaf-bullet::before {
+    content: "";
+    display: inline-block;
+    width: 0.6rem; height: 0.6rem;
+    margin-right: 0.7rem;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M1 11 C 1 4, 5 1, 11 1 C 11 7, 7 11, 1 11 Z' fill='black'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M1 11 C 1 4, 5 1, 11 1 C 11 7, 7 11, 1 11 Z' fill='black'/></svg>") center/contain no-repeat;
+    transform: translateY(0.1rem) rotate(-20deg);
+  }
+
+  /* Hero leaf positioning */
+  .hero-leaf-desktop {
+    position: absolute;
+    right: -4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60%;
+    max-width: 720px;
+    pointer-events: none;
+    opacity: 0.95;
+  }
+  .hero-leaf-mobile {
+    position: absolute;
+    inset: 0;
+    width: 130%;
+    left: -15%;
+    top: 5%;
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  /* Drawn underline for italics */
+  .draw-under {
+    background-image: linear-gradient(180deg, transparent 92%, rgba(181,100,74,0.45) 92%, rgba(181,100,74,0.45) 96%, transparent 96%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+
+  /* Scroll cue */
+  .scroll-cue {
+    animation: cue 2.6s ease-in-out infinite;
+  }
+  @keyframes cue {
+    0%,100% { transform: translateY(0); opacity: 0.7; }
+    50%     { transform: translateY(6px); opacity: 1; }
+  }
+
+  /* Cross-hatch rule */
+  .hairline { height: 1px; background: linear-gradient(90deg, transparent, rgba(107,127,92,0.6), transparent); }
+
+  /* Card subtle warm tint shift */
+  .tint-warm {
+    background:
+      linear-gradient(180deg, #F4EFE5 0%, #F0E9DA 100%);
+  }
+
+  /* Magazine numeral */
+  .mag-numeral {
+    font-family: "DM Serif Display", Georgia, serif;
+    font-style: italic;
+    font-size: clamp(8rem, 18vw, 14rem);
+    line-height: 0.82;
+    color: #6B7F5C;
+    letter-spacing: -0.02em;
+  }
+
+  /* Wreath frame for milestone iii */
+  .wreath-frame { position: relative; padding: 2.2rem 1.6rem; }
+
+  /* Accessibility — reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .wm-letter { animation: none; opacity: 1; transform: none; }
+    .scroll-cue { animation: none; }
+    .polaroid { transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* Selection */
+  ::selection { background: #C28987; color: #FDFBF7; }
+
+  /* Subtle in-view fade for sections */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.is-in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+
+<body class="paper">
+
+<!-- =========================
+     SVG MOTIF LIBRARY
+     ========================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+
+    <!-- Olive branch (large, for hero) -->
+    <symbol id="olive-branch" viewBox="0 0 400 520">
+      <g fill="none" stroke="#6B7F5C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <!-- main stem -->
+        <path d="M 60 510 C 110 430, 150 360, 170 290 S 200 150, 240 60" />
+        <!-- branches -->
+        <path d="M 170 290 C 200 280, 230 270, 260 280" />
+        <path d="M 152 360 C 120 350, 95 360, 75 380" />
+        <path d="M 192 215 C 222 200, 250 195, 280 200" />
+        <path d="M 130 420 C 105 415, 85 420, 70 435" />
+        <path d="M 215 140 C 245 130, 275 130, 300 140" />
+
+        <!-- leaves (simple ovals) on stem -->
+        <g fill="#E8EBE2" stroke="#6B7F5C" stroke-width="1.2">
+          <!-- right side leaves -->
+          <ellipse cx="265" cy="278" rx="22" ry="9" transform="rotate(15 265 278)"/>
+          <ellipse cx="290" cy="200" rx="24" ry="9" transform="rotate(8 290 200)"/>
+          <ellipse cx="305" cy="138" rx="22" ry="8" transform="rotate(-5 305 138)"/>
+          <ellipse cx="245" cy="60"  rx="20" ry="8" transform="rotate(-25 245 60)"/>
+
+          <!-- left side leaves -->
+          <ellipse cx="70" cy="382" rx="22" ry="9" transform="rotate(-20 70 382)"/>
+          <ellipse cx="65" cy="438" rx="20" ry="8" transform="rotate(-30 65 438)"/>
+          <ellipse cx="118" cy="478" rx="18" ry="7" transform="rotate(-40 118 478)"/>
+          <ellipse cx="140" cy="320" rx="18" ry="7" transform="rotate(-12 140 320)"/>
+
+          <!-- mid leaves on main -->
+          <ellipse cx="178" cy="260" rx="20" ry="8" transform="rotate(-50 178 260)"/>
+          <ellipse cx="200" cy="170" rx="20" ry="8" transform="rotate(-60 200 170)"/>
+          <ellipse cx="225" cy="100" rx="18" ry="7" transform="rotate(-65 225 100)"/>
+        </g>
+
+        <!-- olive berries -->
+        <g fill="#B5644A">
+          <circle cx="232" cy="92" r="3.5"/>
+          <circle cx="248" cy="118" r="3"/>
+          <circle cx="155" cy="345" r="3"/>
+        </g>
+      </g>
+    </symbol>
+
+    <!-- Eucalyptus divider band -->
+    <symbol id="eucalyptus-divider" viewBox="0 0 800 80">
+      <g fill="none" stroke="#6B7F5C" stroke-width="1.2" stroke-linecap="round">
+        <path d="M 20 40 C 200 10, 400 70, 600 30 S 780 50, 780 40" />
+        <!-- leaves clustered along path -->
+        <g fill="#E8EBE2" stroke="#6B7F5C" stroke-width="1">
+          <ellipse cx="90"  cy="32" rx="12" ry="5" transform="rotate(-18 90 32)"/>
+          <ellipse cx="120" cy="42" rx="11" ry="4.5" transform="rotate(12 120 42)"/>
+          <ellipse cx="180" cy="28" rx="13" ry="5" transform="rotate(-20 180 28)"/>
+          <ellipse cx="220" cy="46" rx="11" ry="5" transform="rotate(15 220 46)"/>
+          <ellipse cx="290" cy="34" rx="13" ry="5" transform="rotate(-15 290 34)"/>
+          <ellipse cx="330" cy="50" rx="11" ry="4.5" transform="rotate(18 330 50)"/>
+          <ellipse cx="400" cy="40" rx="13" ry="5" transform="rotate(-8 400 40)"/>
+          <ellipse cx="450" cy="52" rx="11" ry="4.5" transform="rotate(15 450 52)"/>
+          <ellipse cx="510" cy="32" rx="12" ry="5" transform="rotate(-20 510 32)"/>
+          <ellipse cx="560" cy="44" rx="11" ry="4.5" transform="rotate(12 560 44)"/>
+          <ellipse cx="620" cy="30" rx="13" ry="5" transform="rotate(-12 620 30)"/>
+          <ellipse cx="680" cy="46" rx="12" ry="5" transform="rotate(18 680 46)"/>
+          <ellipse cx="740" cy="36" rx="11" ry="4.5" transform="rotate(-15 740 36)"/>
+        </g>
+        <!-- a couple of berries -->
+        <g fill="#C28987">
+          <circle cx="250" cy="38" r="2.5"/>
+          <circle cx="500" cy="42" r="2.5"/>
+          <circle cx="700" cy="40" r="2.5"/>
+        </g>
+      </g>
+    </symbol>
+
+    <!-- Tiny leaf floret (bullet) -->
+    <symbol id="leaf-floret" viewBox="0 0 24 24">
+      <g fill="#6B7F5C">
+        <path d="M 12 22 C 12 14, 16 10, 22 10 C 22 18, 18 22, 12 22 Z"/>
+        <path d="M 12 22 C 12 14, 8 10, 2 10 C 2 18, 6 22, 12 22 Z" opacity="0.85"/>
+      </g>
+    </symbol>
+
+    <!-- Eucalyptus stem (small, for scroll cue) -->
+    <symbol id="euca-mini" viewBox="0 0 40 60">
+      <g fill="none" stroke="#6B7F5C" stroke-width="1.2" stroke-linecap="round">
+        <path d="M 20 4 L 20 56"/>
+        <g fill="#E8EBE2" stroke="#6B7F5C">
+          <ellipse cx="12" cy="18" rx="7" ry="3" transform="rotate(-30 12 18)"/>
+          <ellipse cx="28" cy="26" rx="7" ry="3" transform="rotate(30 28 26)"/>
+          <ellipse cx="12" cy="36" rx="7" ry="3" transform="rotate(-30 12 36)"/>
+          <ellipse cx="28" cy="44" rx="6" ry="2.6" transform="rotate(30 28 44)"/>
+        </g>
+      </g>
+    </symbol>
+
+    <!-- Botanical wreath (circular, used for RSVP + footer) -->
+    <symbol id="wreath" viewBox="0 0 240 240">
+      <g fill="none" stroke="#6B7F5C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Two arcs forming a wreath -->
+        <path d="M 120 22 C 60 22, 22 70, 22 120 C 22 170, 60 218, 120 218" />
+        <path d="M 120 22 C 180 22, 218 70, 218 120 C 218 170, 180 218, 120 218" />
+
+        <g fill="#E8EBE2" stroke="#6B7F5C" stroke-width="1">
+          <!-- Left arc leaves -->
+          <ellipse cx="34"  cy="80"  rx="10" ry="4" transform="rotate(-60 34 80)"/>
+          <ellipse cx="28"  cy="110" rx="11" ry="4.5" transform="rotate(-80 28 110)"/>
+          <ellipse cx="30"  cy="140" rx="10" ry="4" transform="rotate(-100 30 140)"/>
+          <ellipse cx="42"  cy="170" rx="10" ry="4" transform="rotate(-115 42 170)"/>
+          <ellipse cx="60"  cy="195" rx="10" ry="4" transform="rotate(-130 60 195)"/>
+          <ellipse cx="56"  cy="58"  rx="10" ry="4" transform="rotate(-45 56 58)"/>
+          <ellipse cx="85"  cy="34"  rx="10" ry="4" transform="rotate(-25 85 34)"/>
+          <!-- Right arc leaves -->
+          <ellipse cx="206" cy="80"  rx="10" ry="4" transform="rotate(60 206 80)"/>
+          <ellipse cx="212" cy="110" rx="11" ry="4.5" transform="rotate(80 212 110)"/>
+          <ellipse cx="210" cy="140" rx="10" ry="4" transform="rotate(100 210 140)"/>
+          <ellipse cx="198" cy="170" rx="10" ry="4" transform="rotate(115 198 170)"/>
+          <ellipse cx="180" cy="195" rx="10" ry="4" transform="rotate(130 180 195)"/>
+          <ellipse cx="184" cy="58"  rx="10" ry="4" transform="rotate(45 184 58)"/>
+          <ellipse cx="155" cy="34"  rx="10" ry="4" transform="rotate(25 155 34)"/>
+        </g>
+        <!-- a few berries -->
+        <g fill="#B5644A">
+          <circle cx="50" cy="92" r="2.5"/>
+          <circle cx="200" cy="150" r="2.5"/>
+          <circle cx="120" cy="22" r="2.6"/>
+        </g>
+      </g>
+    </symbol>
+
+    <!-- Small wreath (RSVP card top) -->
+    <symbol id="wreath-mini" viewBox="0 0 120 60">
+      <g fill="none" stroke="#6B7F5C" stroke-width="1.1" stroke-linecap="round">
+        <path d="M 60 10 C 28 10, 12 28, 18 50"/>
+        <path d="M 60 10 C 92 10, 108 28, 102 50"/>
+        <g fill="#E8EBE2" stroke="#6B7F5C">
+          <ellipse cx="28" cy="22" rx="7" ry="3" transform="rotate(-40 28 22)"/>
+          <ellipse cx="22" cy="36" rx="8" ry="3" transform="rotate(-70 22 36)"/>
+          <ellipse cx="40" cy="14" rx="7" ry="3" transform="rotate(-20 40 14)"/>
+          <ellipse cx="92" cy="22" rx="7" ry="3" transform="rotate(40 92 22)"/>
+          <ellipse cx="98" cy="36" rx="8" ry="3" transform="rotate(70 98 36)"/>
+          <ellipse cx="80" cy="14" rx="7" ry="3" transform="rotate(20 80 14)"/>
+        </g>
+        <g fill="#B5644A">
+          <circle cx="60" cy="10" r="2.2"/>
+        </g>
+      </g>
+    </symbol>
+
+    <!-- Tiny arrow for buttons -->
+    <symbol id="arrow-right" viewBox="0 0 24 24">
+      <path d="M 4 12 L 20 12 M 14 6 L 20 12 L 14 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+  </defs>
+</svg>
+
+
+<!-- =========================
+     TOP RAIL
+     ========================= -->
+<header class="relative z-20">
+  <div class="max-w-6xl mx-auto px-6 md:px-10 py-6 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2 group" aria-label="Mélange home">
+      <svg width="20" height="20" aria-hidden="true"><use href="#leaf-floret"/></svg>
+      <span class="font-display italic text-[1.35rem] leading-none text-sage-deep">Mélange</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-[0.78rem] tracking-[0.22em] uppercase text-ink/70">
+      <a href="#milestones" class="hover:text-terra transition">Story</a>
+      <a href="#evening" class="hover:text-terra transition">Evening</a>
+      <a href="#gallery" class="hover:text-terra transition">Polaroids</a>
+      <a href="#rsvp" class="hover:text-terra transition">RSVP</a>
+    </nav>
+    <a href="#rsvp" class="hidden md:inline-flex items-center gap-2 text-[0.78rem] tracking-[0.22em] uppercase text-terra">
+      30 · VI · 2026
+    </a>
+  </div>
+</header>
+
+
+<!-- =========================
+     HERO
+     ========================= -->
+<section id="top" class="relative min-h-[100svh] flex items-center overflow-hidden">
+  <!-- Mobile leaf (behind) -->
+  <svg class="hero-leaf-mobile md:hidden" aria-hidden="true">
+    <use href="#olive-branch"/>
+  </svg>
+
+  <div class="relative max-w-6xl mx-auto w-full px-6 md:px-10 pt-6 pb-24 md:py-32 grid md:grid-cols-12 gap-10 items-center">
+    <!-- Left 60% -->
+    <div class="md:col-span-7 relative z-10">
+      <p class="eyebrow flex items-center gap-3">
+        <span class="inline-block w-8 h-px bg-terra/60"></span>
+        Together with their families · 2026
+      </p>
+
+      <h1 class="mt-6 font-display italic text-sage leading-[0.92]" style="font-size: clamp(4rem, 12vw, 9rem); letter-spacing: -0.02em;">
+        <span aria-hidden="true">
+          <span class="wm-letter" style="animation-delay: 0.05s">M</span><span class="wm-letter" style="animation-delay: 0.12s">é</span><span class="wm-letter" style="animation-delay: 0.19s">l</span><span class="wm-letter" style="animation-delay: 0.26s">a</span><span class="wm-letter" style="animation-delay: 0.33s">n</span><span class="wm-letter" style="animation-delay: 0.40s">g</span><span class="wm-letter" style="animation-delay: 0.47s">e</span>
+        </span>
+        <span class="sr-only">Mélange</span>
+      </h1>
+
+      <p class="mt-8 max-w-xl text-[1.05rem] md:text-[1.18rem] leading-relaxed text-ink/85 font-light">
+        A celebration of love, life &amp; legacy.<br/>
+        One long table, one long evening, and a lot of flowers.
+      </p>
+
+      <p class="mt-8 inline-flex items-baseline gap-3 text-terra">
+        <svg width="14" height="14" class="translate-y-[1px]" aria-hidden="true"><use href="#leaf-floret"/></svg>
+        <span class="font-display italic text-[1.4rem] md:text-[1.7rem] leading-none">Tuesday, 30 June 2026</span>
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center gap-5">
+        <a href="#rsvp" class="btn-sage inline-flex items-center gap-3 px-7 py-3.5 text-[0.82rem] tracking-[0.2em] uppercase rounded-[2px]">
+          RSVP
+          <svg width="16" height="16" aria-hidden="true"><use href="#arrow-right"/></svg>
+        </a>
+        <a href="#milestones" class="btn-ghost inline-flex items-center gap-2 text-[0.82rem] tracking-[0.2em] uppercase pb-1">
+          Read the story
+        </a>
+      </div>
+    </div>
+
+    <!-- Right 40% leaf branch (desktop) -->
+    <div class="hidden md:block md:col-span-5 relative h-[70vh]">
+      <svg class="hero-leaf-desktop" aria-hidden="true">
+        <use href="#olive-branch"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Scroll cue -->
+  <div class="absolute bottom-8 left-6 md:left-10 flex items-center gap-3 scroll-cue z-10">
+    <svg width="14" height="22" aria-hidden="true"><use href="#euca-mini"/></svg>
+    <span class="text-[0.7rem] tracking-[0.32em] uppercase text-sage-deep/70">scroll</span>
+  </div>
+
+  <!-- Right-side date marker (desktop only) -->
+  <div class="hidden lg:flex absolute right-10 top-1/2 -translate-y-1/2 flex-col items-center gap-4 text-[0.7rem] tracking-[0.3em] uppercase text-sage-deep/60 z-10" style="writing-mode: vertical-rl;">
+    <span>30 . VI . 2026</span>
+    <span class="h-12 w-px bg-sage/40"></span>
+    <span>Rajasthan</span>
+  </div>
+</section>
+
+
+<!-- Eucalyptus divider -->
+<div class="max-w-5xl mx-auto px-6 md:px-10 py-2" aria-hidden="true">
+  <svg viewBox="0 0 800 80" class="w-full h-12 md:h-16"><use href="#eucalyptus-divider"/></svg>
+</div>
+
+
+<!-- =========================
+     THREE MILESTONES
+     ========================= -->
+<section id="milestones" class="relative py-20 md:py-28">
+  <div class="max-w-6xl mx-auto px-6 md:px-10">
+
+    <div class="grid md:grid-cols-12 gap-10 reveal">
+      <div class="md:col-span-5">
+        <p class="eyebrow flex items-center gap-3">
+          <span class="inline-block w-8 h-px bg-terra/60"></span>
+          The three milestones
+        </p>
+        <h2 class="mt-5 font-display italic text-sage leading-[1.02]" style="font-size: clamp(2.4rem, 5.5vw, 4.2rem); letter-spacing:-0.01em;">
+          Three reasons.<br/>
+          <span class="text-sage-deep">One long evening.</span>
+        </h2>
+      </div>
+      <div class="md:col-span-6 md:col-start-7 md:pt-6">
+        <p class="text-[1.02rem] leading-relaxed text-ink/85 font-light">
+          We have been saving up reasons to gather. This summer we ran out of patience — so we're folding them all into one evening of long tables, soft light, and the people who made all three things possible.
+        </p>
+        <p class="mt-4 font-script text-rose text-[1.5rem] leading-none">come hungry, leave full.</p>
+      </div>
+    </div>
+
+    <!-- Magazine grid -->
+    <div class="mt-16 md:mt-24 grid md:grid-cols-12 gap-8 md:gap-12">
+
+      <!-- Card 1 — LOVE — portrait crop -->
+      <article class="md:col-span-5 md:row-span-2 reveal">
+        <div class="relative">
+          <div class="bg-leaf overflow-hidden" style="aspect-ratio: 3/4;">
+            <!-- Soft illustrated placeholder -->
+            <svg viewBox="0 0 300 400" class="w-full h-full" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="lg1" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#E8EBE2"/>
+                  <stop offset="1" stop-color="#D9DBC9"/>
+                </linearGradient>
+              </defs>
+              <rect width="300" height="400" fill="url(#lg1)"/>
+              <!-- Stylised couple -->
+              <g fill="none" stroke="#6B7F5C" stroke-width="1.5" stroke-linecap="round">
+                <!-- her -->
+                <circle cx="115" cy="170" r="22" fill="#F4EFE5"/>
+                <path d="M 92 196 C 88 250, 96 320, 100 380"/>
+                <path d="M 138 196 C 142 250, 134 320, 130 380"/>
+                <path d="M 92 196 C 75 230, 70 270, 78 310"/>
+                <!-- his -->
+                <circle cx="185" cy="178" r="22" fill="#F4EFE5"/>
+                <path d="M 162 204 C 158 260, 168 330, 172 380"/>
+                <path d="M 208 204 C 212 260, 202 330, 198 380"/>
+                <!-- linked arms -->
+                <path d="M 138 215 C 158 220, 168 220, 178 215" stroke-width="1.4"/>
+                <!-- bouquet -->
+                <g transform="translate(125 230) rotate(-10)" stroke="#B5644A">
+                  <circle r="4" fill="#C28987"/>
+                  <circle r="3" cx="6" cy="-4" fill="#C28987"/>
+                  <circle r="3" cx="-5" cy="-5" fill="#B5644A"/>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <p class="mt-3 text-[0.78rem] tracking-[0.18em] uppercase text-ink/55">A quiet wedding · 12 . XII . 2025</p>
+        </div>
+      </article>
+
+      <!-- Card 1 text caption -->
+      <div class="md:col-span-7 reveal">
+        <p class="eyebrow">I · Love</p>
+        <h3 class="mt-3 font-display italic text-sage" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem);">
+          Shivendra <span class="text-terra not-italic">&amp;</span> Devyani
+        </h3>
+        <p class="mt-5 text-[1.02rem] leading-relaxed text-ink/85 font-light max-w-xl">
+          They were quietly married on the 12th of December, 2025 — a small room, a smaller cake, and a promise that the proper party would come later. This is the proper party.
+        </p>
+        <p class="mt-4 text-[0.92rem] text-ink/60 italic max-w-xl">
+          The reception we owe everyone who couldn't be there in December.
+        </p>
+      </div>
+
+      <!-- Card 2 — LIFE — text only with giant numeral -->
+      <article class="md:col-span-7 md:col-start-6 mt-2 md:mt-12 reveal">
+        <div class="grid grid-cols-[auto_1fr] gap-6 md:gap-8 items-start">
+          <div class="mag-numeral select-none" aria-hidden="true">II</div>
+          <div>
+            <p class="eyebrow">Life</p>
+            <h3 class="mt-3 font-display italic text-sage" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem);">
+              Sarandha turns sixty.
+            </h3>
+            <p class="mt-5 text-[1.02rem] leading-relaxed text-ink/85 font-light max-w-xl">
+              The matriarch of our family arrives at her sixtieth year with more energy than the rest of us combined. We're marking it the only way she'd approve of — surrounded by family, students, and far too much food.
+            </p>
+            <p class="mt-4 inline-flex items-center gap-3 text-[0.82rem] tracking-[0.22em] uppercase text-terra">
+              <span class="inline-block w-6 h-px bg-terra/60"></span> Sixty &amp; counting
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 — LEGACY — wreath frame -->
+      <article class="md:col-span-5 mt-2 md:mt-2 reveal">
+        <div class="wreath-frame tint-warm relative">
+          <svg viewBox="0 0 240 240" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+            <use href="#wreath"/>
+          </svg>
+          <div class="relative text-center py-8 px-4">
+            <p class="eyebrow">III · Legacy</p>
+            <h3 class="mt-4 font-display italic text-sage" style="font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.05;">
+              A teacher takes<br/>her bow.
+            </h3>
+            <p class="mt-5 text-[0.98rem] leading-relaxed text-ink/85 font-light max-w-[22rem] mx-auto">
+              After a long and beloved career at <span class="text-sage-deep italic">Sophia School</span>, Sarandha is hanging up her chalk. We can't think of a better reason to raise a glass.
+            </p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<!-- Eucalyptus divider -->
+<div class="max-w-5xl mx-auto px-6 md:px-10" aria-hidden="true">
+  <svg viewBox="0 0 800 80" class="w-full h-12 md:h-16"><use href="#eucalyptus-divider"/></svg>
+</div>
+
+
+<!-- =========================
+     POLAROID GALLERY
+     ========================= -->
+<section id="gallery" class="relative py-20 md:py-28">
+  <div class="max-w-6xl mx-auto px-6 md:px-10">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 reveal">
+      <div>
+        <p class="eyebrow flex items-center gap-3">
+          <span class="inline-block w-8 h-px bg-terra/60"></span>
+          Polaroids
+        </p>
+        <h2 class="mt-4 font-display italic text-sage leading-[1.05]" style="font-size: clamp(2.2rem, 5vw, 3.6rem);">
+          A few small chapters.
+        </h2>
+      </div>
+      <p class="md:max-w-sm text-[0.98rem] text-ink/80 font-light leading-relaxed">
+        Scraps from the family album. Some are old, some are from last week — the kind we'd press into a book if we still made books like that.
+      </p>
+    </div>
+
+    <div class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+
+      <figure class="polaroid rot-l1 reveal">
+        <div class="frame">
+          <svg viewBox="0 0 200 260" class="w-full h-full" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+            <rect width="200" height="260" fill="#E8EBE2"/>
+            <g fill="none" stroke="#6B7F5C" stroke-width="1.4" stroke-linecap="round">
+              <!-- chapel arch -->
+              <path d="M 60 230 L 60 110 C 60 80, 140 80, 140 110 L 140 230"/>
+              <path d="M 100 110 L 100 230"/>
+              <!-- candles -->
+              <circle cx="80" cy="180" r="3" fill="#B5644A"/>
+              <circle cx="120" cy="180" r="3" fill="#B5644A"/>
+              <path d="M 80 175 L 80 170" stroke="#B5644A"/>
+              <path d="M 120 175 L 120 170" stroke="#B5644A"/>
+              <!-- floor flowers -->
+              <g fill="#C28987"><circle cx="50" cy="245" r="3"/><circle cx="150" cy="245" r="3"/><circle cx="100" cy="252" r="3"/></g>
+            </g>
+          </svg>
+        </div>
+        <figcaption class="font-script text-ink/80 text-center mt-3 text-[1.2rem]">the ceremony · december</figcaption>
+      </figure>
+
+      <figure class="polaroid rot-r1 reveal" style="margin-top: 2rem;">
+        <div class="frame">
+          <svg viewBox="0 0 200 260" class="w-full h-full" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+            <rect width="200" height="260" fill="#E8EBE2"/>
+            <g fill="none" stroke="#6B7F5C" stroke-width="1.4" stroke-linecap="round">
+              <!-- chalkboard -->
+              <rect x="30" y="40" width="140" height="90" fill="#4A5A3F" stroke="#3A3933"/>
+              <path d="M 50 60 L 100 60" stroke="#FDFBF7" stroke-width="1"/>
+              <path d="M 50 80 L 130 80" stroke="#FDFBF7" stroke-width="1"/>
+              <path d="M 50 100 L 110 100" stroke="#FDFBF7" stroke-width="1"/>
+              <!-- teacher silhouette -->
+              <circle cx="100" cy="170" r="18" fill="#F4EFE5"/>
+              <path d="M 80 192 C 78 220, 86 248, 90 258"/>
+              <path d="M 120 192 C 122 220, 114 248, 110 258"/>
+              <!-- apple -->
+              <circle cx="50" cy="240" r="9" fill="#B5644A"/>
+              <path d="M 50 231 L 50 226" stroke="#3A3933"/>
+            </g>
+          </svg>
+        </div>
+        <figcaption class="font-script text-ink/80 text-center mt-3 text-[1.2rem]">the school years</figcaption>
+      </figure>
+
+      <figure class="polaroid rot-l2 reveal">
+        <div class="frame">
+          <svg viewBox="0 0 200 260" class="w-full h-full" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+            <rect width="200" height="260" fill="#E8EBE2"/>
+            <g fill="none" stroke="#6B7F5C" stroke-width="1.4" stroke-linecap="round">
+              <!-- two figures -->
+              <circle cx="80" cy="120" r="18" fill="#F4EFE5"/>
+              <path d="M 62 140 C 60 200, 68 240, 72 258"/>
+              <path d="M 98 140 C 100 200, 92 240, 88 258"/>
+              <circle cx="130" cy="130" r="18" fill="#F4EFE5"/>
+              <path d="M 112 150 C 110 210, 118 248, 122 258"/>
+              <path d="M 148 150 C 150 210, 142 248, 138 258"/>
+              <!-- arms together -->
+              <path d="M 98 170 C 110 175, 120 175, 130 170"/>
+              <!-- hearts -->
+              <g fill="#C28987">
+                <path d="M 100 60 C 96 56, 90 58, 90 64 C 90 70, 100 76, 100 76 C 100 76, 110 70, 110 64 C 110 58, 104 56, 100 60 Z"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <figcaption class="font-script text-ink/80 text-center mt-3 text-[1.2rem]">devyani + shivendra</figcaption>
+      </figure>
+
+      <figure class="polaroid rot-r2 reveal" style="margin-top: 2rem;">
+        <div class="frame">
+          <svg viewBox="0 0 200 260" class="w-full h-full" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+            <rect width="200" height="260" fill="#E8EBE2"/>
+            <g fill="none" stroke="#6B7F5C" stroke-width="1.4" stroke-linecap="round">
+              <!-- long table -->
+              <rect x="20" y="150" width="160" height="14" fill="#F4EFE5"/>
+              <!-- plates -->
+              <circle cx="55" cy="157" r="6" fill="#FDFBF7"/>
+              <circle cx="100" cy="157" r="6" fill="#FDFBF7"/>
+              <circle cx="145" cy="157" r="6" fill="#FDFBF7"/>
+              <!-- chairs -->
+              <rect x="40" y="170" width="30" height="40" fill="none"/>
+              <rect x="85" y="170" width="30" height="40" fill="none"/>
+              <rect x="130" y="170" width="30" height="40" fill="none"/>
+              <!-- floral centerpiece -->
+              <g fill="#C28987"><circle cx="100" cy="140" r="5"/><circle cx="92" cy="135" r="4"/><circle cx="108" cy="135" r="4"/></g>
+              <!-- candles -->
+              <path d="M 70 130 L 70 148" stroke="#B5644A"/>
+              <path d="M 130 130 L 130 148" stroke="#B5644A"/>
+              <circle cx="70" cy="125" r="2.5" fill="#B5644A"/>
+              <circle cx="130" cy="125" r="2.5" fill="#B5644A"/>
+            </g>
+          </svg>
+        </div>
+        <figcaption class="text-center mt-3 text-[0.78rem] tracking-[0.18em] uppercase text-ink/55">the long table · soon</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     THE EVENING
+     ========================= -->
+<section id="evening" class="relative bg-surface py-20 md:py-28">
+  <div class="max-w-6xl mx-auto px-6 md:px-10">
+    <div class="grid md:grid-cols-12 gap-10 reveal">
+      <div class="md:col-span-5">
+        <p class="eyebrow flex items-center gap-3">
+          <span class="inline-block w-8 h-px bg-terra/60"></span>
+          The evening
+        </p>
+        <h2 class="mt-5 font-display italic text-sage leading-[1.02]" style="font-size: clamp(2.2rem, 5vw, 3.6rem);">
+          Where to be,<br/>and when.
+        </h2>
+        <p class="mt-6 text-ink/80 font-light leading-relaxed max-w-md">
+          Come early for tea on the lawn. Stay late for music under the trees. No rush, no receiving line, no seating chart we'll be strict about.
+        </p>
+
+        <ul class="mt-10 space-y-5 text-ink/90">
+          <li class="leaf-bullet text-sage-deep flex items-baseline gap-3">
+            <span class="font-display italic text-[1.6rem] text-terra leading-none w-20 shrink-0">6.00</span>
+            <span class="text-[1rem] text-ink">Tea on the lawn &amp; welcomes</span>
+          </li>
+          <li class="leaf-bullet text-sage-deep flex items-baseline gap-3">
+            <span class="font-display italic text-[1.6rem] text-terra leading-none w-20 shrink-0">7.00</span>
+            <span class="text-[1rem] text-ink">Toasts &amp; the three speeches</span>
+          </li>
+          <li class="leaf-bullet text-sage-deep flex items-baseline gap-3">
+            <span class="font-display italic text-[1.6rem] text-terra leading-none w-20 shrink-0">8.30</span>
+            <span class="text-[1rem] text-ink">Dinner at the long table</span>
+          </li>
+          <li class="leaf-bullet text-sage-deep flex items-baseline gap-3">
+            <span class="font-display italic text-[1.6rem] text-terra leading-none w-20 shrink-0">10.00</span>
+            <span class="text-[1rem] text-ink">Music &amp; dancing, til late</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Venue card -->
+      <div class="md:col-span-6 md:col-start-7">
+        <div class="bg-bg p-8 md:p-10 relative" style="border: 1px solid rgba(107,127,92,0.18);">
+          <div class="absolute -top-3 left-8 bg-bg px-3">
+            <p class="eyebrow text-[0.66rem]">The venue</p>
+          </div>
+
+          <h3 class="font-display italic text-sage" style="font-size: clamp(1.8rem, 3.2vw, 2.4rem);">
+            [ Venue Name ]
+          </h3>
+
+          <address class="not-italic mt-5 text-ink/90 text-[1.02rem] leading-[1.85] font-light">
+            [ Street Address ]<br/>
+            [ Locality ]<br/>
+            [ City ] · [ PIN ]<br/>
+            Rajasthan, India
+          </address>
+
+          <div class="hairline my-7"></div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <p class="text-[0.92rem] text-ink/70">
+              <span class="font-display italic text-terra text-[1.1rem]">Tuesday, 30 June 2026</span><br/>
+              Dress: garden formal · pale linens encouraged.
+            </p>
+            <a href="#" class="text-rose hover:text-terra transition text-[0.95rem] inline-flex items-center gap-2 whitespace-nowrap">
+              Get directions
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <!-- decorative leaf in corner -->
+          <svg class="absolute -right-4 -bottom-6 w-20 h-20 opacity-50" aria-hidden="true">
+            <use href="#leaf-floret"/>
+          </svg>
+        </div>
+
+        <p class="mt-6 text-[0.85rem] text-ink/60 leading-relaxed max-w-md">
+          A short note &amp; map will follow with your RSVP confirmation. Parking is on-site; cars from the city can be arranged.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     RSVP
+     ========================= -->
+<section id="rsvp" class="relative py-20 md:py-28">
+  <div class="max-w-3xl mx-auto px-6 md:px-10 text-center reveal">
+    <p class="eyebrow inline-flex items-center gap-3 justify-center">
+      <span class="inline-block w-8 h-px bg-terra/60"></span>
+      Kindly reply
+      <span class="inline-block w-8 h-px bg-terra/60"></span>
+    </p>
+    <h2 class="mt-5 font-display italic text-sage leading-[1.02]" style="font-size: clamp(2.4rem, 5vw, 3.8rem);">
+      Will you join us?
+    </h2>
+    <p class="mt-5 text-ink/80 font-light max-w-md mx-auto">
+      A small reply by the 1st of June helps us set the table — and lets the kitchen know whom to please.
+    </p>
+  </div>
+
+  <div class="mt-14 max-w-2xl mx-auto px-6 md:px-10 reveal">
+    <div class="relative bg-surface" style="border-radius: 4px; padding: 3.5rem 1.6rem 2.5rem;">
+      <!-- mini wreath at top -->
+      <div class="absolute left-1/2 -translate-x-1/2 -top-3 bg-surface px-4">
+        <svg viewBox="0 0 120 60" class="w-28 h-14" aria-hidden="true"><use href="#wreath-mini"/></svg>
+      </div>
+
+      <form class="md:px-8 grid gap-6" onsubmit="event.preventDefault();">
+        <div>
+          <label for="name" class="block text-[0.7rem] tracking-[0.26em] uppercase text-sage-deep/80 mb-1">Your name</label>
+          <input id="name" type="text" class="field" placeholder="As it ought to appear on our table card" />
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label for="phone" class="block text-[0.7rem] tracking-[0.26em] uppercase text-sage-deep/80 mb-1">WhatsApp / Phone</label>
+            <input id="phone" type="tel" class="field" placeholder="+91 · so we can send a map" />
+          </div>
+          <div>
+            <label for="guests" class="block text-[0.7rem] tracking-[0.26em] uppercase text-sage-deep/80 mb-1">Guests attending</label>
+            <select id="guests" class="field">
+              <option>1 — just me</option>
+              <option>2 — myself &amp; one</option>
+              <option>3 — a small party</option>
+              <option>4 — the whole bunch</option>
+              <option>5 — bringing reinforcements</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="note" class="block text-[0.7rem] tracking-[0.26em] uppercase text-sage-deep/80 mb-1">A note for the family</label>
+          <input id="note" type="text" class="field" placeholder="Anything you'd like us to know — dietary, song requests, well-wishes…" />
+        </div>
+
+        <div class="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 pt-2">
+          <p class="text-[0.82rem] text-ink/60">
+            Replies appreciated by <span class="text-terra italic font-display text-[1rem]">1st of June, 2026</span>.
+          </p>
+          <button type="submit" class="btn-sage inline-flex items-center gap-3 px-7 py-3.5 text-[0.82rem] tracking-[0.2em] uppercase rounded-[2px]">
+            Send with love
+            <svg width="16" height="16" aria-hidden="true"><use href="#arrow-right"/></svg>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <p class="mt-8 text-center font-script text-rose text-[1.6rem] leading-none">we can't wait to see you.</p>
+  </div>
+</section>
+
+
+<!-- =========================
+     FOOTER
+     ========================= -->
+<footer class="relative pt-16 pb-12">
+  <div class="max-w-4xl mx-auto px-6 md:px-10 text-center">
+
+    <div class="relative inline-block">
+      <svg viewBox="0 0 240 240" class="w-44 h-44 md:w-52 md:h-52" aria-hidden="true">
+        <use href="#wreath"/>
+      </svg>
+      <span class="absolute inset-0 flex items-center justify-center font-display italic text-sage" style="font-size: clamp(3rem, 6vw, 4.5rem); transform: translateY(-2px);">M</span>
+    </div>
+
+    <p class="mt-4 font-script text-rose text-[1.6rem] leading-none">with love,</p>
+    <p class="mt-2 font-display italic text-ink text-[1.5rem]">the family</p>
+
+    <div class="hairline mt-12 max-w-md mx-auto"></div>
+
+    <p class="mt-6 eyebrow text-[0.72rem]">
+      Mélange · 30 June 2026 · Rajasthan
+    </p>
+
+    <p class="mt-4 text-[0.78rem] text-ink/45">
+      Tuesday, 30 . VI . 2026 — a celebration of love, life &amp; legacy.
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Reveal-on-scroll
+  (function () {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>

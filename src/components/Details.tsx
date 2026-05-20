@@ -25,12 +25,12 @@ export function Details() {
           </Reveal>
         </div>
 
-        <div className="mt-20 grid grid-cols-1 lg:grid-cols-[1.1fr,1fr] gap-16 lg:gap-20">
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-[1.1fr,1fr] gap-16 md:gap-12 lg:gap-20">
           {/* LEFT: itinerary */}
           <Reveal delay={120}>
             <div>
               <h3 className="font-italicserif italic font-medium text-cream text-3xl">The Evening</h3>
-              <p className="mt-2 text-sm leading-relaxed text-cream/65 max-w-[36ch]">
+              <p className="mt-2 text-sm leading-relaxed text-cream/65 max-w-[36ch] text-pretty">
                 A loose order of things. Stay for any of it, or for all of it.
               </p>
 
@@ -53,7 +53,7 @@ export function Details() {
           <Reveal delay={220}>
             <aside>
               <h3 className="font-italicserif italic font-medium text-cream text-3xl">The Place</h3>
-              <p className="mt-2 text-sm leading-relaxed text-cream/65 max-w-[36ch]">
+              <p className="mt-2 text-sm leading-relaxed text-cream/65 max-w-[36ch] text-pretty">
                 Held under one roof, with parking on-site.
               </p>
 

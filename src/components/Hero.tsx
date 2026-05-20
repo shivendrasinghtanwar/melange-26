@@ -12,6 +12,11 @@ function smoothScroll(e: React.MouseEvent<HTMLAnchorElement>) {
 }
 
 export function Hero({ withId = true }: { withId?: boolean } = {}) {
+  // The in-flow copy carries the document's <h1> wordmark; the
+  // (aria-hidden) overlay copy renders it as a presentational <div> so
+  // there isn't a duplicate H1 in the DOM (SEO/accessibility concern).
+  const WordmarkTag = (withId ? 'h1' : 'div') as 'h1' | 'div';
+
   return (
     <header
       id={withId ? 'top' : undefined}
@@ -38,34 +43,45 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
               — invites you to —
             </p>
 
-            <h1 className="wordmark tracking-tight" aria-label={EVENT.name}>
+            <WordmarkTag
+              className="wordmark tracking-tight"
+              aria-label={withId ? EVENT.name : undefined}
+              role={withId ? undefined : 'presentation'}
+            >
               {letters.map((ch, i) => (
                 <span key={i} style={{ animationDelay: `${40 + i * 80}ms` }}>
                   {ch}
                 </span>
               ))}
-            </h1>
+            </WordmarkTag>
 
             <div className="mt-4 sm:mt-5 flex flex-col items-center">
-              <svg width="36" height="36" aria-hidden="true">
+              {/* shrink-0 so the floret isn't squeezed out of view by the
+                  tagline's whitespace-nowrap at narrow viewports. */}
+              <svg width="36" height="36" className="shrink-0" aria-hidden="true">
                 <use href="#marigold-a" />
               </svg>
-              <p className="mt-3 font-italicserif italic text-ink text-base sm:text-[1.5rem] leading-snug whitespace-nowrap">
+              {/* Tagline only forces a single line at ≥sm. At narrow
+                  widths it wraps cleanly instead of overflowing and
+                  squeezing the floret. */}
+              <p className="mt-3 font-italicserif italic text-ink text-base sm:text-[1.5rem] leading-snug sm:whitespace-nowrap">
                 {EVENT.tagline}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Date strip */}
-        <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-ink">
-          <span className="stamp text-sm sm:text-base">{EVENT.date.day.toUpperCase()}</span>
-          <span className="w-px h-5 bg-pink/40" aria-hidden="true" />
-          <span className="stamp text-base sm:text-lg text-pink">
+        {/* Date strip. On narrow viewports the dividers vanish and the gap
+            tightens so the line stays together; ≥sm restores the dividers
+            and roomy spacing. */}
+        <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-5 gap-y-2 text-ink">
+          <span className="stamp text-sm sm:text-base whitespace-nowrap">{EVENT.date.day.toUpperCase()}</span>
+          <span className="hidden sm:inline-block w-px h-5 bg-pink/40" aria-hidden="true" />
+          <span className="stamp text-base sm:text-lg text-pink whitespace-nowrap">
             {EVENT.date.dayNum} {EVENT.date.month} {EVENT.date.year}
           </span>
-          <span className="w-px h-5 bg-pink/40" aria-hidden="true" />
-          <span className="stamp text-sm sm:text-base">{EVENT.city.toUpperCase()}</span>
+          <span className="hidden sm:inline-block w-px h-5 bg-pink/40" aria-hidden="true" />
+          <span className="stamp text-sm sm:text-base whitespace-nowrap">{EVENT.city.toUpperCase()}</span>
         </div>
 
         {/* CTA */}

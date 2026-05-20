@@ -149,6 +149,32 @@ body {
 .btn-primary--solid { background: var(--pink); color: var(--cream); }
 .btn-primary--solid:hover { background: var(--pinkDeep); border-color: var(--pinkDeep); }
 
+/* ─── Mobile CTA bump (tap-target + legibility) ──────────────────────
+   Audit found the small-caps CTAs (RSVP with us, Return to the top,
+   Send with love, Get directions) were tiny on phones (11px /
+   .22em letter-spacing) and below the 44×44 tap-target minimum.
+   At ≤640px: bump the font, loosen tracking, and force a 44px-tall
+   hit area on .ink-link via inline-flex padding. */
+@media (max-width: 640px) {
+  .ink-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 14px;
+  }
+  .ink-link.smallcaps,
+  .btn-primary,
+  .venue__cta {
+    font-size: 12.5px;
+    letter-spacing: 0.18em;
+  }
+  .btn-primary {
+    padding: 0.9rem 1.5rem;
+    min-height: 44px;
+  }
+}
+
 /* ─── Block-print band divider ───────────────────────────────────────── */
 .blockprint-band {
   height: 46px;
@@ -397,6 +423,8 @@ body {
   color: var(--goldSoft);
   letter-spacing: 0.05em;
   padding-top: 4px;
+  /* Keep "6 : 00 PM" together — at 320px it was breaking onto two lines. */
+  white-space: nowrap;
 }
 .timeline__dot {
   position: absolute;

@@ -20,9 +20,17 @@ export function Footer() {
           With love, the Tanwar family.
         </p>
         <p className="mt-1 font-italicserif italic text-inkSoft text-sm">
-          The Tanwars
-          &nbsp;·&nbsp; {EVENT.honoree.spouse.split(' ')[0]} &amp; {EVENT.honoree.name.split(' ')[0]}
-          &nbsp;·&nbsp; {EVENT.couple.groom.split(' ')[0]} &amp; {EVENT.couple.bride.split(' ')[0]}
+          {/* Each pair wrapped in whitespace-nowrap so name pairs don't
+              split awkwardly when the line wraps at narrow widths. */}
+          <span className="whitespace-nowrap">The Tanwars</span>
+          &nbsp;·&nbsp;
+          <span className="whitespace-nowrap">
+            {EVENT.honoree.spouse.split(' ')[0]} &amp; {EVENT.honoree.name.split(' ')[0]}
+          </span>
+          &nbsp;·&nbsp;
+          <span className="whitespace-nowrap">
+            {EVENT.couple.groom.split(' ')[0]} &amp; {EVENT.couple.bride.split(' ')[0]}
+          </span>
         </p>
 
         <div className="mt-7 w-full max-w-md">

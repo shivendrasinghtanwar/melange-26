@@ -644,15 +644,17 @@ body {
   z-index: 2;
 }
 
-/* state: opening — play the open animations */
-.fold-overlay--opening .fold-overlay__lid         { animation: foldOpen      1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
-.fold-overlay--opening .fold-overlay__lid::after  { animation: foldShadowIn  1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
-.fold-overlay--opening .fold-overlay__lid::before { animation: hingeFadeOut  0.5s ease-out forwards; }
+/* state: opening — play the open animations. Easing matches the JS
+   scroll loop's `1 - (1-t)^3` (ease-out cubic, Penner) so the rotation
+   and the scroll travel together — no perceptual stutter. */
+.fold-overlay--opening .fold-overlay__lid         { animation: foldOpen      1.4s cubic-bezier(.215, .61, .355, 1) forwards; }
+.fold-overlay--opening .fold-overlay__lid::after  { animation: foldShadowIn  1.4s cubic-bezier(.215, .61, .355, 1) forwards; }
+.fold-overlay--opening .fold-overlay__lid::before { animation: hingeFadeOut  0.55s ease-out forwards; }
 
 /* state: closing — mirror of opening (lid drops back into place) */
-.fold-overlay--closing .fold-overlay__lid         { animation: foldClose     1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
-.fold-overlay--closing .fold-overlay__lid::after  { animation: foldShadowOut 1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
-.fold-overlay--closing .fold-overlay__lid::before { animation: hingeFadeIn   0.5s 0.7s ease-out both; }
+.fold-overlay--closing .fold-overlay__lid         { animation: foldClose     1.4s cubic-bezier(.215, .61, .355, 1) forwards; }
+.fold-overlay--closing .fold-overlay__lid::after  { animation: foldShadowOut 1.4s cubic-bezier(.215, .61, .355, 1) forwards; }
+.fold-overlay--closing .fold-overlay__lid::before { animation: hingeFadeIn   0.55s 0.85s ease-out both; }
 
 @keyframes foldOpen {
   0%   { transform: rotateX(0deg);   opacity: 1; }

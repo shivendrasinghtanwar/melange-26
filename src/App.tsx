@@ -6,7 +6,6 @@ import { Gallery } from './components/Gallery';
 import { Details } from './components/Details';
 import { RsvpForm } from './components/RsvpForm';
 import { Footer } from './components/Footer';
-import { FoldDebugOverlay } from './components/FoldDebugOverlay';
 
 export default function App() {
   return (
@@ -58,9 +57,6 @@ export default function App() {
       {/* Fold-open overlay — fixed on top of everything while still
           closed/opening; returns null once the fold has played. */}
       <HeroFold />
-
-      {/* TEMPORARY — fold transition debug overlay. Remove when bug fixed. */}
-      <FoldDebugOverlay />
     </>
   );
 }

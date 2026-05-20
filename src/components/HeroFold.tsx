@@ -26,11 +26,10 @@ import { Hero } from './Hero';
 
 type FoldState = 'closed' | 'opening' | 'open' | 'closing';
 
-const FOLD_DURATION_MS = 1200;
+const FOLD_DURATION_MS = 1400;
 const TRIGGER_DOWN_KEYS = new Set(['ArrowDown', 'PageDown', ' ', 'End']);
 const TRIGGER_UP_KEYS   = new Set(['ArrowUp',   'PageUp',   'Home']);
 const TOUCH_THRESHOLD_PX = 10;
-const BOUNDARY_BUFFER_PX = 5;
 
 /* ---------------------------------------------------------------------
  * Debug logging — toggle with `?debug=fold` in the URL OR by setting
@@ -38,9 +37,9 @@ const BOUNDARY_BUFFER_PX = 5;
  * a [fold] prefix so they're easy to grep / paste back.
  * Remove this block (and all log() calls below) once the bug is closed.
  * ------------------------------------------------------------------ */
-// Force-on during the active debugging phase. Flip to false (or gate
-// behind a URL query) once the bug is closed.
-const DEBUG_ENABLED = true;
+// Silenced now that the bug is closed. Flip to true (or gate on
+// ?debug=fold) if anything ever needs to be diagnosed again.
+const DEBUG_ENABLED = false;
 
 function log(event: string, data?: Record<string, unknown>) {
   if (!DEBUG_ENABLED) return;
@@ -97,8 +96,6 @@ export function HeroFold() {
       if (!el) return window.innerHeight;
       return el.getBoundingClientRect().top + window.scrollY;
     };
-    const atMilestonesTop = () =>
-      window.scrollY <= getMilestonesBoundary() + BOUNDARY_BUFFER_PX;
 
     const triggerOpen  = (why: string) => {
       if (stateRef.current === 'closed') { log('triggerOpen', { why }); setState('opening'); }
@@ -106,6 +103,16 @@ export function HeroFold() {
     const triggerClose = (why: string) => {
       if (stateRef.current === 'open') { log('triggerClose', { why }); setState('closing'); }
     };
+
+    // Wheel / touch / key handlers fire the OPEN trigger only.
+    // Closing the fold via scroll-input is gone — too easy to false-fire
+    // from trackpad momentum-bounce artefacts (macOS sends tiny negative
+    // deltaY events as a multi-second scroll decays, which read as
+    // "scroll up at boundary" the moment the open animation completes).
+    // Reverse-fold is still available via the "Return to the top" link
+    // in the footer; that's an explicit user action, no momentum.
+    // Meanwhile the hero is in document flow, so plain scroll-up from
+    // milestones naturally reveals it — no animation needed.
 
     const onWheel = (e: WheelEvent) => {
       const s = stateRef.current;
@@ -119,12 +126,8 @@ export function HeroFold() {
       if (s === 'closed') {
         e.preventDefault();
         triggerOpen('wheel/closed');
-        return;
       }
-      if (e.deltaY < 0 && atMilestonesTop()) {
-        e.preventDefault();
-        triggerClose(`wheel-up at boundary (dy=${scrollY - boundary})`);
-      }
+      // s === 'open': do nothing, let the browser scroll normally.
     };
 
     const onTouchStart = (e: TouchEvent) => {
@@ -144,12 +147,8 @@ export function HeroFold() {
       if (s === 'closed') {
         e.preventDefault();
         if (Math.abs(delta) > TOUCH_THRESHOLD_PX) triggerOpen('touch/closed');
-        return;
       }
-      if (delta < -TOUCH_THRESHOLD_PX && atMilestonesTop()) {
-        e.preventDefault();
-        triggerClose('touch-up at boundary');
-      }
+      // s === 'open': do nothing.
     };
 
     const onKey = (e: KeyboardEvent) => {
@@ -165,12 +164,8 @@ export function HeroFold() {
       if (s === 'closed') {
         e.preventDefault();
         triggerOpen('key/closed');
-        return;
       }
-      if (isUp && atMilestonesTop()) {
-        e.preventDefault();
-        triggerClose('key-up at boundary');
-      }
+      // s === 'open': do nothing.
     };
 
     const onClick = (e: MouseEvent) => {
@@ -187,6 +182,7 @@ export function HeroFold() {
         return;
       }
       if (s === 'open') {
+        // Only the Footer's "Return to the top" link triggers a close.
         if (href === '#top') {
           e.preventDefault();
           e.stopPropagation();
@@ -198,27 +194,11 @@ export function HeroFold() {
       e.stopPropagation();
     };
 
-    const onScroll = () => {
-      const s = stateRef.current;
-      if (s !== 'open') return;
-      const scrollY = window.scrollY;
-      const boundary = getMilestonesBoundary();
-      if (scrollY < boundary - 1) {
-        log('onScroll: below boundary in open state', {
-          scrollY: Math.round(scrollY),
-          boundary: Math.round(boundary),
-          dy: Math.round(scrollY - boundary),
-        });
-        triggerClose(`onScroll backup: scrollY=${Math.round(scrollY)} < boundary=${Math.round(boundary)}`);
-      }
-    };
-
     window.addEventListener('wheel',      onWheel,      { passive: false, capture: true });
     window.addEventListener('touchstart', onTouchStart, { passive: true,  capture: true });
     window.addEventListener('touchmove',  onTouchMove,  { passive: false, capture: true });
     window.addEventListener('keydown',    onKey,        true);
     window.addEventListener('click',      onClick,      true);
-    window.addEventListener('scroll',     onScroll,     { passive: true });
 
     return () => {
       html.style.overscrollBehavior = prevHtmlOverscroll;
@@ -228,7 +208,6 @@ export function HeroFold() {
       window.removeEventListener('touchmove',  onTouchMove,  true);
       window.removeEventListener('keydown',    onKey,        true);
       window.removeEventListener('click',      onClick,      true);
-      window.removeEventListener('scroll',     onScroll);
     };
   }, []);
 

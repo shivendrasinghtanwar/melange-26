@@ -13,24 +13,27 @@ export function OrnamentSprites() {
   return (
     <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
       <defs>
-        {/* Mihrab arch. Legs run from y=300 (curve start) to y=880, giving
-            the frame enough vertical room to enclose wordmark → tagline →
-            date → RSVP. Concentric pink+marigold pegs sit at the leg
-            bottoms (cy=880). */}
-        <symbol id="mihrab" viewBox="0 0 600 900" preserveAspectRatio="xMidYMid meet">
+        {/* Mihrab arch. viewBox is 600×720 (aspect 5/6) — matches the
+            arch-wrap exactly, so the SVG fills the wrap with no
+            letterbox or overflow. Legs end at y=700; concentric
+            pink+marigold pegs sit at cy=700 (≈97% from the top, i.e.
+            just inside the bottom of the wrap). The date + RSVP are
+            absolute-positioned inside the wrap at bottom:5% so they
+            land right at the peg row. */}
+        <symbol id="mihrab" viewBox="0 0 600 720" preserveAspectRatio="xMidYMid meet">
           <g fill="none" stroke="#C53A56" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M40 880 V300 C40 170 160 40 300 40 C440 40 560 170 560 300 V880" strokeWidth="1.6" />
-            <path d="M60 880 V304 C60 184 168 60 300 60 C432 60 540 184 540 304 V880" strokeWidth="0.9" opacity="0.85" />
+            <path d="M40 700 V300 C40 170 160 40 300 40 C440 40 560 170 560 300 V700" strokeWidth="1.6" />
+            <path d="M60 700 V304 C60 184 168 60 300 60 C432 60 540 184 540 304 V700" strokeWidth="0.9" opacity="0.85" />
             <g strokeWidth="1.2">
               <path d="M285 36 C292 18, 308 18, 315 36" />
               <circle cx="300" cy="22" r="3" fill="#E0A436" stroke="none" />
               <path d="M278 30 L266 18 M322 30 L334 18" />
             </g>
             <g strokeWidth="1" opacity="0.85">
-              <circle cx="40" cy="880" r="14" fill="none" />
-              <circle cx="40" cy="880" r="6" fill="#E0A436" stroke="none" />
-              <circle cx="560" cy="880" r="14" fill="none" />
-              <circle cx="560" cy="880" r="6" fill="#E0A436" stroke="none" />
+              <circle cx="40" cy="700" r="14" fill="none" />
+              <circle cx="40" cy="700" r="6" fill="#E0A436" stroke="none" />
+              <circle cx="560" cy="700" r="14" fill="none" />
+              <circle cx="560" cy="700" r="6" fill="#E0A436" stroke="none" />
             </g>
           </g>
         </symbol>

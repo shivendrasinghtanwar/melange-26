@@ -31,19 +31,15 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
       </svg>
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 sm:px-10 pt-8 pb-4 text-center">
-        {/* Arch + wordmark. Arch-wrap dimensions are unchanged from the
-            original (aspect 5/6, max-h 72svh, max-w 780). The mihrab
-            SVG's viewBox is taller than 5/6, and the CSS now renders it
-            with width:100% / height:auto so the SVG OVERFLOWS the wrap
-            downward — its legs run past the bottom of the wrap into the
-            date/RSVP area below, with the corner pegs landing near the
-            RSVP line. The curve at the top is identical to the original. */}
-        <div className="arch-wrap w-[min(94vw,780px)] aspect-[5/6] max-h-[72svh] flex items-center justify-center">
-          {/* viewBox MUST match the mihrab symbol's (600×900). Without
-              it the outer SVG has no intrinsic aspect ratio, so the
-              CSS `height: auto` falls back to 150px and the symbol
-              gets crushed into a tiny box. */}
-          <svg className="arch" viewBox="0 0 600 900" aria-hidden="true">
+        {/* Arch + wordmark. The arch-wrap is aspect-[5/6], matching the
+            mihrab SVG viewBox (600×720) exactly. The arch's corner pegs
+            live at the bottom of the wrap (97% from top). The wordmark
+            stack centers inside the wrap as before; the date + RSVP are
+            absolute-positioned at the bottom edge of the wrap so they
+            land right at the peg row, regardless of viewport. The
+            "unfold" link sits outside the wrap. */}
+        <div className="arch-wrap w-[min(94vw,780px)] aspect-[5/6] max-h-[72svh] relative flex items-center justify-center">
+          <svg className="arch" aria-hidden="true">
             <use href="#mihrab" />
           </svg>
 
@@ -79,23 +75,24 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
               </p>
             </div>
           </div>
-        </div>
 
-        {/* Date — visually framed by the arch legs which extend down
-            from the wrap above into this area. */}
-        <div className="mt-6 sm:mt-8 flex items-center justify-center text-ink">
-          <span className="stamp text-base sm:text-lg text-pink whitespace-nowrap">
-            {EVENT.date.dayNum} {EVENT.date.month} {EVENT.date.year}
-          </span>
+          {/* Date + RSVP, pinned to the bottom of the arch-wrap so they
+              align with the leg-pegs across all viewports. */}
+          <div className="absolute inset-x-0 bottom-[5%] flex flex-col items-center px-6 sm:px-12 text-center">
+            <div className="flex items-center justify-center text-ink">
+              <span className="stamp text-base sm:text-lg text-pink whitespace-nowrap">
+                {EVENT.date.dayNum} {EVENT.date.month} {EVENT.date.year}
+              </span>
+            </div>
+            <a
+              href="#rsvp"
+              className="ink-link ink-link--center mt-3 sm:mt-4 smallcaps text-pink"
+              onClick={smoothScroll}
+            >
+              RSVP
+            </a>
+          </div>
         </div>
-
-        <a
-          href="#rsvp"
-          className="ink-link ink-link--center mt-5 smallcaps text-pink"
-          onClick={smoothScroll}
-        >
-          RSVP
-        </a>
 
         <a
           href="#milestones"

@@ -83,17 +83,12 @@ body {
 /* ─── Hero: arch + wordmark ──────────────────────────────────────────── */
 .arch-wrap { position: relative; }
 .arch-wrap > svg.arch {
-  /* SVG renders at its natural aspect (viewBox 600×900) with
-     width:100%, height:auto — so it OVERFLOWS the wrap downward by
-     ~30% of the wrap width. The visible curve+legs inside the wrap
-     match the original geometry exactly; the overflowing bottom of
-     the SVG draws the leg-extension and corner pegs into the
-     date/RSVP area below the wrap. */
+  /* SVG fills the wrap exactly — the mihrab viewBox is 600×720 and
+     the wrap is aspect-[5/6], so there's no letterbox or overflow. */
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   pointer-events: none;
 }
 

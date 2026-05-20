@@ -31,8 +31,10 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
       </svg>
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 sm:px-10 pt-8 pb-4 text-center">
-        {/* Arch + wordmark */}
-        <div className="arch-wrap w-[min(94vw,780px)] aspect-[5/6] max-h-[72svh] flex items-center justify-center">
+        {/* Arch frame — now tall enough (aspect 15/22 ≈ 600×880 viewBox) to
+            enclose the wordmark, tagline, date, AND RSVP. The arch's
+            concentric pink+marigold leg-pegs sit just below the RSVP. */}
+        <div className="arch-wrap w-[min(94vw,720px)] aspect-[15/22] max-h-[82svh] flex items-center justify-center">
           <svg className="arch" aria-hidden="true">
             <use href="#mihrab" />
           </svg>
@@ -68,25 +70,30 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
                 {EVENT.tagline}
               </p>
             </div>
+
+            {/* Date inside the arch */}
+            <div className="mt-5 sm:mt-7 flex items-center justify-center text-ink">
+              <span className="stamp text-base sm:text-lg text-pink whitespace-nowrap">
+                {EVENT.date.dayNum} {EVENT.date.month} {EVENT.date.year}
+              </span>
+            </div>
+
+            {/* RSVP inside the arch — the corner pegs of the arch sit
+                just below this line */}
+            <a
+              href="#rsvp"
+              className="ink-link ink-link--center mt-4 sm:mt-5 smallcaps text-pink"
+              onClick={smoothScroll}
+            >
+              RSVP
+            </a>
           </div>
         </div>
-
-        {/* Date — day-of-week and city stripped per request; just the date. */}
-        <div className="mt-6 sm:mt-8 flex items-center justify-center text-ink">
-          <span className="stamp text-base sm:text-lg text-pink whitespace-nowrap">
-            {EVENT.date.dayNum} {EVENT.date.month} {EVENT.date.year}
-          </span>
-        </div>
-
-        {/* CTA */}
-        <a href="#rsvp" className="ink-link ink-link--center mt-5 smallcaps text-pink" onClick={smoothScroll}>
-          RSVP
-        </a>
 
         <a
           href="#milestones"
           onClick={smoothScroll}
-          className="mt-8 sm:mt-10 text-inkSoft hover:text-pink transition-colors text-sm font-italicserif italic flex flex-col items-center gap-1"
+          className="mt-6 sm:mt-8 text-inkSoft hover:text-pink transition-colors text-sm font-italicserif italic flex flex-col items-center gap-1"
         >
           unfold
           <span aria-hidden="true" className="text-base">↓</span>

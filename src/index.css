@@ -272,6 +272,96 @@ body {
   letter-spacing: -0.02em;
 }
 
+/* ─── Memory album marquee (two opposing rows, infinite loop) ──────── */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  /* Edge fades so the photos dissolve into the cream background — feels
+     like a film reel rather than a ticker tape. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+.marquee__track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 1.5rem;
+  width: max-content;
+  will-change: transform;
+}
+/* Two directions; slightly desynced durations so the rows feel
+   independent rather than mirrored. */
+.marquee--rtl .marquee__track { animation: marquee-rtl 64s linear infinite; }
+.marquee--ltr .marquee__track { animation: marquee-ltr 72s linear infinite; }
+
+@keyframes marquee-rtl {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes marquee-ltr {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* Pause on hover (devices that actually hover). */
+@media (hover: hover) {
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+  .marquee__item:hover { transform: translateY(-3px); transition: transform .5s cubic-bezier(.16, .84, .44, 1); }
+}
+
+.marquee__item {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.marquee__item .photo-frame {
+  height: 200px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+@media (min-width: 640px)  { .marquee__item .photo-frame { height: 240px; padding: 1.15rem; } }
+@media (min-width: 1024px) { .marquee__item .photo-frame { height: 280px; padding: 1.25rem; } }
+
+/* Aspect-ratio widths derived from the row height. */
+.ar-4-3  .photo-frame { aspect-ratio: 4 / 3;  }
+.ar-3-4  .photo-frame { aspect-ratio: 3 / 4;  }
+.ar-16-9 .photo-frame { aspect-ratio: 16 / 9; }
+.ar-1-1  .photo-frame { aspect-ratio: 1 / 1;  }
+
+.marquee__caption {
+  color: var(--inkSoft);
+  max-width: 32ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.frame-tag      { color: rgba(250, 241, 228, 0.78); }
+.frame-flourish {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: rgba(250, 241, 228, 0.85);
+  line-height: 0.95;
+}
+
+/* Reduced motion: drop the animation; the marquee becomes a normal
+   horizontal scroll container with snap-points; duplicates are hidden
+   so the user only sees each photo once. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+  .marquee__track { animation: none !important; transform: none !important; }
+  .marquee__item { scroll-snap-align: start; }
+  .marquee__item[aria-hidden='true'] { display: none; }
+}
+
 /* ─── Particulars: burgundy section ──────────────────────────────────── */
 .section--burgundy {
   background: linear-gradient(180deg, #5C1A2B 0%, #4A1322 100%);

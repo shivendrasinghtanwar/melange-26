@@ -1,21 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Hero } from './Hero';
 
 /**
- * Hero → Milestones "bottom-fold open" transition (one-shot).
+ * Fold-open overlay (one-shot).
  *
- * The first scroll input (wheel, touch swipe, arrow key, page-down, click on
- * any in-page anchor) triggers a 1.2s CSS animation that rotates the hero
- * around its top edge so the bottom edge swings forward + down, revealing
- * the milestones rendered directly below. During the animation, body scroll
- * is locked — the user can't pause or reverse the fold mid-way.
+ * The Hero is rendered as a normal 100svh section in the document flow
+ * (see App.tsx). On first load, this component mounts a fixed-position
+ * overlay containing a visual copy of the Hero. Any scroll input fires
+ * a 1.2s animation that rotates the overlay open while the page scrolls
+ * programmatically from scrollY=0 to one viewport height in parallel.
  *
- * Once the animation completes, the lid is hidden (`display:none` via the
- * .card-frame--open class), body scroll is unlocked, and the user is at
- * scroll position 0 with the Milestones section at the top of the viewport.
+ * Once the animation completes:
+ *   - the overlay unmounts (state='open' returns null)
+ *   - the user is at scrollY≈100svh with the Milestones section at the top
+ *   - scrolling back UP reveals the real (in-flow) Hero above
  *
- * Reduced motion, deep links (any URL hash other than #top), and reloads
- * partway down the page all skip directly to the 'open' state.
+ * The fold never replays once dismissed — refreshing the page is the only
+ * way to see it again.
  */
 
 type FoldState = 'closed' | 'opening' | 'open';
@@ -27,11 +28,9 @@ const TRIGGER_KEYS = new Set([
 const TOUCH_THRESHOLD_PX = 10;
 
 export function HeroFold() {
-  const frameRef = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<FoldState>('closed');
 
-  // Initial state check — skip the fold under reduced motion, mid-page
-  // reload, or deep link to a specific section.
+  // Skip the fold under reduced motion, mid-page reloads, or deep links.
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -39,45 +38,27 @@ export function HeroFold() {
       return;
     }
     if (window.scrollY > 50) {
+      // Browser restored a scroll position past the hero — skip the fold
+      // and leave the user where they were.
       setState('open');
       return;
     }
     const hash = window.location.hash;
     if (hash && hash !== '#top') {
+      // Deep link to a specific section — go straight there.
       setState('open');
     }
   }, []);
 
-  // Lock body scroll + listen for trigger input while the fold isn't open.
+  // Block user input + listen for trigger gestures while the overlay
+  // is still up (closed or opening).
   useEffect(() => {
     if (state === 'open') return;
-
-    const html = document.documentElement;
-    const body = document.body;
-    const prev = {
-      htmlOverflow: html.style.overflow,
-      bodyOverflow: body.style.overflow,
-      bodyTouchAction: body.style.touchAction,
-      htmlOverscroll: html.style.overscrollBehavior,
-      bodyOverscroll: body.style.overscrollBehavior,
-    };
-    html.style.overflow = 'hidden';
-    body.style.overflow = 'hidden';
-    body.style.touchAction = 'none';
-    // overscroll-behavior: none stops the browser from swallowing wheel
-    // events at boundaries (especially macOS rubber-band on scroll UP at
-    // scrollY=0, which otherwise consumes the event before our listener
-    // ever sees it).
-    html.style.overscrollBehavior = 'none';
-    body.style.overscrollBehavior = 'none';
 
     let touchStartY = 0;
     const canTrigger = state === 'closed';
     const trigger = () => { if (canTrigger) setState('opening'); };
 
-    // Fire on ANY wheel event regardless of direction or delta size —
-    // up, down, sideways, even tiny trackpad taps all count as "the
-    // user wants to leave the cover".
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       trigger();
@@ -105,8 +86,7 @@ export function HeroFold() {
       }
     };
 
-    // capture:true so we run before any default browser/page handling,
-    // and so this works even if downstream code calls stopPropagation.
+    // capture:true so we run before any default browser/page handling.
     window.addEventListener('wheel', onWheel, { passive: false, capture: true });
     window.addEventListener('touchstart', onTouchStart, { passive: true, capture: true });
     window.addEventListener('touchmove', onTouchMove, { passive: false, capture: true });
@@ -114,11 +94,6 @@ export function HeroFold() {
     window.addEventListener('click', onClick, true);
 
     return () => {
-      html.style.overflow = prev.htmlOverflow;
-      body.style.overflow = prev.bodyOverflow;
-      body.style.touchAction = prev.bodyTouchAction;
-      html.style.overscrollBehavior = prev.htmlOverscroll;
-      body.style.overscrollBehavior = prev.bodyOverscroll;
       window.removeEventListener('wheel', onWheel, true);
       window.removeEventListener('touchstart', onTouchStart, true);
       window.removeEventListener('touchmove', onTouchMove, true);
@@ -127,20 +102,44 @@ export function HeroFold() {
     };
   }, [state]);
 
-  // Once the animation finishes, advance to the 'open' state — that's
-  // what hides the lid and releases the scroll lock.
+  // While opening, programmatically scroll the page from 0 → 100svh so
+  // that when the overlay finishes fading out, the user is already at
+  // the Milestones section.
   useEffect(() => {
     if (state !== 'opening') return;
-    const t = window.setTimeout(() => setState('open'), FOLD_DURATION_MS);
-    return () => window.clearTimeout(t);
+
+    const startScrollY = window.scrollY;
+    const targetScrollY = window.innerHeight;
+    const startTime = performance.now();
+    let rafId = 0;
+    let cancelled = false;
+
+    const step = () => {
+      if (cancelled) return;
+      const elapsed = performance.now() - startTime;
+      const t = Math.min(1, elapsed / FOLD_DURATION_MS);
+      const eased = 1 - Math.pow(1 - t, 3);
+      window.scrollTo(0, startScrollY + (targetScrollY - startScrollY) * eased);
+      if (t < 1) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        setState('open');
+      }
+    };
+    rafId = requestAnimationFrame(step);
+
+    return () => {
+      cancelled = true;
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [state]);
 
+  if (state === 'open') return null;
+
   return (
-    <div ref={frameRef} className={`card-frame card-frame--${state}`}>
-      <div className="card-pin">
-        <div className="hero-lid">
-          <Hero />
-        </div>
+    <div className={`fold-overlay fold-overlay--${state}`} aria-hidden="true">
+      <div className="fold-overlay__lid">
+        <Hero withId={false} />
       </div>
     </div>
   );

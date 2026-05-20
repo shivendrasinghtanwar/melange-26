@@ -495,18 +495,16 @@ body {
 @keyframes ganesh-fade { to { opacity: 0.4; } }
 @media (max-width: 1300px) { .ganesh-side { display: none; } }
 
-/* ─── Hero → Milestones one-shot bottom-fold transition ──────────────── */
-/* The lid is fixed over the viewport while the page sits at scroll 0
-   with body scroll locked. The first scroll input (handled in JS) adds
-   the .card-frame--opening class which plays a 1.2s CSS animation; once
-   it finishes JS switches to .card-frame--open which removes the lid
-   (display:none) and restores body scroll. The Milestones section is
-   rendered immediately after the fold in normal flow, so as soon as the
-   lid disappears the page is already at the top of Milestones. */
+/* ─── Hero → Milestones fold-open overlay ─────────────────────────────
+   The hero exists as a real 100svh section in the document. On first
+   load, this overlay is mounted fixed over the viewport and shows a
+   visual copy of the hero. The first scroll input plays a 1.2s
+   animation that rotates the overlay open while JS scrolls the page
+   from 0 → 100svh in parallel. The overlay then unmounts; the user is
+   at the Milestones section with the original Hero still in the
+   document above (scroll up to see it). */
 
-.card-frame { position: relative; }
-
-.card-pin {
+.fold-overlay {
   position: fixed;
   inset: 0;
   z-index: 50;
@@ -515,10 +513,9 @@ body {
   pointer-events: auto;
 }
 
-.hero-lid {
+.fold-overlay__lid {
   position: absolute;
   inset: 0;
-  background: var(--cream);
   transform-origin: top center;
   transform: rotateX(0deg);
   opacity: 1;
@@ -526,8 +523,8 @@ body {
   will-change: transform, opacity;
 }
 
-/* Growing shadow under the bottom edge — fades in during the opening. */
-.hero-lid::after {
+/* Growing shadow under the descending bottom edge. */
+.fold-overlay__lid::after {
   content: "";
   position: absolute;
   left: 0; right: 0; bottom: -2px;
@@ -539,7 +536,7 @@ body {
 }
 
 /* Hinge hairline at the top edge — fades out as the card opens. */
-.hero-lid::before {
+.fold-overlay__lid::before {
   content: "";
   position: absolute;
   left: 6%; right: 6%; top: 0;
@@ -558,12 +555,9 @@ body {
 }
 
 /* state: opening — play the keyframe animations */
-.card-frame--opening .hero-lid         { animation: foldOpen 1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
-.card-frame--opening .hero-lid::after  { animation: foldShadow 1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
-.card-frame--opening .hero-lid::before { animation: hingeFade  0.5s ease-out forwards; }
-
-/* state: open — lid is gone, normal scrolling resumes into Milestones */
-.card-frame--open .card-pin { display: none; }
+.fold-overlay--opening .fold-overlay__lid         { animation: foldOpen   1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
+.fold-overlay--opening .fold-overlay__lid::after  { animation: foldShadow 1.2s cubic-bezier(.4, 0, .2, 1) forwards; }
+.fold-overlay--opening .fold-overlay__lid::before { animation: hingeFade  0.5s ease-out forwards; }
 
 @keyframes foldOpen {
   0%   { transform: rotateX(0deg);   opacity: 1; }
@@ -592,10 +586,8 @@ body {
   .ink-link::after { transform: scaleX(1); }
   .ganesh-side { opacity: 0.4; animation: none; }
 
-  /* Fold transition collapses to a static flow — milestones is shown
-     directly; the lid (a fixed overlay) is skipped entirely. HeroFold
-     also short-circuits to state='open' in JS, so .card-pin gets the
-     display:none rule below.) */
-  .card-frame { display: contents; }
-  .card-pin { display: none; }
+  /* Fold-open overlay is skipped entirely under reduced motion (HeroFold
+     short-circuits to state='open' which returns null). Defense in depth
+     in CSS too, in case the overlay does mount briefly. */
+  .fold-overlay { display: none; }
 }

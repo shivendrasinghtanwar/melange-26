@@ -11,10 +11,10 @@ function smoothScroll(e: React.MouseEvent<HTMLAnchorElement>) {
   target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-export function Hero() {
+export function Hero({ withId = true }: { withId?: boolean } = {}) {
   return (
     <header
-      id="top"
+      id={withId ? 'top' : undefined}
       className="hero-cloth paper-edge relative min-h-[100svh] max-h-[100svh] flex flex-col overflow-hidden"
     >
       {/* decorative Ganesh outlines on the left and right (desktop only) */}

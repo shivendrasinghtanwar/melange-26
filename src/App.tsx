@@ -1,4 +1,5 @@
 import { OrnamentSprites } from './components/OrnamentSprites';
+import { Hero } from './components/Hero';
 import { HeroFold } from './components/HeroFold';
 import { Milestones } from './components/Milestones';
 import { Gallery } from './components/Gallery';
@@ -18,13 +19,14 @@ export default function App() {
       </a>
 
       <main>
-        {/* Hero acts as the closed cover; on scroll it folds open downward
-            (rotates around its top edge) to reveal the milestones inside.
-            The Hero and the milestones preview both live inside HeroFold. */}
-        <HeroFold />
+        {/* Hero is a normal 100svh section in document flow. On first load,
+            HeroFold mounts a fixed overlay on top of it; on first scroll
+            input the overlay animates open and the page programmatically
+            scrolls to the milestones section below. Once the overlay
+            unmounts, the user can scroll back UP to see this hero
+            again — it's still there in the document. */}
+        <Hero />
 
-        {/* The "real" milestones section continues directly after the fold,
-            visually continuous with the preview the user just saw revealed. */}
         <Milestones id="milestones" />
 
         <div className="px-0 py-8 sm:py-12" aria-hidden="true">
@@ -51,6 +53,10 @@ export default function App() {
 
         <Footer />
       </main>
+
+      {/* Fold-open overlay — fixed on top of everything while still
+          closed/opening; returns null once the fold has played. */}
+      <HeroFold />
     </>
   );
 }

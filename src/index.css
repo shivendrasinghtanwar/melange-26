@@ -588,7 +588,11 @@ body {
   bottom: 4.5rem;
   width: clamp(80px, 14vw, 180px);
   pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 96'><g fill='none' stroke='%23C53A56' stroke-width='0.75' stroke-linecap='round' opacity='0.6'><path d='M22 6 C12 12, 12 20, 22 24 C32 20, 32 12, 22 6 Z'/><circle cx='22' cy='15' r='1.4' fill='%23E0A436' stroke='none'/><path d='M22 26 V42'/><path d='M16 36 C20 34, 24 34, 28 36' opacity='0.7'/><path d='M22 50 C12 56, 12 64, 22 68 C32 64, 32 56, 22 50 Z'/><circle cx='22' cy='59' r='1.4' fill='%23E0A436' stroke='none'/><path d='M22 70 V86'/><path d='M16 80 C20 78, 24 78, 28 80' opacity='0.7'/><circle cx='22' cy='90' r='1.2' fill='%23C53A56' stroke='none'/></g></svg>");
+  /* All ornaments and dots are pink #C53A56 at opacity 0.4 — the same
+     tone as the side Ganesh figures. Marigold accent dots that used
+     to sit inside each paisley have been converted to pink so the
+     whole column reads as a single colour family. */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 96'><g fill='none' stroke='%23C53A56' stroke-width='0.75' stroke-linecap='round' opacity='0.4'><path d='M22 6 C12 12, 12 20, 22 24 C32 20, 32 12, 22 6 Z'/><circle cx='22' cy='15' r='1.4' fill='%23C53A56' stroke='none'/><path d='M22 26 V42'/><path d='M16 36 C20 34, 24 34, 28 36' opacity='0.7'/><path d='M22 50 C12 56, 12 64, 22 68 C32 64, 32 56, 22 50 Z'/><circle cx='22' cy='59' r='1.4' fill='%23C53A56' stroke='none'/><path d='M22 70 V86'/><path d='M16 80 C20 78, 24 78, 28 80' opacity='0.7'/><circle cx='22' cy='90' r='1.2' fill='%23C53A56' stroke='none'/></g></svg>");
   background-repeat: repeat-y;
   background-size: 44px 96px;
 }

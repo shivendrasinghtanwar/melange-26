@@ -127,6 +127,16 @@ body {
 .ink-link:hover::after,
 .ink-link:focus-visible::after { transform: scaleX(1); }
 
+/* Centered-underline variant — the resting accent grows out from the
+   middle instead of the left edge. Used on short labels (e.g. RSVP)
+   where a left-anchored stub looks lopsided. */
+.ink-link--center::after {
+  transform-origin: center center;
+  transform: scaleX(0.45);
+}
+.ink-link--center:hover::after,
+.ink-link--center:focus-visible::after { transform: scaleX(1); }
+
 /* ─── Bordered solid CTA ─────────────────────────────────────────────── */
 .btn-primary {
   display: inline-flex;

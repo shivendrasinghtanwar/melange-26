@@ -79,8 +79,8 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
         </div>
 
         {/* CTA */}
-        <a href="#rsvp" className="ink-link mt-5 smallcaps text-pink" onClick={smoothScroll}>
-          RSVP with us
+        <a href="#rsvp" className="ink-link ink-link--center mt-5 smallcaps text-pink" onClick={smoothScroll}>
+          RSVP
         </a>
 
         <a

@@ -651,8 +651,15 @@ body {
 .fold-overlay--opening .fold-overlay__lid::after  { animation: foldShadowIn  1.4s cubic-bezier(.215, .61, .355, 1) forwards; }
 .fold-overlay--opening .fold-overlay__lid::before { animation: hingeFadeOut  0.55s ease-out forwards; }
 
-/* state: closing — mirror of opening (lid drops back into place) */
-.fold-overlay--closing .fold-overlay__lid         { animation: foldClose     1.4s cubic-bezier(.215, .61, .355, 1) forwards; }
+/* state: closing — mirror of opening (lid drops back into place).
+   The explicit start values match the foldClose keyframe's 0% values
+   so there's no one-frame flash of the default rotateX(0)/opacity(1)
+   styling before the animation takes over. */
+.fold-overlay--closing .fold-overlay__lid {
+  transform: rotateX(110deg);
+  opacity: 0;
+  animation: foldClose 1.4s cubic-bezier(.215, .61, .355, 1) forwards;
+}
 .fold-overlay--closing .fold-overlay__lid::after  { animation: foldShadowOut 1.4s cubic-bezier(.215, .61, .355, 1) forwards; }
 .fold-overlay--closing .fold-overlay__lid::before { animation: hingeFadeIn   0.55s 0.85s ease-out both; }
 

@@ -53,6 +53,13 @@ export function HeroFold() {
   const stateRef = useRef<FoldState>(state);
   stateRef.current = state;
 
+  // Wall-clock time of the most recent state transition. Used to gate the
+  // scroll-up close trigger so trackpad momentum at the end of the open
+  // gesture (which keeps emitting tiny upward wheel events for ~700ms on
+  // macOS) doesn't accidentally fire close right after open completes.
+  const stateChangedAt = useRef<number>(Date.now());
+  useEffect(() => { stateChangedAt.current = Date.now(); }, [state]);
+
   // Skip the fold entirely under reduced motion / mid-page reload /
   // deep link to a specific section.
   useEffect(() => {
@@ -194,11 +201,33 @@ export function HeroFold() {
       e.stopPropagation();
     };
 
+    // Scroll-up reverse-fold trigger. Two safeguards keep trackpad-momentum
+    // false-fires from re-creating the open→close loop bug:
+    //   1) Cooldown: ignore for 1000ms after the most recent state change.
+    //      That's longer than typical macOS trackpad momentum-decay tails.
+    //   2) Threshold: require scrollY to be at least 50px below the
+    //      milestones boundary. A real swipe-up crosses 50px easily; a
+    //      decaying-momentum tail rarely moves the page that far.
+    const onScroll = () => {
+      if (stateRef.current !== 'open') return;
+      if (Date.now() - stateChangedAt.current < 1000) return; // cooldown
+      const boundary = getMilestonesBoundary();
+      if (window.scrollY < boundary - 50) {
+        log('onScroll: substantial up-scroll past boundary', {
+          scrollY: Math.round(window.scrollY),
+          boundary: Math.round(boundary),
+          dy: Math.round(window.scrollY - boundary),
+        });
+        triggerClose('scroll-up past boundary');
+      }
+    };
+
     window.addEventListener('wheel',      onWheel,      { passive: false, capture: true });
     window.addEventListener('touchstart', onTouchStart, { passive: true,  capture: true });
     window.addEventListener('touchmove',  onTouchMove,  { passive: false, capture: true });
     window.addEventListener('keydown',    onKey,        true);
     window.addEventListener('click',      onClick,      true);
+    window.addEventListener('scroll',     onScroll,     { passive: true });
 
     return () => {
       html.style.overscrollBehavior = prevHtmlOverscroll;
@@ -208,6 +237,7 @@ export function HeroFold() {
       window.removeEventListener('touchmove',  onTouchMove,  true);
       window.removeEventListener('keydown',    onKey,        true);
       window.removeEventListener('click',      onClick,      true);
+      window.removeEventListener('scroll',     onScroll);
     };
   }, []);
 

@@ -30,10 +30,24 @@ const FOLD_DURATION_MS = 1200;
 const TRIGGER_DOWN_KEYS = new Set(['ArrowDown', 'PageDown', ' ', 'End']);
 const TRIGGER_UP_KEYS   = new Set(['ArrowUp',   'PageUp',   'Home']);
 const TOUCH_THRESHOLD_PX = 10;
-// Anything within this many pixels of scrollY=innerHeight counts as
-// "at the milestones-top boundary" — a small tolerance for sub-pixel
-// scroll positions and momentum-scroll overshoot.
 const BOUNDARY_BUFFER_PX = 5;
+
+/* ---------------------------------------------------------------------
+ * Debug logging — toggle with `?debug=fold` in the URL OR by setting
+ * window.__foldDebug = true in the console. Logs go to console.log with
+ * a [fold] prefix so they're easy to grep / paste back.
+ * Remove this block (and all log() calls below) once the bug is closed.
+ * ------------------------------------------------------------------ */
+// Force-on during the active debugging phase. Flip to false (or gate
+// behind a URL query) once the bug is closed.
+const DEBUG_ENABLED = true;
+
+function log(event: string, data?: Record<string, unknown>) {
+  if (!DEBUG_ENABLED) return;
+  const t = Math.round(performance.now()).toString().padStart(6, ' ');
+  // eslint-disable-next-line no-console
+  console.log(`[fold ${t}ms] ${event}`, data ?? '');
+}
 
 export function HeroFold() {
   const [state, setState] = useState<FoldState>('closed');
@@ -86,30 +100,36 @@ export function HeroFold() {
     const atMilestonesTop = () =>
       window.scrollY <= getMilestonesBoundary() + BOUNDARY_BUFFER_PX;
 
-    const triggerOpen  = () => { if (stateRef.current === 'closed') setState('opening'); };
-    const triggerClose = () => { if (stateRef.current === 'open')   setState('closing'); };
+    const triggerOpen  = (why: string) => {
+      if (stateRef.current === 'closed') { log('triggerOpen', { why }); setState('opening'); }
+    };
+    const triggerClose = (why: string) => {
+      if (stateRef.current === 'open') { log('triggerClose', { why }); setState('closing'); }
+    };
 
     const onWheel = (e: WheelEvent) => {
       const s = stateRef.current;
+      const scrollY = Math.round(window.scrollY);
+      const boundary = Math.round(getMilestonesBoundary());
+      log('wheel', { state: s, deltaY: e.deltaY, scrollY, boundary, cx: e.clientX, cy: e.clientY });
       if (s === 'opening' || s === 'closing') {
         e.preventDefault();
         return;
       }
       if (s === 'closed') {
         e.preventDefault();
-        triggerOpen();
+        triggerOpen('wheel/closed');
         return;
       }
-      // s === 'open' — let normal scroll through unless we're at the top
-      // of milestones and the gesture is upward.
       if (e.deltaY < 0 && atMilestonesTop()) {
         e.preventDefault();
-        triggerClose();
+        triggerClose(`wheel-up at boundary (dy=${scrollY - boundary})`);
       }
     };
 
     const onTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0]?.clientY ?? 0;
+      log('touchstart', { state: stateRef.current, y: touchStartY });
     };
 
     const onTouchMove = (e: TouchEvent) => {
@@ -119,17 +139,16 @@ export function HeroFold() {
         return;
       }
       const y = e.touches[0]?.clientY ?? 0;
-      const delta = touchStartY - y; // positive = finger moved up = scroll DOWN
+      const delta = touchStartY - y;
+      log('touchmove', { state: s, delta, y, scrollY: Math.round(window.scrollY) });
       if (s === 'closed') {
         e.preventDefault();
-        if (Math.abs(delta) > TOUCH_THRESHOLD_PX) triggerOpen();
+        if (Math.abs(delta) > TOUCH_THRESHOLD_PX) triggerOpen('touch/closed');
         return;
       }
-      // s === 'open' — intercept only downward-finger (upward-scroll)
-      // gestures while we're at the boundary.
       if (delta < -TOUCH_THRESHOLD_PX && atMilestonesTop()) {
         e.preventDefault();
-        triggerClose();
+        triggerClose('touch-up at boundary');
       }
     };
 
@@ -137,21 +156,20 @@ export function HeroFold() {
       const s = stateRef.current;
       const isDown = TRIGGER_DOWN_KEYS.has(e.key);
       const isUp   = TRIGGER_UP_KEYS.has(e.key);
+      if (!isDown && !isUp) return;
+      log('keydown', { state: s, key: e.key });
       if (s === 'opening' || s === 'closing') {
-        if (isDown || isUp) e.preventDefault();
+        e.preventDefault();
         return;
       }
       if (s === 'closed') {
-        if (isDown || isUp) {
-          e.preventDefault();
-          triggerOpen();
-        }
+        e.preventDefault();
+        triggerOpen('key/closed');
         return;
       }
-      // s === 'open'
       if (isUp && atMilestonesTop()) {
         e.preventDefault();
-        triggerClose();
+        triggerClose('key-up at boundary');
       }
     };
 
@@ -160,36 +178,38 @@ export function HeroFold() {
       const anchor = target?.closest('a[href^="#"]') as HTMLAnchorElement | null;
       if (!anchor) return;
       const s = stateRef.current;
+      const href = anchor.getAttribute('href') || '';
+      log('click', { state: s, href });
       if (s === 'closed') {
         e.preventDefault();
         e.stopPropagation();
-        triggerOpen();
+        triggerOpen(`click ${href}`);
         return;
       }
       if (s === 'open') {
-        const href = anchor.getAttribute('href') || '';
         if (href === '#top') {
-          // "Return to the top" — animate back into the closed cover.
           e.preventDefault();
           e.stopPropagation();
-          triggerClose();
+          triggerClose('click #top');
         }
-        // Other anchors (e.g. #milestones, #rsvp) — let smoothScroll do
-        // its thing.
         return;
       }
-      // opening or closing — swallow any clicks during animation
       e.preventDefault();
       e.stopPropagation();
     };
 
-    // Backup: touchscreen swipes that bypass touchmove preventDefault can
-    // still scroll. If the page ends up above the milestones top while
-    // we're in 'open' state, snap-close.
     const onScroll = () => {
-      if (stateRef.current !== 'open') return;
-      if (window.scrollY < getMilestonesBoundary() - 1) {
-        triggerClose();
+      const s = stateRef.current;
+      if (s !== 'open') return;
+      const scrollY = window.scrollY;
+      const boundary = getMilestonesBoundary();
+      if (scrollY < boundary - 1) {
+        log('onScroll: below boundary in open state', {
+          scrollY: Math.round(scrollY),
+          boundary: Math.round(boundary),
+          dy: Math.round(scrollY - boundary),
+        });
+        triggerClose(`onScroll backup: scrollY=${Math.round(scrollY)} < boundary=${Math.round(boundary)}`);
       }
     };
 
@@ -221,18 +241,17 @@ export function HeroFold() {
   // URL bar.
   useEffect(() => {
     if (state !== 'opening') return;
-    // Resolve the milestones document-Y via getBoundingClientRect (works
-    // regardless of offsetParent chain, unlike offsetTop). Falls back
-    // to window.innerHeight if the element isn't in the DOM yet.
     const el = document.getElementById('milestones');
     const target = el ? el.getBoundingClientRect().top + window.scrollY : window.innerHeight;
+    log('state → opening: starting open animation', { fromScrollY: Math.round(window.scrollY), target: Math.round(target) });
     return animateFold({
+      tag: 'open',
       start: window.scrollY,
       target,
       scrollDuration: FOLD_DURATION_MS * 0.7,
       totalDuration: FOLD_DURATION_MS,
       scrollDelay: 0,
-      onComplete: () => setState('open'),
+      onComplete: () => { log('open animation complete → state=open', { scrollY: Math.round(window.scrollY) }); setState('open'); },
     });
   }, [state]);
 
@@ -242,13 +261,15 @@ export function HeroFold() {
   // lid, ending exactly when the lid finishes its rotation home.
   useEffect(() => {
     if (state !== 'closing') return;
+    log('state → closing: starting close animation', { fromScrollY: Math.round(window.scrollY) });
     return animateFold({
+      tag: 'close',
       start: window.scrollY,
       target: 0,
       scrollDuration: FOLD_DURATION_MS * 0.7,
       totalDuration: FOLD_DURATION_MS,
       scrollDelay: FOLD_DURATION_MS * 0.3,
-      onComplete: () => setState('closed'),
+      onComplete: () => { log('close animation complete → state=closed', { scrollY: Math.round(window.scrollY) }); setState('closed'); },
     });
   }, [state]);
 
@@ -264,19 +285,18 @@ export function HeroFold() {
 }
 
 type AnimateFoldOpts = {
+  /** Short label for logs: 'open' or 'close'. */
+  tag: string;
   start: number;
   target: number;
-  /** ms before the scroll begins (used by close so the lid covers first). */
   scrollDelay: number;
-  /** ms over which the scroll itself runs (typically < totalDuration). */
   scrollDuration: number;
-  /** ms over which the CSS keyframes run — we wait this long before
-   *  signalling completion so the visual animation isn't cut short. */
   totalDuration: number;
   onComplete: () => void;
 };
 
 function animateFold({
+  tag,
   start,
   target,
   scrollDelay,
@@ -287,19 +307,42 @@ function animateFold({
   const startTime = performance.now();
   let rafId = 0;
   let cancelled = false;
+  let frame = 0;
+
+  // CRITICAL: index.css sets `html { scroll-behavior: smooth }`. The
+  // legacy two-arg `window.scrollTo(x, y)` honors that CSS — meaning
+  // every frame's scrollTo would kick off a smooth scroll. Rapid-fire
+  // smooth scrolls don't compose: the browser keeps animating to stale
+  // targets after our rAF loop ends, overshooting the snap and landing
+  // somewhere mid-page. That overshoot was the cause of the close
+  // immediately firing after open (e.g. scrollY=905 when target=1008).
+  // Force instant scrolling for the animation, restore on exit.
+  const html = document.documentElement;
+  const prevScrollBehavior = html.style.scrollBehavior;
+  html.style.scrollBehavior = 'auto';
+  log(`${tag}: animateFold start`, { start, target, scrollDelay, scrollDuration, totalDuration, prevScrollBehavior });
+
+  const restore = () => { html.style.scrollBehavior = prevScrollBehavior; };
 
   const step = () => {
     if (cancelled) return;
+    frame++;
     const elapsed = performance.now() - startTime;
     const scrollElapsed = Math.max(0, elapsed - scrollDelay);
     const t = Math.min(1, scrollElapsed / scrollDuration);
     const eased = 1 - Math.pow(1 - t, 3);
-    window.scrollTo(0, start + (target - start) * eased);
+    const y = start + (target - start) * eased;
+    window.scrollTo(0, y);
+    // Frame-grain logs are too noisy, but log a few key checkpoints.
+    if (frame === 1 || t === 1 || frame % 12 === 0) {
+      log(`${tag}: frame ${frame}`, { elapsed: Math.round(elapsed), t: +t.toFixed(2), targetY: Math.round(y), actualScrollY: Math.round(window.scrollY) });
+    }
     if (elapsed < totalDuration) {
       rafId = requestAnimationFrame(step);
     } else {
-      // Final position snap (in case rAF dropped frames near the end).
       window.scrollTo(0, target);
+      log(`${tag}: final snap`, { target, actualScrollY: Math.round(window.scrollY), frames: frame });
+      restore();
       onComplete();
     }
   };
@@ -308,5 +351,7 @@ function animateFold({
   return () => {
     cancelled = true;
     if (rafId) cancelAnimationFrame(rafId);
+    log(`${tag}: cancelled`, { frame });
+    restore();
   };
 }

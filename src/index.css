@@ -620,10 +620,22 @@ body {
   opacity: 0;
   animation: ganesh-fade 1.6s 0.9s cubic-bezier(.2,.7,.2,1) forwards;
 }
-.ganesh-side--left  { left:  clamp(70px, 8vw, 150px); transform: translateY(-50%); }
-.ganesh-side--right { right: clamp(70px, 8vw, 150px); transform: translateY(-50%) scaleX(-1); }
+/* Centered between the paisley column (right edge ≈ 100px) and the
+   arch's left edge (= (100vw − 920px)/2 when arch is at max-w).
+   ganesh_center = (100 + (100vw − 920)/2) / 2 = 25vw − 180px
+   ganesh_left/right = ganesh_center − ganesh_width/2 */
+.ganesh-side--left  {
+  left:  calc(25vw - 180px - clamp(110px, 10vw, 170px) / 2);
+  transform: translateY(-50%);
+}
+.ganesh-side--right {
+  right: calc(25vw - 180px - clamp(110px, 10vw, 170px) / 2);
+  transform: translateY(-50%) scaleX(-1);
+}
 @keyframes ganesh-fade { to { opacity: 0.4; } }
-@media (max-width: 1300px) { .ganesh-side { display: none; } }
+/* Hide below 1500: the gap between paisley column and the widened
+   arch is no longer wide enough for a clean centered Ganesh. */
+@media (max-width: 1500px) { .ganesh-side { display: none; } }
 
 /* ─── Hero → Milestones fold-open overlay ─────────────────────────────
    The hero exists as a real 100svh section in the document. On first

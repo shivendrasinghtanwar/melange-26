@@ -38,7 +38,7 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
             absolute-positioned at the bottom edge of the wrap so they
             land right at the peg row, regardless of viewport. The
             "unfold" link sits outside the wrap. */}
-        <div className="arch-wrap w-[min(94vw,780px)] aspect-[5/6] max-h-[72svh] relative flex items-center justify-center">
+        <div className="arch-wrap w-[min(94vw,920px)] aspect-[5/6] max-h-[85svh] relative flex items-center justify-center">
           <svg className="arch" aria-hidden="true">
             <use href="#mihrab" />
           </svg>

@@ -17,7 +17,7 @@ export const EVENT = {
     month: 'June',
     year: '2026',
     yearRoman: 'MMXXVI',
-    rsvpBy: '15 . VI . 2026',
+    rsvpBy: '15 June 2026',
   },
 
   couple: {

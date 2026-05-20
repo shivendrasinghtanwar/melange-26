@@ -94,7 +94,7 @@ export function RsvpForm() {
           </svg>
 
           <div className="ornament-rule mb-5">
-            <span className="smallcaps">Reply Card &nbsp;·&nbsp; No. ____</span>
+            <span className="smallcaps">Reply Card</span>
           </div>
 
           <p className="font-italicserif italic text-center text-inkSoft mb-7">

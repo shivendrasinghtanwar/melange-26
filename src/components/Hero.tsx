@@ -45,7 +45,7 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
 
           <div className="relative px-6 sm:px-12 pt-6 sm:pt-8 flex flex-col items-center">
             <p className="smallcaps text-pink mb-2">{EVENT.family}</p>
-            <p className="font-italicserif italic text-inkSoft text-base sm:text-lg mb-2">
+            <p className="font-italicserif italic text-inkSoft text-base sm:text-lg mb-6 sm:mb-8">
               — invites you to —
             </p>
 

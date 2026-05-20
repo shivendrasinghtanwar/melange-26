@@ -39,7 +39,11 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
             date/RSVP area below, with the corner pegs landing near the
             RSVP line. The curve at the top is identical to the original. */}
         <div className="arch-wrap w-[min(94vw,780px)] aspect-[5/6] max-h-[72svh] flex items-center justify-center">
-          <svg className="arch" aria-hidden="true">
+          {/* viewBox MUST match the mihrab symbol's (600×900). Without
+              it the outer SVG has no intrinsic aspect ratio, so the
+              CSS `height: auto` falls back to 150px and the symbol
+              gets crushed into a tiny box. */}
+          <svg className="arch" viewBox="0 0 600 900" aria-hidden="true">
             <use href="#mihrab" />
           </svg>
 

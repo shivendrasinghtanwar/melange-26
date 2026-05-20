@@ -71,8 +71,20 @@ export function HeroFold() {
     body.style.overscrollBehavior = 'none';
 
     let touchStartY = 0;
+
+    // The boundary between the hero zone and the milestones zone is the
+    // document-Y position of the #milestones section. Compute it fresh
+    // each call via getBoundingClientRect() + scrollY (robust against
+    // layout shifts) instead of window.innerHeight (which on mobile is
+    // bigger than 100svh whenever the URL bar isn't fully extended —
+    // that mismatch was the cause of the open→close infinite loop).
+    const getMilestonesBoundary = () => {
+      const el = document.getElementById('milestones');
+      if (!el) return window.innerHeight;
+      return el.getBoundingClientRect().top + window.scrollY;
+    };
     const atMilestonesTop = () =>
-      window.scrollY <= window.innerHeight + BOUNDARY_BUFFER_PX;
+      window.scrollY <= getMilestonesBoundary() + BOUNDARY_BUFFER_PX;
 
     const triggerOpen  = () => { if (stateRef.current === 'closed') setState('opening'); };
     const triggerClose = () => { if (stateRef.current === 'open')   setState('closing'); };
@@ -172,10 +184,11 @@ export function HeroFold() {
     };
 
     // Backup: touchscreen swipes that bypass touchmove preventDefault can
-    // still scroll. If we end up below the boundary in 'open' state,
-    // force the close transition.
+    // still scroll. If the page ends up above the milestones top while
+    // we're in 'open' state, snap-close.
     const onScroll = () => {
-      if (stateRef.current === 'open' && window.scrollY < window.innerHeight - 1) {
+      if (stateRef.current !== 'open') return;
+      if (window.scrollY < getMilestonesBoundary() - 1) {
         triggerClose();
       }
     };
@@ -208,8 +221,11 @@ export function HeroFold() {
   // URL bar.
   useEffect(() => {
     if (state !== 'opening') return;
-    const milestonesEl = document.getElementById('milestones');
-    const target = milestonesEl ? milestonesEl.offsetTop : window.innerHeight;
+    // Resolve the milestones document-Y via getBoundingClientRect (works
+    // regardless of offsetParent chain, unlike offsetTop). Falls back
+    // to window.innerHeight if the element isn't in the DOM yet.
+    const el = document.getElementById('milestones');
+    const target = el ? el.getBoundingClientRect().top + window.scrollY : window.innerHeight;
     return animateFold({
       start: window.scrollY,
       target,

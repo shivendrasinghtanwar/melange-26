@@ -25,10 +25,12 @@ export const EVENT = {
     bride: 'Divyani Jain',
     ceremony: '12 December 2025',
     ceremonyRoman: '12 . XII . 2025',
+    ceremonyShort: '12 Dec 2025',
   },
 
   honoree: {
     name: 'Sarandha Tanwar',
+    spouse: 'Ashok Singh Tanwar',
     milestone: '60th birthday',
     school: 'Sophia School',
   },

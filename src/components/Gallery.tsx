@@ -1,4 +1,5 @@
 import { Reveal } from './Reveal';
+import { EVENT } from '../lib/config';
 
 export function Gallery() {
   return (
@@ -31,7 +32,7 @@ export function Gallery() {
               </div>
             </div>
             <figcaption className="mt-3 smallcaps text-inkSoft">
-              The ceremony &nbsp;·&nbsp; 12 . XII . 2025
+              The ceremony &nbsp;·&nbsp; {EVENT.couple.ceremonyShort}
             </figcaption>
           </figure>
         </Reveal>

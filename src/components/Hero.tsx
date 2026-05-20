@@ -62,7 +62,7 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
           <span className="stamp text-sm sm:text-base">{EVENT.date.day.toUpperCase()}</span>
           <span className="w-px h-5 bg-pink/40" aria-hidden="true" />
           <span className="stamp text-base sm:text-lg text-pink">
-            {EVENT.date.dayNum} · {EVENT.date.monthRoman} · {EVENT.date.year}
+            {EVENT.date.dayNum} {EVENT.date.month} {EVENT.date.year}
           </span>
           <span className="w-px h-5 bg-pink/40" aria-hidden="true" />
           <span className="stamp text-sm sm:text-base">{EVENT.city.toUpperCase()}</span>

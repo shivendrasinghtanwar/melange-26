@@ -31,15 +31,18 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
       </svg>
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 sm:px-10 pt-8 pb-4 text-center">
-        {/* Arch frame — now tall enough (aspect 15/22 ≈ 600×880 viewBox) to
-            enclose the wordmark, tagline, date, AND RSVP. The arch's
-            concentric pink+marigold leg-pegs sit just below the RSVP. */}
-        <div className="arch-wrap w-[min(94vw,720px)] aspect-[15/22] max-h-[82svh] flex items-center justify-center">
+        {/* Arch frame — tall enough (aspect 15/22 ≈ 600×880 viewBox) for
+            the legs to run all the way from the wordmark at the top down
+            past the RSVP at the bottom. Inner content is absolute-
+            positioned (inset-0) so the top stack (family / wordmark /
+            tagline) sits in the upper portion and the bottom stack
+            (date + RSVP) is pushed near the leg-pegs by a flex spacer. */}
+        <div className="arch-wrap w-[min(94vw,720px)] aspect-[15/22] max-h-[82svh] relative">
           <svg className="arch" aria-hidden="true">
             <use href="#mihrab" />
           </svg>
 
-          <div className="relative px-6 sm:px-12 pt-6 sm:pt-8 flex flex-col items-center">
+          <div className="absolute inset-0 px-6 sm:px-12 pt-[14%] pb-[6%] flex flex-col items-center text-center">
             <p className="smallcaps text-pink mb-2">{EVENT.family}</p>
             <p className="font-italicserif italic text-inkSoft text-base sm:text-lg mb-2">
               — invites you to —
@@ -71,15 +74,17 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
               </p>
             </div>
 
-            {/* Date inside the arch */}
-            <div className="mt-5 sm:mt-7 flex items-center justify-center text-ink">
+            {/* Flexible spacer pushes the date + RSVP to the bottom of
+                the arch so they sit just above the leg-pegs (instead of
+                bunching up under the tagline). */}
+            <div className="flex-1 min-h-[1.5rem]" aria-hidden="true" />
+
+            <div className="flex items-center justify-center text-ink">
               <span className="stamp text-base sm:text-lg text-pink whitespace-nowrap">
                 {EVENT.date.dayNum} {EVENT.date.month} {EVENT.date.year}
               </span>
             </div>
 
-            {/* RSVP inside the arch — the corner pegs of the arch sit
-                just below this line */}
             <a
               href="#rsvp"
               className="ink-link ink-link--center mt-4 sm:mt-5 smallcaps text-pink"

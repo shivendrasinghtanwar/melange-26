@@ -50,10 +50,17 @@ export const EVENT = {
 } as const;
 
 // ──────────────────────────────────────────────────────────────────────────
-// RSVP endpoint — paste the deployed Google Apps Script Web App URL here.
-// (Setup instructions: README.md → "Connecting the RSVP form".)
-// Leave blank and the form will render but reject submissions with a
-// polite "RSVP endpoint not configured" message.
+// RSVP endpoint — pulled from VITE_APPS_SCRIPT_URL at build time.
+//
+//   • Local dev: create a `.env.local` file at the repo root with
+//       VITE_APPS_SCRIPT_URL=https://script.google.com/macros/s/.../exec
+//     (Vite ignores .env.local in version control automatically.)
+//
+//   • Production: the GitHub Actions workflow injects the value from
+//     the `APPS_SCRIPT_URL` repository secret.
+//
+// Leaving the variable unset is fine — the form will render but reject
+// submissions with a polite "endpoint not configured" message.
 // ──────────────────────────────────────────────────────────────────────────
 
-export const APPS_SCRIPT_URL = '';
+export const APPS_SCRIPT_URL = (import.meta.env.VITE_APPS_SCRIPT_URL ?? '').trim();

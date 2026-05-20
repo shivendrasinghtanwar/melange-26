@@ -71,17 +71,11 @@ export function Hero({ withId = true }: { withId?: boolean } = {}) {
           </div>
         </div>
 
-        {/* Date strip. On narrow viewports the dividers vanish and the gap
-            tightens so the line stays together; ≥sm restores the dividers
-            and roomy spacing. */}
-        <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-5 gap-y-2 text-ink">
-          <span className="stamp text-sm sm:text-base whitespace-nowrap">{EVENT.date.day.toUpperCase()}</span>
-          <span className="hidden sm:inline-block w-px h-5 bg-pink/40" aria-hidden="true" />
+        {/* Date — day-of-week and city stripped per request; just the date. */}
+        <div className="mt-6 sm:mt-8 flex items-center justify-center text-ink">
           <span className="stamp text-base sm:text-lg text-pink whitespace-nowrap">
             {EVENT.date.dayNum} {EVENT.date.month} {EVENT.date.year}
           </span>
-          <span className="hidden sm:inline-block w-px h-5 bg-pink/40" aria-hidden="true" />
-          <span className="stamp text-sm sm:text-base whitespace-nowrap">{EVENT.city.toUpperCase()}</span>
         </div>
 
         {/* CTA */}

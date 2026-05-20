@@ -1,5 +1,5 @@
 import { OrnamentSprites } from './components/OrnamentSprites';
-import { Hero } from './components/Hero';
+import { HeroFold } from './components/HeroFold';
 import { Milestones } from './components/Milestones';
 import { Gallery } from './components/Gallery';
 import { Details } from './components/Details';
@@ -18,13 +18,14 @@ export default function App() {
       </a>
 
       <main>
-        <Hero />
+        {/* Hero acts as the closed cover; on scroll it folds open downward
+            (rotates around its top edge) to reveal the milestones inside.
+            The Hero and the milestones preview both live inside HeroFold. */}
+        <HeroFold />
 
-        <div className="px-0 py-6 sm:py-10" aria-hidden="true">
-          <div className="blockprint-band" />
-        </div>
-
-        <Milestones />
+        {/* The "real" milestones section continues directly after the fold,
+            visually continuous with the preview the user just saw revealed. */}
+        <Milestones id="milestones" />
 
         <div className="px-0 py-8 sm:py-12" aria-hidden="true">
           <div className="blockprint-band" />

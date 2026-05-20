@@ -495,6 +495,93 @@ body {
 @keyframes ganesh-fade { to { opacity: 0.4; } }
 @media (max-width: 1300px) { .ganesh-side { display: none; } }
 
+/* ─── Hero → Milestones bottom-fold-open transition ──────────────────── */
+/* The hero is the closed card. Scrolling rotates it around its TOP edge
+   (transform-origin: top center) so the BOTTOM swings forward and down,
+   revealing the milestones rendered behind it. JS drives --progress 0→1
+   over the first 100svh of scroll inside the .card-frame. */
+
+.card-frame {
+  position: relative;
+  height: 200svh;
+}
+.card-pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  perspective: 1700px;
+}
+.hero-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* Milestones preview sits behind the lid. Crops to the pin so the cards
+   below the fold-line don't peek out before the lid is gone. */
+.card-inside-preview {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* The lid: the entire Hero, rotated around its top edge. backface-visibility
+   keeps the back from bleeding through after 90°; opacity fades in the last
+   quarter so the lid doesn't visually clip when it crosses past flat. */
+.hero-lid {
+  position: absolute;
+  inset: 0;
+  background: var(--cream);
+  transform-origin: top center;
+  transform: rotateX(calc(var(--progress, 0) * 110deg));
+  transition: opacity .2s ease;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  opacity: clamp(0, calc((1 - var(--progress, 0)) * 1.25), 1);
+  box-shadow:
+    0 0 0 1px rgba(197, 58, 86, 0.04),
+    0 30px 60px -30px rgba(60, 20, 16, calc(0.35 * var(--progress, 0)));
+}
+
+/* Once the lid is mostly transparent, stop intercepting clicks so the
+   preview content (links etc.) underneath is reachable if needed. */
+.hero-lid { pointer-events: auto; }
+
+/* Growing shadow under the descending bottom edge of the lid — sits on
+   the page where the card used to cover. */
+.hero-lid::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: calc(8px + 24px * var(--progress, 0));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.18), transparent);
+  opacity: var(--progress, 0);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Hinge hairline at the TOP edge (the fold/spine of the card). Fades out
+   quickly as the card opens so it doesn't look painted on. */
+.hero-lid::before {
+  content: "";
+  position: absolute;
+  left: 6%; right: 6%; top: 0;
+  height: 1px;
+  background: linear-gradient(to right,
+    transparent 0%,
+    rgba(197, 58, 86, 0) 4%,
+    rgba(197, 58, 86, 0.55) 18%,
+    rgba(197, 58, 86, 0.8) 50%,
+    rgba(197, 58, 86, 0.55) 82%,
+    rgba(197, 58, 86, 0) 96%,
+    transparent 100%);
+  opacity: clamp(0, calc(1 - var(--progress, 0) * 2.2), 1);
+  pointer-events: none;
+  z-index: 2;
+}
+
 /* ─── Reduced motion ─────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -507,4 +594,12 @@ body {
   .reveal { opacity: 1; transform: none; }
   .ink-link::after { transform: scaleX(1); }
   .ganesh-side { opacity: 0.4; animation: none; }
+
+  /* Fold transition collapses to a static flow — hero, then milestones. */
+  .card-frame { height: auto; }
+  .card-pin   { position: static; height: auto; overflow: visible; perspective: none; }
+  .hero-stage { height: auto; transform-style: flat; }
+  .hero-lid   { position: static; inset: auto; transform: none; opacity: 1; }
+  .hero-lid::after, .hero-lid::before { display: none; }
+  .card-inside-preview { display: none; }
 }

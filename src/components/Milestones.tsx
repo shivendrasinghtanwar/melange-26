@@ -1,9 +1,9 @@
 import { EVENT } from '../lib/config';
 import { Reveal } from './Reveal';
 
-export function Milestones() {
+export function Milestones({ id }: { id?: string } = {}) {
   return (
-    <section id="milestones" className="px-5 sm:px-10 max-w-6xl mx-auto pt-6 sm:pt-10 pb-10">
+    <section id={id} className="px-5 sm:px-10 max-w-6xl mx-auto pt-6 sm:pt-10 pb-10">
       <div className="text-center">
         <Reveal>
           <p className="smallcaps text-pink">The Three Milestones</p>

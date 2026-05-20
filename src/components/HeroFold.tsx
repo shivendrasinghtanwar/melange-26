@@ -54,20 +54,33 @@ export function HeroFold() {
 
     const html = document.documentElement;
     const body = document.body;
-    const prevHtmlOverflow = html.style.overflow;
-    const prevBodyOverflow = body.style.overflow;
-    const prevBodyTouchAction = body.style.touchAction;
+    const prev = {
+      htmlOverflow: html.style.overflow,
+      bodyOverflow: body.style.overflow,
+      bodyTouchAction: body.style.touchAction,
+      htmlOverscroll: html.style.overscrollBehavior,
+      bodyOverscroll: body.style.overscrollBehavior,
+    };
     html.style.overflow = 'hidden';
     body.style.overflow = 'hidden';
     body.style.touchAction = 'none';
+    // overscroll-behavior: none stops the browser from swallowing wheel
+    // events at boundaries (especially macOS rubber-band on scroll UP at
+    // scrollY=0, which otherwise consumes the event before our listener
+    // ever sees it).
+    html.style.overscrollBehavior = 'none';
+    body.style.overscrollBehavior = 'none';
 
     let touchStartY = 0;
     const canTrigger = state === 'closed';
     const trigger = () => { if (canTrigger) setState('opening'); };
 
+    // Fire on ANY wheel event regardless of direction or delta size —
+    // up, down, sideways, even tiny trackpad taps all count as "the
+    // user wants to leave the cover".
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      if (e.deltaY !== 0 || e.deltaX !== 0) trigger();
+      trigger();
     };
     const onTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0]?.clientY ?? 0;
@@ -83,9 +96,6 @@ export function HeroFold() {
         trigger();
       }
     };
-    // Catch any in-page anchor click (skip-link, unfold CTA, etc.) and
-    // re-route it through the fold animation. Capture phase so we win
-    // against the link's own onClick handler.
     const onClick = (e: MouseEvent) => {
       const t = e.target as HTMLElement | null;
       if (t?.closest('a[href^="#"]')) {
@@ -95,20 +105,24 @@ export function HeroFold() {
       }
     };
 
-    window.addEventListener('wheel', onWheel, { passive: false });
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: false });
-    window.addEventListener('keydown', onKey);
+    // capture:true so we run before any default browser/page handling,
+    // and so this works even if downstream code calls stopPropagation.
+    window.addEventListener('wheel', onWheel, { passive: false, capture: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true, capture: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: false, capture: true });
+    window.addEventListener('keydown', onKey, true);
     window.addEventListener('click', onClick, true);
 
     return () => {
-      html.style.overflow = prevHtmlOverflow;
-      body.style.overflow = prevBodyOverflow;
-      body.style.touchAction = prevBodyTouchAction;
-      window.removeEventListener('wheel', onWheel);
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('keydown', onKey);
+      html.style.overflow = prev.htmlOverflow;
+      body.style.overflow = prev.bodyOverflow;
+      body.style.touchAction = prev.bodyTouchAction;
+      html.style.overscrollBehavior = prev.htmlOverscroll;
+      body.style.overscrollBehavior = prev.bodyOverscroll;
+      window.removeEventListener('wheel', onWheel, true);
+      window.removeEventListener('touchstart', onTouchStart, true);
+      window.removeEventListener('touchmove', onTouchMove, true);
+      window.removeEventListener('keydown', onKey, true);
       window.removeEventListener('click', onClick, true);
     };
   }, [state]);

@@ -1,12 +1,12 @@
 import { EVENT } from '../lib/config';
 
-function smoothScroll(e: React.MouseEvent<HTMLAnchorElement>) {
-  const href = e.currentTarget.getAttribute('href');
-  if (!href || !href.startsWith('#')) return;
-  const target = document.querySelector(href);
-  if (!target) return;
+function returnToTop(e: React.MouseEvent<HTMLAnchorElement>) {
+  // Post-fold, the original #top element (inside the hero lid) is
+  // display:none — so target.scrollIntoView would silently no-op. Scroll
+  // straight to scroll-position 0 instead, which is where the page now
+  // starts (Milestones at top).
   e.preventDefault();
-  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 export function Footer() {
@@ -35,7 +35,7 @@ export function Footer() {
           Printed in warm cream and Jaipur pink, for a family, by a family.
         </p>
         <p className="mt-6 text-[11px] text-inkSoft/60">
-          <a href="#top" onClick={smoothScroll} className="hover:text-pink transition-colors">
+          <a href="#top" onClick={returnToTop} className="hover:text-pink transition-colors">
             Return to the top
           </a>
         </p>

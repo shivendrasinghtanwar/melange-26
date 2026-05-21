@@ -26,7 +26,14 @@
   color-scheme: light;
 }
 
-html { scroll-behavior: smooth; }
+/* scroll-behavior: auto (not smooth) at the global level. Every
+   in-app smooth scroll is programmatic and passes behavior: 'smooth'
+   explicitly (Hero anchor handler, Footer return-to-top, etc.), so
+   the CSS default doesn't need to be smooth — and leaving it smooth
+   makes the browser's smooth-scroll queue fight GSAP's ScrollToPlugin
+   in the HeroFold open/close timelines (the page lags behind the lid
+   animation by ~0.5s because the queued smooth-scrolls run after). */
+html { scroll-behavior: auto; }
 html, body { background: var(--cream); color: var(--ink); }
 body {
   font-family: 'Outfit', system-ui, sans-serif;
@@ -685,9 +692,10 @@ body {
   will-change: transform, opacity;
 }
 
-/* Growing shadow under the descending bottom edge. */
-.fold-overlay__lid::after {
-  content: "";
+/* Growing shadow under the descending bottom edge. Real DOM child of
+   the lid (not a ::after pseudo-element) so GSAP can animate it
+   directly via a ref. */
+.fold-overlay__shadow {
   position: absolute;
   left: 0; right: 0; bottom: -2px;
   height: 32px;
@@ -697,9 +705,9 @@ body {
   z-index: 2;
 }
 
-/* Hinge hairline at the top edge — fades out as the card opens. */
-.fold-overlay__lid::before {
-  content: "";
+/* Hinge hairline at the top edge — fades out as the lid opens, fades
+   back in as it closes. Real DOM child so GSAP can target it via a ref. */
+.fold-overlay__hinge {
   position: absolute;
   left: 6%; right: 6%; top: 0;
   height: 1px;
@@ -716,39 +724,10 @@ body {
   z-index: 2;
 }
 
-/* state: opening — play the open animations. Easing matches the JS
-   scroll loop's `1 - (1-t)^3` (ease-out cubic, Penner) so the rotation
-   and the scroll travel together — no perceptual stutter. */
-.fold-overlay--opening .fold-overlay__lid         { animation: foldOpen      1.4s cubic-bezier(.215, .61, .355, 1) forwards; }
-.fold-overlay--opening .fold-overlay__lid::after  { animation: foldShadowIn  1.4s cubic-bezier(.215, .61, .355, 1) forwards; }
-.fold-overlay--opening .fold-overlay__lid::before { animation: hingeFadeOut  0.55s ease-out forwards; }
-
-/* state: closing — mirror of opening (lid drops back into place).
-   The explicit start values match the foldClose keyframe's 0% values
-   so there's no one-frame flash of the default rotateX(0)/opacity(1)
-   styling before the animation takes over. */
-.fold-overlay--closing .fold-overlay__lid {
-  transform: rotateX(110deg);
-  opacity: 0;
-  animation: foldClose 1.4s cubic-bezier(.215, .61, .355, 1) forwards;
-}
-.fold-overlay--closing .fold-overlay__lid::after  { animation: foldShadowOut 1.4s cubic-bezier(.215, .61, .355, 1) forwards; }
-.fold-overlay--closing .fold-overlay__lid::before { animation: hingeFadeIn   0.55s 0.85s ease-out both; }
-
-@keyframes foldOpen {
-  0%   { transform: rotateX(0deg);   opacity: 1; }
-  70%  { transform: rotateX(85deg);  opacity: 1; }
-  100% { transform: rotateX(110deg); opacity: 0; }
-}
-@keyframes foldClose {
-  0%   { transform: rotateX(110deg); opacity: 0; }
-  30%  { transform: rotateX(85deg);  opacity: 1; }
-  100% { transform: rotateX(0deg);   opacity: 1; }
-}
-@keyframes foldShadowIn  { 0% { opacity: 0; } 100% { opacity: 1; } }
-@keyframes foldShadowOut { 0% { opacity: 1; } 100% { opacity: 0; } }
-@keyframes hingeFadeOut  { 0% { opacity: 1; } 100% { opacity: 0; } }
-@keyframes hingeFadeIn   { 0% { opacity: 0; } 100% { opacity: 1; } }
+/* The fold-open / fold-close animations are driven entirely by GSAP
+   timelines in HeroFold.tsx; CSS keyframes and state-class selectors
+   for the in-flight animation were retired along with the rAF + CSS
+   sync that used to coordinate them. */
 
 /* ─── Reduced motion ─────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

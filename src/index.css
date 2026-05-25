@@ -325,13 +325,22 @@ body {
 }
 
 /* ─── Memory album marquee (two opposing rows, infinite loop) ──────── */
+/* Pure CSS keyframe marquee. The track renders the photo list twice
+   inline; the animation translates from 0 to -50%, ending at the
+   start of the second copy — byte-identical to the start of the
+   first — so the loop wraps invisibly. Gallery.tsx repeats the source
+   list enough times for one copy to exceed any realistic viewport
+   width, otherwise empty space would appear at the wrap. */
+.memory-marquee {
+  position: relative;
+  /* Edge fades — the carousel dissolves softly into the cream
+     background instead of cutting off sharply at the viewport edges. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+}
 .marquee {
   position: relative;
   overflow: hidden;
-  /* Edge fades removed — the carousel now spans the full viewport
-     width edge-to-edge. (Previously: a horizontal mask-image faded
-     ~8% on each side; bring it back if photos popping in/out at the
-     edges feels too abrupt.) */
 }
 .marquee__track {
   display: flex;
@@ -342,8 +351,8 @@ body {
 }
 /* Two directions; slightly desynced durations so the rows feel
    independent rather than mirrored. */
-.marquee--rtl .marquee__track { animation: marquee-rtl 64s linear infinite; }
-.marquee--ltr .marquee__track { animation: marquee-ltr 72s linear infinite; }
+.marquee--rtl .marquee__track { animation: marquee-rtl 300s linear infinite; }
+.marquee--ltr .marquee__track { animation: marquee-ltr 340s linear infinite; }
 
 @keyframes marquee-rtl {
   from { transform: translateX(0); }
@@ -394,21 +403,22 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.frame-tag      { color: rgba(250, 241, 228, 0.78); }
-
-/* Real-photo inside a photo-frame. Inset MATCHES the frame's padding
-   (via --photo-pad) so the cream "matte" drawn by .photo-frame's
-   inset box-shadow stays visible AROUND the photo — preserves the
-   paper-print aesthetic instead of letting the photo cover the
-   matte. The frame-tag is on top of the photo via z-index. */
+/* Real-photo inside a photo-frame. Laid out as a flex child of the
+   frame (which has `display: flex; flex-direction: column; padding:
+   var(--photo-pad)`), so flex naturally constrains the image to the
+   content box — `width: 100%` is the container's content width, `flex:
+   1` makes height fill the remaining flex space. This sidesteps a
+   replaced-element trap: an `<img>` with `position: absolute; inset:
+   1rem` does NOT inherit its width/height from the inset rectangle
+   (the spec leaves them at the image's intrinsic dimensions), which
+   was making the photos overflow the frame on the right. */
 .photo-image {
-  position: absolute;
-  inset: var(--photo-pad);
-  object-fit: cover;
   display: block;
-  z-index: 0;
+  flex: 1 1 0;
+  width: 100%;
+  min-height: 0;
+  object-fit: cover;
 }
-.frame-tag { position: relative; z-index: 1; }
 .frame-flourish {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;

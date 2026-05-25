@@ -24,3 +24,15 @@ vite.config.d.ts
 # Misc
 .cache/
 coverage/
+
+# Photo originals — large HEIC/JPEG straight off the phone. Kept
+# locally as the source-of-truth for re-running utils/heif_to_jpg.py;
+# only the converted/downscaled set in public/assets/gallery-web/ is
+# committed and deployed.
+public/assets/gallery/*.jpg
+public/assets/gallery/*.jpeg
+public/assets/gallery/*.heic
+public/assets/gallery/*.heif
+public/assets/gallery/*.HEIC
+public/assets/gallery/*.HEIF
+!public/assets/gallery/.gitkeep

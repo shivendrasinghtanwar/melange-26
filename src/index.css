@@ -681,6 +681,12 @@ body {
   font-size: 1.05rem;
   font-weight: 500;
 }
+/* Mobile-only compaction so the whole RSVP card fits inside one
+   100svh viewport on iPhone SE. Desktop sizing untouched. */
+@media (max-width: 640px) {
+  .field { padding: 0.35rem 0; font-size: 0.95rem; }
+  .field-label { font-size: 0.95rem; }
+}
 .field-error {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;

@@ -72,51 +72,52 @@ export function RsvpForm() {
      the on-dark divider that sits at the bottom of the burgundy
      Particulars section above. */
   return (
-    <section id="rsvp" className="paper-cloth paper-edge--soft min-h-screen flex flex-col pt-16 sm:pt-20">
-      <div className="px-5 sm:px-10 max-w-6xl mx-auto w-full">
+    <section id="rsvp" className="paper-cloth paper-edge--soft min-h-screen flex flex-col pt-4 sm:pt-20">
+      <div className="px-5 sm:px-10 max-w-6xl mx-auto w-full shrink-0">
         <div className="text-center max-w-2xl mx-auto">
           <Reveal>
             <p className="smallcaps text-emerald">The favour of a reply</p>
           </Reveal>
           <Reveal delay={80}>
-            <h2 className="mt-4 font-display text-burgundy leading-[1.05] text-4xl sm:text-5xl md:text-[3.4rem]">
+            <h2 className="mt-3 sm:mt-4 font-display text-burgundy leading-[1.05] text-3xl sm:text-5xl md:text-[3.4rem]">
               Kindly <span className="font-italicserif italic text-pink">RSVP.</span>
             </h2>
           </Reveal>
           <Reveal delay={140}>
-            <p className="mt-5 font-italicserif italic text-inkSoft text-base sm:text-lg">
+            <p className="hidden sm:block mt-5 font-italicserif italic text-inkSoft text-lg">
               A short note from you so we can lay an extra plate, and find you in the crowd.
             </p>
           </Reveal>
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col justify-center px-5 sm:px-10 py-8 sm:py-10">
+      <div className="flex-1 flex flex-col justify-center px-5 sm:px-10 py-3 sm:py-10">
         <Reveal delay={200} className="relative max-w-2xl mx-auto w-full">
-          <form className="reply-card relative p-7 sm:p-10" onSubmit={onSubmit} noValidate autoComplete="on">
-          {/* corner flourishes */}
-          <svg className="absolute top-2 left-2" width="56" height="56" aria-hidden="true">
+          <form className="reply-card relative p-4 sm:p-10" onSubmit={onSubmit} noValidate autoComplete="on">
+          {/* corner flourishes — shrunk on mobile so they don't crowd
+              the form contents inside the smaller card padding. */}
+          <svg className="absolute top-2 left-2 w-10 h-10 sm:w-14 sm:h-14" aria-hidden="true">
             <use href="#corner-flourish" />
           </svg>
-          <svg className="absolute top-2 right-2" width="56" height="56" style={{ transform: 'scaleX(-1)' }} aria-hidden="true">
+          <svg className="absolute top-2 right-2 w-10 h-10 sm:w-14 sm:h-14" style={{ transform: 'scaleX(-1)' }} aria-hidden="true">
             <use href="#corner-flourish" />
           </svg>
-          <svg className="absolute bottom-2 left-2" width="56" height="56" style={{ transform: 'scaleY(-1)' }} aria-hidden="true">
+          <svg className="absolute bottom-2 left-2 w-10 h-10 sm:w-14 sm:h-14" style={{ transform: 'scaleY(-1)' }} aria-hidden="true">
             <use href="#corner-flourish" />
           </svg>
-          <svg className="absolute bottom-2 right-2" width="56" height="56" style={{ transform: 'scale(-1, -1)' }} aria-hidden="true">
+          <svg className="absolute bottom-2 right-2 w-10 h-10 sm:w-14 sm:h-14" style={{ transform: 'scale(-1, -1)' }} aria-hidden="true">
             <use href="#corner-flourish" />
           </svg>
 
-          <div className="ornament-rule mb-5">
+          <div className="ornament-rule mb-3 sm:mb-5">
             <span className="smallcaps">Reply Card</span>
           </div>
 
-          <p className="font-italicserif italic text-center text-[#1A0805] font-medium text-lg mb-7">
+          <p className="font-italicserif italic text-center text-[#1A0805] font-medium text-base sm:text-lg mb-3 sm:mb-7">
             Please reply on or before <span className="text-pink">{EVENT.date.rsvpBy}</span>
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 sm:gap-y-6">
             <label className="sm:col-span-2 block">
               <span className="field-label">Your name, in full</span>
               <input
@@ -191,7 +192,7 @@ export function RsvpForm() {
               />
             </label>
 
-            <div className="sm:col-span-2 mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+            <div className="sm:col-span-2 mt-1 sm:mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-5">
               <p className="font-italicserif italic text-[#1A0805] font-medium text-base" aria-live="polite">
                 {status === 'error' && serverError
                   ? <span className="text-pinkDeep">{serverError}</span>
@@ -210,7 +211,7 @@ export function RsvpForm() {
       </Reveal>
       </div>
 
-      <div className="px-0 py-6 sm:py-8" aria-hidden="true">
+      <div className="px-0 py-2 sm:py-8 shrink-0" aria-hidden="true">
         <div className="blockprint-band" />
       </div>
     </section>

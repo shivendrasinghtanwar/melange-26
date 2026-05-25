@@ -328,10 +328,10 @@ body {
 .marquee {
   position: relative;
   overflow: hidden;
-  /* Edge fades so the photos dissolve into the cream background — feels
-     like a film reel rather than a ticker tape. */
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
-          mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+  /* Edge fades removed — the carousel now spans the full viewport
+     width edge-to-edge. (Previously: a horizontal mask-image faded
+     ~8% on each side; bring it back if photos popping in/out at the
+     edges feels too abrupt.) */
 }
 .marquee__track {
   display: flex;
@@ -354,9 +354,10 @@ body {
   to   { transform: translateX(0); }
 }
 
-/* Pause on hover (devices that actually hover). */
+/* Per-photo hover lift (devices that actually hover). The earlier
+   `:hover` rule that paused the marquee track has been removed — the
+   carousel now keeps drifting regardless of cursor position. */
 @media (hover: hover) {
-  .marquee:hover .marquee__track { animation-play-state: paused; }
   .marquee__item:hover { transform: translateY(-3px); transition: transform .5s cubic-bezier(.16, .84, .44, 1); }
 }
 
@@ -367,14 +368,18 @@ body {
   gap: 0.65rem;
 }
 .marquee__item .photo-frame {
+  /* `--photo-pad` is consumed by both .photo-frame's padding AND
+     .photo-image's inset, so the photo always lands just inside the
+     cream "matte" border drawn by the inset box-shadow above. */
+  --photo-pad: 1rem;
   height: 200px;
-  padding: 1rem;
+  padding: var(--photo-pad);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-@media (min-width: 640px)  { .marquee__item .photo-frame { height: 240px; padding: 1.15rem; } }
-@media (min-width: 1024px) { .marquee__item .photo-frame { height: 280px; padding: 1.25rem; } }
+@media (min-width: 640px)  { .marquee__item .photo-frame { --photo-pad: 1.15rem; height: 240px; } }
+@media (min-width: 1024px) { .marquee__item .photo-frame { --photo-pad: 1.25rem; height: 280px; } }
 
 /* Aspect-ratio widths derived from the row height. */
 .ar-4-3  .photo-frame { aspect-ratio: 4 / 3;  }
@@ -391,17 +396,14 @@ body {
 }
 .frame-tag      { color: rgba(250, 241, 228, 0.78); }
 
-/* Real-photo overlay inside a photo-frame. The frame supplies the
-   border + padding + aspect ratio; the image fills inside it
-   (object-fit: cover crops nicely for the mixed portrait/landscape
-   photos we have). The frame-tag stays overlaid on top of the photo
-   via its existing flex layout. z-index keeps the tag above the image
-   regardless of source order. */
+/* Real-photo inside a photo-frame. Inset MATCHES the frame's padding
+   (via --photo-pad) so the cream "matte" drawn by .photo-frame's
+   inset box-shadow stays visible AROUND the photo — preserves the
+   paper-print aesthetic instead of letting the photo cover the
+   matte. The frame-tag is on top of the photo via z-index. */
 .photo-image {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  inset: var(--photo-pad);
   object-fit: cover;
   display: block;
   z-index: 0;

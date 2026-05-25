@@ -729,6 +729,11 @@ body {
    for the in-flight animation were retired along with the rAF + CSS
    sync that used to coordinate them. */
 
+/* Milestones ↔ Photos transition is implemented as a snap-scroll in
+   MileToPhotosFold.tsx (no overlay, no 3D rotation) — there's no CSS
+   for it. The component just intercepts wheel/touch/key input and
+   programmatically scrolls the page between the two sections. */
+
 /* ─── Reduced motion ─────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

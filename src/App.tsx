@@ -1,6 +1,7 @@
 import { OrnamentSprites } from './components/OrnamentSprites';
 import { Hero } from './components/Hero';
 import { HeroFold } from './components/HeroFold';
+import { SectionSnap } from './components/SectionSnap';
 import { Milestones } from './components/Milestones';
 import { Gallery } from './components/Gallery';
 import { Details } from './components/Details';
@@ -36,7 +37,7 @@ export default function App() {
         {/* Gallery owns its own trailing blockprint divider as the
             "bottom divider" part of its three-part 100vh layout — no
             separator needed here between Gallery and Details. */}
-        <Gallery />
+        <Gallery id="album" />
 
         {/* Details owns its trailing (on-dark) blockprint divider as
             the "bottom divider" part of its three-part 100vh layout —
@@ -53,6 +54,12 @@ export default function App() {
       {/* Fold-open overlay — fixed on top of everything while still
           closed/opening; returns null once the fold has played. */}
       <HeroFold />
+
+      {/* Snap-scroll between Milestones / Gallery / Details / RsvpForm.
+          One scroll at the top of any of those sections smooth-scrolls
+          to the adjacent one. No fold animation — just controlled
+          scroll. See SectionSnap.tsx. */}
+      <SectionSnap />
     </>
   );
 }

@@ -140,7 +140,7 @@ function MarqueeRow({ direction, photos, label }: { direction: 'rtl' | 'ltr'; ph
   );
 }
 
-export function Gallery() {
+export function Gallery({ id }: { id?: string } = {}) {
   return (
     /* Three-part vertical section, sized to one viewport (min-h-screen):
        — header at top (eyebrow + Moments, kept. + intro)
@@ -148,9 +148,12 @@ export function Gallery() {
        — bottom divider sits at the foot of the section
        The trailing blockprint-band that used to live in App.tsx now
        belongs to this section, so the section + divider together fit
-       within one 100vh — same vertical rhythm as the Milestones screen. */
+       within one 100vh — same vertical rhythm as the Milestones screen.
+       id is optional so this component can be rendered as an overlay
+       copy (inside MileToPhotosFold) without producing a duplicate
+       `#album` in the DOM. */
     <section
-      id="album"
+      id={id}
       className="min-h-screen flex flex-col pt-6 sm:pt-10"
       aria-labelledby="album-title"
     >

@@ -299,6 +299,100 @@ If you add a new scroll-driven animation, test on:
 3. iOS Safari on a real iPhone (touch + URL bar resize gotchas).
 4. Windows Chrome + Precision touchpad if possible.
 
+## 15. Multiple folds in the same app need a shared coordinator
+
+A single fold component on a page is straightforward — input events
+hit it, it manages its own state, and it preventDefaults the things
+it cares about. But the moment you have **two or more folds** (e.g.
+HeroFold for Hero↔Mile + SectionSnap for Mile/Photos/Details/RSVP),
+their wheel handlers all fire on every wheel event. Each one decides
+independently whether to react.
+
+The failure mode: HeroFold's open animation finishes and lands the
+user at Milestones. The user's continuous trackpad gesture (or its
+momentum tail) keeps emitting downward wheel events. HeroFold's
+handler sees `state === 'open'` and downward delta → ignores. But
+the *next* fold's handler sees `state === 'closed'` and a downward
+delta AT the boundary → fires its open immediately. The user sees
+Milestones for one frame and is teleported to Photos.
+
+**Rule:** if you have more than one fold, share coordination via a
+tiny module (see `src/lib/foldCoordination.ts`):
+
+```ts
+let activeFoldAnimations = 0;
+let lastFoldEndedAt = 0;
+const COOLDOWN_MS = 1000;
+
+export function markFoldStarted() { activeFoldAnimations++; }
+export function markFoldEnded() {
+  activeFoldAnimations = Math.max(0, activeFoldAnimations - 1);
+  lastFoldEndedAt = Date.now();
+}
+export function canStartFold() {
+  if (activeFoldAnimations > 0) return false;
+  return Date.now() - lastFoldEndedAt >= COOLDOWN_MS;
+}
+```
+
+Every fold component:
+- Calls `markFoldStarted()` at the start of its timeline.
+- Calls `markFoldEnded()` from the `onComplete` callback (AND from the
+  effect cleanup so a kill mid-flight doesn't leave the counter
+  inflated).
+- Checks `canStartFold()` before calling `setState('opening')` or
+  `setState('closing')`.
+
+The `activeFoldAnimations` counter handles **concurrent** triggers
+(fold A animating, B's handler should ignore). The
+`lastFoldEndedAt` + `COOLDOWN_MS` handles **sequential momentum** —
+even after A's animation completes, B has to wait 1 second so
+trackpad-momentum from the gesture that fired A can't immediately
+fire B.
+
+Pick the cooldown based on the longest reasonable trackpad-momentum
+tail on the platforms you care about. macOS is ~700 ms; we use 1 s
+for headroom.
+
+## 16. Snap-scroll between sections — when full folds are overkill
+
+A 3D-rotation-and-overlay fold (like HeroFold's) is heavy, both in
+code and in user-attention. It belongs at the few moments where the
+metaphor is load-bearing (the cover-open of a wedding card, in our
+case). For the interior page-turns where the user just needs to be
+moved from one section to the next without stopping in between, a
+**snap-scroll** is the right primitive: one wheel/touch/key input,
+preventDefault for the duration, `gsap.to(window, { scrollTo: ... })`.
+
+The implementation in `src/components/SectionSnap.tsx`:
+- Tracks a list of section IDs in document order.
+- On every input event, finds which section's top the user is at via
+  `Math.abs(scrollY - section.top) < BOUNDARY_BUFFER_PX`.
+- If they're at a section top AND the input direction has a valid
+  next section, preventDefault and snap to it.
+- If they're at a top but the next direction would walk off the end
+  of the list (e.g. up-scroll at the first section), DON'T
+  preventDefault — let the previous boundary's fold (or the natural
+  scroll) handle it.
+
+**Rule:** snap-scrolls and rotation-folds share the same trigger
+contract (single input, blocked input during animation, cross-fold
+coordination). They only differ in the visual treatment of the
+in-flight motion.
+
+**Easing for snap-scrolls:** `power3.inOut` at ~1.0–1.2s feels
+cinematic; `power2.inOut` at 0.6–0.8s feels brisk. Avoid
+out-of-the-box `gsap.scrollTo(...)` defaults — they look unfinished
+on a hero-card site.
+
+## 17. One ScrollToPlugin instance, register it once
+
+`gsap.registerPlugin(ScrollToPlugin)` is idempotent, but importing
+it from multiple components creates separate module instances under
+Vite's optimised-deps treatment. Register the plugin in **each file**
+that uses it (import + register at module scope) — GSAP dedupes
+internally and the bundler tree-shakes correctly.
+
 ---
 
 ## Quick reference — when adding a new scroll-driven moment
@@ -311,8 +405,6 @@ If you add a new scroll-driven animation, test on:
 - [ ] `wheel` listener registered with `{ passive: false, capture: true }`.
 - [ ] `preventDefault()` and trigger decisions made together. Never
       "block trigger but let native scroll through".
-- [ ] No cooldown unless you can prove what momentum direction you're
-      filtering.
 - [ ] No magnitude threshold on wheel unless light real gestures are
       a known false-positive source for THIS specific trigger.
 - [ ] `useLayoutEffect` for animation start states on remount.
@@ -321,4 +413,15 @@ If you add a new scroll-driven animation, test on:
 - [ ] Mid-page reload / deep-link short-circuits to end state.
 - [ ] GSAP timeline used as the choreography unit; shared
       `defaults.ease` for related tweens.
+- [ ] `markFoldStarted()` / `markFoldEnded()` wrap every timeline so
+      the cross-fold coordinator knows when to back off.
+- [ ] `canStartFold()` checked before any `setState('opening')` /
+      `setState('closing')`.
+- [ ] Decided whether this moment needs a 3D-fold overlay or a
+      snap-scroll — the latter is cheaper and right for "move
+      between sections" interactions; the former is for the few
+      narrative beats where the card/page metaphor is the point.
+- [ ] If overlay-based: fixed-position container has a solid
+      background (`var(--cream)` or whatever the section bg is) so
+      the page underneath doesn't bleed through during the animation.
 - [ ] Tested on macOS Chrome, macOS Safari, iOS Safari (real device).

@@ -38,6 +38,10 @@ const SNAP_DURATION = 1.1;          // seconds — slightly longer for smoother 
 const SNAP_EASE     = 'power3.inOut'; // stronger ease than power2; more cinematic
 const BOUNDARY_BUFFER_PX = 80;
 const TOUCH_THRESHOLD_PX = 10;
+// Vertical-over-horizontal dominance required to trigger a section
+// snap. If Δy isn't at least 1.5× Δx, the swipe is treated as
+// horizontal and left for any in-section carousel to consume.
+const VERTICAL_DOMINANCE_RATIO = 1.5;
 
 const TRIGGER_DOWN_KEYS = new Set(['ArrowDown', 'PageDown', ' ', 'End']);
 const TRIGGER_UP_KEYS   = new Set(['ArrowUp',   'PageUp',   'Home']);
@@ -113,6 +117,7 @@ export function SectionSnap() {
     };
 
     let touchStartY = 0;
+    let touchStartX = 0;
 
     const onWheel = (e: WheelEvent) => {
       if (reducedMotionRef.current) return;
@@ -126,6 +131,7 @@ export function SectionSnap() {
 
     const onTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0]?.clientY ?? 0;
+      touchStartX = e.touches[0]?.clientX ?? 0;
     };
     const onTouchMove = (e: TouchEvent) => {
       if (reducedMotionRef.current) return;
@@ -134,9 +140,19 @@ export function SectionSnap() {
         return;
       }
       const y = e.touches[0]?.clientY ?? 0;
-      const delta = touchStartY - y;
-      if (Math.abs(delta) < TOUCH_THRESHOLD_PX) return;
-      const direction: 1 | -1 = delta > 0 ? 1 : -1;
+      const x = e.touches[0]?.clientX ?? 0;
+      const deltaY = touchStartY - y;
+      const deltaX = touchStartX - x;
+      // Require Δy to be clearly dominant before treating this as a
+      // vertical swipe. A purely vertical gesture has Δx ≈ 0 and
+      // sails through; a diagonal that's only marginally more
+      // vertical than horizontal stays with the in-section horizontal
+      // carousel (e.g. Milestones on mobile). Without this guard a
+      // sideways swipe with a slight downward arc would also page-
+      // snap the user to the next section.
+      if (Math.abs(deltaY) < TOUCH_THRESHOLD_PX) return;
+      if (Math.abs(deltaY) < Math.abs(deltaX) * VERTICAL_DOMINANCE_RATIO) return;
+      const direction: 1 | -1 = deltaY > 0 ? 1 : -1;
       if (handleDirection(direction)) e.preventDefault();
     };
 

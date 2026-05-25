@@ -24,6 +24,7 @@ vite.config.d.ts
 # Misc
 .cache/
 coverage/
+.superpowers/
 
 # Photo originals — large HEIC/JPEG straight off the phone. Kept
 # locally as the source-of-truth for re-running utils/heif_to_jpg.py;

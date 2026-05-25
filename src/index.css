@@ -219,24 +219,86 @@ body {
 }
 
 /* ─── Milestones (Style I, with combined palette) ────────────────────── */
+/* Mobile: horizontal scroll-snap carousel — one card per viewport,
+   swipeable. Allows the whole Milestones section to fit in ~one
+   viewport so the SectionSnap orchestrator can page-snap between it
+   and the next section without leaving milestones II and III hidden.
+   Desktop (≥768px): standard 3-column grid. */
 .milestones__grid {
-  display: grid;
-  gap: 2.5rem;
-  grid-template-columns: 1fr;
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  /* Hide the scrollbar — affordance comes from the pagination dots. */
+  scrollbar-width: none;
+  /* Counter the section's horizontal padding so each card can be a
+     true 100vw and the next/prev card's edge sits flush with the
+     viewport boundary. Without this the cards would inset and the
+     snap centres feel wrong. */
+  margin-left: -1.25rem;
+  margin-right: -1.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+.milestones__grid::-webkit-scrollbar { display: none; }
+.milestones__grid > * {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  min-width: 0;
 }
 @media (min-width: 768px) {
-  .milestones__grid { grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+  .milestones__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    overflow: visible;
+    scroll-snap-type: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .milestones__grid > * { flex: initial; }
 }
-.milestone { position: relative; padding: 2.5rem 0 0; text-align: center; }
-@media (min-width: 768px) { .milestone--center { transform: translateY(0.5rem); } }
+.milestone { position: relative; padding: 1.25rem 0 0; text-align: center; }
+@media (min-width: 768px) {
+  .milestone { padding: 2.5rem 0 0; }
+  .milestone--center { transform: translateY(0.5rem); }
+}
+
+/* Pagination dots — mobile only. */
+.milestones__dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.milestones__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: rgba(111, 70, 64, 0.25); /* inkSoft @ 25% */
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 200ms ease, transform 200ms ease;
+}
+.milestones__dot.is-active {
+  background: var(--pink);
+  transform: scale(1.15);
+}
 
 .milestone__numeral {
   font-family: 'Marcellus', serif;
   color: var(--marigold);
-  font-size: 3rem;
+  font-size: 2.5rem;
   line-height: 1;
   display: block;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+@media (min-width: 768px) {
+  .milestone__numeral { font-size: 3rem; margin-bottom: 1.25rem; }
 }
 .milestone__eyebrow {
   font-family: 'Outfit', sans-serif;
@@ -249,15 +311,21 @@ body {
 .milestone__title {
   font-family: 'Marcellus', serif;
   color: var(--burgundy);
-  font-size: 3rem;
+  font-size: 2.5rem;
   line-height: 1;
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
+}
+@media (min-width: 768px) {
+  .milestone__title { font-size: 3rem; margin-top: 0.5rem; }
 }
 .milestone__rule {
   width: 56px;
   height: 1px;
   background: linear-gradient(to right, transparent, var(--marigold), transparent);
-  margin: 1.5rem auto;
+  margin: 1rem auto;
+}
+@media (min-width: 768px) {
+  .milestone__rule { margin: 1.5rem auto; }
 }
 .milestone__attribution {
   display: inline-flex;
@@ -273,8 +341,11 @@ body {
   max-width: 30ch;
   margin: 0 auto;
   color: var(--ink);
-  line-height: 1.7;
-  font-size: 15px;
+  line-height: 1.6;
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  .milestone__body { line-height: 1.7; font-size: 15px; }
 }
 .milestone__body em {
   font-family: 'Cormorant Garamond', serif;
@@ -282,7 +353,7 @@ body {
   color: var(--burgundy);
 }
 .milestone__meta {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   font-style: italic;
   color: var(--inkSoft);
   font-size: 13px;

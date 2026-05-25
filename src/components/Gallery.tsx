@@ -1,26 +1,36 @@
 import type { ReactNode } from 'react';
 import { Reveal } from './Reveal';
 
-/* Memory album — two continuous marquee strips drifting in opposite
-   directions. Each strip's content is rendered twice inline (with the
-   duplicates aria-hidden) so the translateX(-50%) keyframe makes a
-   truly seamless loop. CSS lives in src/index.css under "Memory album".
+/* Memory album — two CSS-keyframe marquees drifting in opposite
+   directions.
+
+   How the loop stays seamless
+   ---------------------------
+   The track renders the photo list TWICE inline. The keyframe shifts
+   it from translateX(0) to translateX(-50%) — i.e. through exactly
+   one copy's worth. At the end of the cycle the viewport is looking
+   at the start of the second copy, which is identical to the start
+   of the first, so the jump back to 0 is invisible.
+
+   The only requirement: one copy of the list must be at least as wide
+   as the viewport, otherwise empty space appears at the wrap. With
+   four unique photos per row at ~250–280px, four photos alone fall
+   short on desktop, so we repeat the source list REPEAT_PER_ROW
+   times before rendering it twice in the track. At 8× × 4 unique =
+   32 items per copy ≈ 8000px, covering even 4K viewports.
 
    Photo assets live in public/assets/gallery-web/ — converted from
    the originals in public/assets/gallery/ (HEIF→JPEG, downscaled to
-   1600px long-edge) via utils/heif_to_jpg.py. See the README in that
-   folder for the conversion recipe. */
+   1600px long-edge) via utils/heif_to_jpg.py. */
 
-/** Build the absolute URL to a gallery photo, honouring the Vite
- *  `base` (so it works under both the local dev `/` and the deployed
- *  `/melange-26/`). */
+const REPEAT_PER_ROW = 8;
+
 const photo = (filename: string) =>
   `${import.meta.env.BASE_URL}assets/gallery-web/${filename}`;
 
 type Photo = {
   ar: '4-3' | '3-4' | '16-9' | '1-1';
   frame: 1 | 2 | 3;
-  tag: string;
   src: string;
   alt: string;
   caption: ReactNode;
@@ -28,25 +38,25 @@ type Photo = {
 
 const ROW_TOP: Photo[] = [
   {
-    ar: '4-3', frame: 1, tag: 'No. I',
+    ar: '4-3', frame: 1,
     src: photo('family_1.jpg'),
     alt: 'The Tanwar family',
     caption: 'the family, together',
   },
   {
-    ar: '3-4', frame: 2, tag: 'No. II',
+    ar: '3-4', frame: 2,
     src: photo('shivdi_hyd_1.jpg'),
     alt: 'Shivendra and Divyani, evening portrait',
     caption: 'an evening · Hyderabad',
   },
   {
-    ar: '16-9', frame: 3, tag: 'No. III',
+    ar: '16-9', frame: 3,
     src: photo('shivdi_bali_2.jpg'),
     alt: 'Shivendra and Divyani at the Bali cliffs',
     caption: 'Bali · the cliffs',
   },
   {
-    ar: '3-4', frame: 1, tag: 'No. IV',
+    ar: '3-4', frame: 1,
     src: photo('shivdi_nashik.jpg'),
     alt: 'Shivendra and Divyani at twilight',
     caption: 'twilight · December',
@@ -55,36 +65,35 @@ const ROW_TOP: Photo[] = [
 
 const ROW_BOTTOM: Photo[] = [
   {
-    ar: '3-4', frame: 2, tag: 'No. V',
+    ar: '3-4', frame: 2,
     src: photo('shivdi_nashik_2.jpg'),
     alt: 'Shivendra and Divyani in the garden at dusk',
     caption: 'the garden, at dusk',
   },
   {
-    ar: '4-3', frame: 3, tag: 'No. VI',
+    ar: '4-3', frame: 3,
     src: photo('shivdi_bali_1.jpg'),
     alt: 'Shivendra and Divyani by the sea in Bali',
     caption: 'the sea · Uluwatu',
   },
   {
-    ar: '3-4', frame: 1, tag: 'No. VII',
+    ar: '3-4', frame: 1,
     src: photo('shivdi_1.jpg'),
     alt: 'Shivendra and Divyani above the city',
     caption: 'above the city',
   },
   {
-    ar: '3-4', frame: 2, tag: 'No. VIII',
+    ar: '3-4', frame: 2,
     src: photo('shivdi_goa_1.jpg'),
     alt: 'Shivendra and Divyani in Goa',
     caption: 'Goa · monsoon',
   },
 ];
 
-function PhotoItem({ p, dup }: { p: Photo; dup: boolean }) {
+function PhotoSlide({ p, k }: { p: Photo; k: string }) {
   return (
-    <figure className={`marquee__item ar-${p.ar}`} aria-hidden={dup || undefined}>
+    <figure key={k} className={`marquee__item ar-${p.ar}`}>
       <div className={`photo-frame photo-${p.frame}`}>
-        <span className="smallcaps frame-tag">{p.tag}</span>
         <img className="photo-image" src={p.src} alt={p.alt} loading="lazy" />
       </div>
       <figcaption className="smallcaps marquee__caption">{p.caption}</figcaption>
@@ -92,16 +101,21 @@ function PhotoItem({ p, dup }: { p: Photo; dup: boolean }) {
   );
 }
 
-function MarqueeRow({ direction, photos, label }: { direction: 'rtl' | 'ltr'; photos: Photo[]; label: string }) {
+function MarqueeRow({ photos, direction, label }: {
+  photos: Photo[];
+  direction: 'rtl' | 'ltr';
+  label: string;
+}) {
+  const oneCopy = Array.from({ length: REPEAT_PER_ROW }, () => photos).flat();
   return (
-    <div className={`marquee marquee--${direction}`} role="region" aria-roledescription="carousel" aria-label={label}>
+    <div
+      className={`marquee memory-marquee marquee--${direction}`}
+      role="region"
+      aria-label={label}
+    >
       <div className="marquee__track">
-        {photos.map((p, i) => (
-          <PhotoItem key={`o-${i}`} p={p} dup={false} />
-        ))}
-        {photos.map((p, i) => (
-          <PhotoItem key={`d-${i}`} p={p} dup />
-        ))}
+        {oneCopy.map((p, i) => <PhotoSlide k={`a-${i}`} p={p} key={`a-${i}`} />)}
+        {oneCopy.map((p, i) => <PhotoSlide k={`b-${i}`} p={p} key={`b-${i}`} />)}
       </div>
     </div>
   );
@@ -109,16 +123,6 @@ function MarqueeRow({ direction, photos, label }: { direction: 'rtl' | 'ltr'; ph
 
 export function Gallery({ id }: { id?: string } = {}) {
   return (
-    /* Three-part vertical section, sized to one viewport (min-h-screen):
-       — header at top (eyebrow + Moments, kept. + intro)
-       — content (two marquee rows) fills the middle via flex-1
-       — bottom divider sits at the foot of the section
-       The trailing blockprint-band that used to live in App.tsx now
-       belongs to this section, so the section + divider together fit
-       within one 100vh — same vertical rhythm as the Milestones screen.
-       id is optional so this component can be rendered as an overlay
-       copy (inside MileToPhotosFold) without producing a duplicate
-       `#album` in the DOM. */
     <section
       id={id}
       className="min-h-screen flex flex-col pt-6 sm:pt-10"
@@ -148,8 +152,8 @@ export function Gallery({ id }: { id?: string } = {}) {
       </div>
 
       <div className="flex-1 flex flex-col justify-center gap-6 sm:gap-8 py-6 sm:py-8">
-        <MarqueeRow direction="rtl" photos={ROW_TOP} label="Memory album, top row" />
-        <MarqueeRow direction="ltr" photos={ROW_BOTTOM} label="Memory album, bottom row" />
+        <MarqueeRow photos={ROW_TOP} direction="rtl" label="Memory album, top row" />
+        <MarqueeRow photos={ROW_BOTTOM} direction="ltr" label="Memory album, bottom row" />
       </div>
 
       <div className="px-0 py-6 sm:py-8" aria-hidden="true">

@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mélange — M-fold card + Particulars insert</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --cream: #FAF1E4;
+      --pink: #C53A56;
+      --pinkDeep: #A12640;
+      --burgundy: #5C1A2B;
+      --marigold: #E0A436;
+      --ink: #3B1410;
+      --inkSoft: #6F4640;
+      --shadow: 0 4px 14px rgba(59, 20, 16, 0.18);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      padding: 36px 24px 80px;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────────── */
+    header.page-header {
+      max-width: 1200px;
+      margin: 0 auto 32px;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-family: 'Marcellus', serif;
+      color: var(--burgundy);
+      font-size: 2.2rem;
+      margin: 0 0 8px;
+    }
+    .page-header p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--inkSoft);
+      font-size: 1.1rem;
+      margin: 0 auto;
+      max-width: 720px;
+      line-height: 1.5;
+    }
+
+    /* ── Layout: top diagram strip, then play stage below ───────────── */
+    .layout {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 36px;
+      align-items: start;
+    }
+    @media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } }
+
+    .panel-card {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(197, 58, 86, 0.15);
+      border-radius: 8px;
+      padding: 22px;
+    }
+    .panel-card h2 {
+      font-family: 'Marcellus', serif;
+      color: var(--burgundy);
+      font-size: 1.2rem;
+      margin: 0 0 12px;
+    }
+    .panel-card .legend {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--inkSoft);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0 0 16px;
+    }
+
+    /* ── Blueprint of the unfolded paper ─────────────────────────────── */
+    .blueprint {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: #FFF6E8;
+      border: 1px dashed rgba(197, 58, 86, 0.4);
+      padding: 12px;
+      border-radius: 6px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+    }
+    .bp-slide {
+      position: relative;
+      height: 80px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      box-shadow: inset 0 0 0 1px rgba(59,20,16,0.08);
+    }
+    .bp-slide--cream    { background: var(--cream); color: var(--burgundy); }
+    .bp-slide--burgundy { background: linear-gradient(135deg, var(--burgundy), #4A1322); color: var(--cream); }
+    .bp-slide--pink     { background: #F4D8DD; color: var(--pinkDeep); }
+    .bp-slide__label {
+      font-family: 'Marcellus', serif;
+      font-size: 16px;
+    }
+    .bp-side-tag {
+      display: inline-block;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 2px;
+      background: rgba(197, 58, 86, 0.15);
+      color: var(--pink);
+      font-family: 'Outfit', sans-serif;
+    }
+    .bp-fold {
+      position: relative;
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--pink);
+      padding: 4px 0;
+      font-family: 'Outfit', sans-serif;
+    }
+    .bp-fold::before, .bp-fold::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 1px;
+      background: repeating-linear-gradient(to right, var(--pink) 0 4px, transparent 4px 8px);
+    }
+    .bp-fold::before { left: 5%; }
+    .bp-fold::after  { right: 5%; }
+    .bp-fold__arrow { font-size: 12px; }
+
+    .insert-card-block {
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(212, 181, 124, 0.12);
+      border: 1px dashed rgba(212, 181, 124, 0.6);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+    }
+    .insert-card-block__rect {
+      flex: 0 0 80px;
+      height: 50px;
+      background: var(--marigold);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Marcellus', serif;
+      color: var(--burgundy);
+      font-size: 12px;
+    }
+    .insert-card-block__text {
+      color: var(--inkSoft);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    /* ── Side profile SVG ────────────────────────────────────────────── */
+    .side-profile {
+      margin-top: 18px;
+      padding: 18px 12px;
+      background: rgba(197, 58, 86, 0.05);
+      border-radius: 6px;
+      text-align: center;
+    }
+    .side-profile__caption {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--inkSoft);
+      font-size: 0.85rem;
+      margin: 8px 0 0;
+    }
+
+    /* ── Play stage (right column) ───────────────────────────────────── */
+    .stage-wrap { display: flex; flex-direction: column; gap: 12px; }
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 9 / 14;
+      background: var(--cream);
+      border-radius: 4px;
+      overflow: hidden;
+      perspective: 1800px;
+      box-shadow: var(--shadow);
+    }
+    .panel-3d {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-family: 'Marcellus', serif;
+      font-size: 1.7rem;
+      color: var(--burgundy);
+      letter-spacing: 0.02em;
+      backface-visibility: hidden;
+      will-change: transform, opacity;
+      transition: transform 1.4s cubic-bezier(.215, .61, .355, 1),
+                  opacity 1.4s cubic-bezier(.215, .61, .355, 1);
+    }
+    .panel-3d--hero    { background: var(--cream); transform-origin: top center; z-index: 5; }
+    .panel-3d--mile    { background: linear-gradient(180deg, var(--burgundy), #4A1322); color: var(--cream); transform-origin: top center; z-index: 4; }
+    /* Photos starts "inside the screen" — bottom-hinged, rotated past
+       90° around its bottom edge so its top is tucked deep into the
+       depth and its front face points away from the viewer. As Mile
+       lifts and recedes back, the same scroll unfolds Photos forward
+       from the depth toward the viewer. Background matches RSVP
+       (cream) — in the real site Gallery and RSVP share their
+       surface colour. */
+    .panel-3d--photo   {
+      background: var(--cream);
+      color: var(--burgundy);
+      transform-origin: bottom center;
+      transform: rotateX(115deg);
+      opacity: 0;
+      z-index: 3;
+    }
+    /* RSVP starts "out of the screen" — bottom-hinged, top edge pulled
+       FORWARD past edge-on toward the viewer (backface-hidden so it's
+       invisible). As Particulars slides back out, RSVP folds back
+       down to the website plane. */
+    .panel-3d--rsvp    {
+      background: var(--cream);
+      color: var(--burgundy);
+      transform-origin: bottom center;
+      transform: rotateX(-115deg);
+      opacity: 0;
+      z-index: 2;
+    }
+
+    .panel-3d .small {
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.65;
+      margin-bottom: 8px;
+    }
+    .panel-3d .italic {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 6px;
+      opacity: 0.7;
+    }
+
+    /* Hinge hairlines for visual reinforcement of where each fold is */
+    .panel-3d .hinge-top, .panel-3d .hinge-bottom {
+      position: absolute;
+      left: 8%; right: 8%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(197,58,86,0.6) 50%, transparent);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .panel-3d .hinge-top    { top: 0; }
+    .panel-3d .hinge-bottom { bottom: 0; }
+    .panel-3d .fold-shadow  {
+      position: absolute;
+      left: 0; right: 0; bottom: -2px;
+      height: 26px;
+      background: linear-gradient(to top, rgba(0,0,0,0.22), transparent);
+      opacity: 0;
+      transition: opacity 1s cubic-bezier(.215, .61, .355, 1);
+    }
+    .panel-3d .fold-shadow-top {
+      position: absolute;
+      left: 0; right: 0; top: -2px;
+      height: 26px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.22), transparent);
+      opacity: 0;
+      transition: opacity 1s cubic-bezier(.215, .61, .355, 1);
+    }
+
+    /* ── State-driven transforms ─────────────────────────────────────── */
+    /* step 0: closed — Hero on top, fully visible */
+    /* step 1: Hero opens (top hinge), reveals Milestones */
+    .stage.step-1 .panel-3d--hero  { transform: rotateX(115deg); opacity: 0; }
+    .stage.step-1 .panel-3d--hero .fold-shadow { opacity: 1; }
+
+    /* Step 2: Mile lifts up but RECEDES into the screen (top hinge,
+       NEGATIVE rotateX so the bottom edge rises AND goes back into
+       the depth). At the same moment, Photos unfolds forward from
+       inside the screen toward the viewer (bottom hinge, animating
+       from rotateX(115) → 0). Both happen on the same timeline so
+       the fold edge between them visually appears in the middle. */
+    .stage.step-2 .panel-3d--hero  { transform: rotateX(115deg); opacity: 0; }
+    .stage.step-2 .panel-3d--mile  { transform: rotateX(-115deg); opacity: 0; }
+    .stage.step-2 .panel-3d--mile .fold-shadow { opacity: 1; }
+    .stage.step-2 .panel-3d--photo { transform: rotateX(0deg); opacity: 1; }
+
+    /* Step 3: Particulars insert slides in to cover the full screen.
+       Photos lifts up and recedes BACK into the screen — same motion
+       Mile used (top hinge, negative rotateX). Photos and RSVP share
+       a cream background in the real site, so the blank surface
+       underneath Photos doesn't matter visually; Particulars covers
+       the whole viewport anyway. */
+    .stage.step-3 .panel-3d--hero  { transform: rotateX(115deg); opacity: 0; }
+    .stage.step-3 .panel-3d--mile  { transform: rotateX(-115deg); opacity: 0; }
+    .stage.step-3 .panel-3d--photo {
+      transform-origin: top center;
+      transform: rotateX(-115deg);
+      opacity: 0;
+    }
+
+    /* Step 4: Particulars slides back out to the right. RSVP folds
+       DOWN from out-of-screen into the website plane (bottom hinge,
+       rotateX -115 → 0 — top edge swings forward from the air toward
+       the viewer, then back down to flat). */
+    .stage.step-4 .panel-3d--hero  { transform: rotateX(115deg); opacity: 0; }
+    .stage.step-4 .panel-3d--mile  { transform: rotateX(-115deg); opacity: 0; }
+    .stage.step-4 .panel-3d--photo {
+      transform-origin: top center;
+      transform: rotateX(-115deg);
+      opacity: 0;
+    }
+    .stage.step-4 .panel-3d--rsvp  { transform: rotateX(0deg); opacity: 1; }
+
+    /* ── Particulars insert (slides in from the right) ───────────────── */
+    /* Real-site behaviour: Particulars is full-viewport (min-h-screen)
+       when scrolled into view. Here it slides in from the right to
+       cover the whole stage, hiding the Mile/Photos fold transition
+       happening behind it. */
+    .insert-card {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 100%;
+      width: 100%;
+      background: var(--marigold);
+      color: var(--burgundy);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      box-shadow: -12px 0 24px rgba(59, 20, 16, 0.28);
+      z-index: 10;
+      transition: left 0.9s cubic-bezier(.65, 0, .35, 1);
+      font-family: 'Marcellus', serif;
+      font-size: 1.4rem;
+    }
+    .insert-card .small {
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.65;
+      margin-bottom: 6px;
+    }
+    .insert-card .italic {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+    .stage.step-3 .insert-card { left: 0; }
+
+    /* ── Controls ────────────────────────────────────────────────────── */
+    .controls-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .controls-row button {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid var(--pink);
+      color: var(--pink);
+      padding: 9px 14px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 200ms, color 200ms;
+    }
+    .controls-row button:hover {
+      background: var(--pink);
+      color: var(--cream);
+    }
+    .controls-row button[disabled] {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .step-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--marigold);
+      text-align: center;
+      margin-top: 6px;
+    }
+    .step-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--inkSoft);
+      font-size: 0.95rem;
+      text-align: center;
+      margin: 4px 0 0;
+      min-height: 2.4em;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <h1>M-fold card + Particulars insert</h1>
+    <p>
+      One folded sheet carries Hero / Milestones / Photos / RSVP across 4 panels with
+      alternating hinge directions. Particulars is a separate card that slides in from the
+      side, like a real wedding-stationery insert. Use the buttons on the right to step
+      through opening the card.
+    </p>
+  </header>
+
+  <div class="layout">
+
+    <!-- ═════ LEFT COLUMN: structural blueprint ═════ -->
+    <div class="panel-card">
+      <h2>The paper — laid out flat</h2>
+      <p class="legend">
+        A single sheet with 4 panels and 3 folds. Content is printed on alternating
+        faces (Side A / Side B). The middle fold (F2) is at the BOTTOM of the panel —
+        that's the "lower point" of the M-fold.
+      </p>
+
+      <div class="blueprint">
+        <div class="bp-slide bp-slide--cream">
+          <span class="bp-slide__label">I · Hero</span>
+          <span class="bp-side-tag">Side A · outside</span>
+        </div>
+        <div class="bp-fold">
+          <span class="bp-fold__arrow">↕</span>&nbsp; F1 · top hinge
+        </div>
+        <div class="bp-slide bp-slide--burgundy">
+          <span class="bp-slide__label">II · Milestones</span>
+          <span class="bp-side-tag" style="background: rgba(212,181,124,0.25); color: var(--marigold);">Side B · inside</span>
+        </div>
+        <div class="bp-fold">
+          <span class="bp-fold__arrow">↑↓</span>&nbsp; F2 · bottom hinge (the "lower point")
+        </div>
+        <div class="bp-slide bp-slide--pink">
+          <span class="bp-slide__label">III · Photos</span>
+          <span class="bp-side-tag">Side B · inside</span>
+        </div>
+        <div class="bp-fold">
+          <span class="bp-fold__arrow">↕</span>&nbsp; F3 · top hinge
+        </div>
+        <div class="bp-slide bp-slide--cream">
+          <span class="bp-slide__label">IV · RSVP</span>
+          <span class="bp-side-tag">Side A · outside</span>
+        </div>
+      </div>
+
+      <div class="insert-card-block">
+        <div class="insert-card-block__rect">Insert</div>
+        <p class="insert-card-block__text">
+          <strong style="color: var(--ink); font-style: normal;">Particulars</strong> is a separate card —
+          not part of the folded sheet. Slides in from the right (the envelope flap)
+          as you reach the Photos / RSVP boundary, then slides back out.
+        </p>
+      </div>
+
+      <!-- Side profile -->
+      <div class="side-profile">
+        <svg width="260" height="100" viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" stroke="#C53A56" stroke-width="2" stroke-linecap="round">
+            <!-- M-fold profile: \/\/ across 4 slides -->
+            <line x1="10"  y1="20" x2="80"  y2="80" />
+            <line x1="80"  y1="80" x2="150" y2="20" />
+            <line x1="150" y1="20" x2="220" y2="80" />
+            <line x1="220" y1="80" x2="250" y2="50" />
+          </g>
+          <!-- Labels -->
+          <text x="25"  y="14" font-family="Outfit, sans-serif" font-size="10" fill="#6F4640">Hero</text>
+          <text x="65"  y="40" font-family="Outfit, sans-serif" font-size="10" fill="#6F4640">Mile.</text>
+          <text x="160" y="40" font-family="Outfit, sans-serif" font-size="10" fill="#6F4640">Photos</text>
+          <text x="220" y="14" font-family="Outfit, sans-serif" font-size="10" fill="#6F4640">RSVP</text>
+          <!-- Lower point marker -->
+          <circle cx="80" cy="80" r="3" fill="#E0A436" />
+          <text x="90" y="95" font-family="Cormorant Garamond, serif" font-size="11" fill="#E0A436" font-style="italic">lower point (F2)</text>
+        </svg>
+        <p class="side-profile__caption">Side profile when folded — the M shape you described, with F2 at the lower point.</p>
+      </div>
+    </div>
+
+    <!-- ═════ RIGHT COLUMN: interactive stage ═════ -->
+    <div class="stage-wrap">
+      <div class="panel-card">
+        <h2>Step through the open sequence</h2>
+        <p class="legend">
+          <strong>Hero</strong> lifts forward out of the screen.
+          <strong>Milestones</strong> lifts up but recedes INTO the screen.
+          <strong>Photos</strong> unfolds forward from inside the screen
+          (bottom hinge), then later recedes back like Mile when
+          Particulars slides over.
+          <strong>Particulars</strong> covers the full screen as it
+          enters from the right; behind it, Photos transitions out.
+          <strong>RSVP</strong> folds DOWN from out-of-screen — bottom
+          hinge, comes from the air in front and lays back into the
+          website plane.
+        </p>
+
+        <div class="stage" id="stage">
+          <!-- Order matters: highest z first in DOM doesn't matter (z-index handles it) -->
+          <div class="panel-3d panel-3d--rsvp">
+            <span class="small">IV</span>RSVP
+            <span class="italic">kindly</span>
+          </div>
+          <div class="panel-3d panel-3d--photo">
+            <span class="small">III</span>PHOTOS
+            <span class="italic">a memory album</span>
+            <div class="hinge-top"></div>
+            <div class="fold-shadow"></div>
+          </div>
+          <div class="panel-3d panel-3d--mile">
+            <span class="small">II</span>MILESTONES
+            <span class="italic">three reasons</span>
+            <div class="hinge-top"></div>
+            <div class="fold-shadow"></div>
+          </div>
+          <div class="panel-3d panel-3d--hero">
+            <span class="small">I · cover</span>MÉLANGE
+            <span class="italic">— invites you to —</span>
+            <div class="hinge-top"></div>
+            <div class="fold-shadow"></div>
+          </div>
+
+          <!-- Insert card (slides in/out from the right) -->
+          <div class="insert-card">
+            <span class="small">insert</span>PARTICULARS
+            <span class="italic">where to be, and when</span>
+          </div>
+        </div>
+
+        <p class="step-label" id="stepLabel">Step 0 of 4 · CLOSED</p>
+        <p class="step-desc" id="stepDesc">Closed card: Hero showing on the front cover.</p>
+        <div class="controls-row">
+          <button id="prevBtn" onclick="step(-1)">← Back</button>
+          <button id="nextBtn" onclick="step(1)">Open next →</button>
+          <button onclick="reset()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let current = 0;
+    const stage = document.getElementById('stage');
+    const stepLabel = document.getElementById('stepLabel');
+    const stepDesc = document.getElementById('stepDesc');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    const labels = [
+      ['Step 0 of 4 · CLOSED',
+       'Closed card: Hero showing on the front cover.'],
+      ['Step 1 of 4 · HERO → MILESTONES',
+       'Hero lifts at top hinge (bottom edge up). Milestones is revealed.'],
+      ['Step 2 of 4 · MILESTONES → PHOTOS',
+       'Milestones lifts UP and RECEDES into the screen (top hinge, bottom rises and tilts away). Simultaneously, Photos unfolds FORWARD from inside the screen toward you (bottom hinge, top edge sweeps out from the depth). The F2 fold edge — bottom of Mile, top of Photos — meets in the middle of the viewport during the transition.'],
+      ['Step 3 of 4 · PARTICULARS SLIDES IN',
+       'Particulars insert slides in from the right and covers the full screen. Behind it, Photos lifts up and recedes into the screen (top hinge, same motion as Mile). Since Photos and RSVP share a cream background, the blank surface revealed underneath doesn\'t show through.'],
+      ['Step 4 of 4 · PARTICULARS → RSVP',
+       'Particulars slides back out. RSVP folds DOWN from out-of-screen into the website plane — bottom hinge, top edge starts pulled forward toward the viewer, sweeps down and back to lie flat.']
+    ];
+
+    function update() {
+      stage.classList.remove('step-1', 'step-2', 'step-3', 'step-4');
+      if (current >= 1) stage.classList.add('step-' + Math.min(current, 4));
+      stepLabel.textContent = labels[current][0];
+      stepDesc.textContent  = labels[current][1];
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === 4;
+    }
+    function step(d) {
+      current = Math.max(0, Math.min(4, current + d));
+      update();
+    }
+    function reset() {
+      current = 0;
+      update();
+    }
+    update();
+  </script>
+</body>
+</html>

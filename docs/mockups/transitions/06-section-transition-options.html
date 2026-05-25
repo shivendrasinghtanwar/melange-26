@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mélange — Section transition options · A / B / C</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --cream: #FAF1E4;
+      --pink: #C53A56;
+      --pinkDeep: #A12640;
+      --burgundy: #5C1A2B;
+      --marigold: #E0A436;
+      --ink: #3B1410;
+      --inkSoft: #6F4640;
+      --shadow: 0 4px 14px rgba(59, 20, 16, 0.18);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── Top intro ──────────────────────────────────────────────────── */
+    .intro {
+      max-width: 1200px;
+      margin: 0 auto 48px;
+      text-align: center;
+    }
+    .intro h1 {
+      font-family: 'Marcellus', serif;
+      color: var(--burgundy);
+      font-size: 2.2rem;
+      margin: 0 0 12px;
+    }
+    .intro p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--inkSoft);
+      font-size: 1.1rem;
+      margin: 0 auto;
+      max-width: 640px;
+      line-height: 1.5;
+    }
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .controls button {
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid var(--pink);
+      color: var(--pink);
+      padding: 10px 18px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 200ms, color 200ms;
+    }
+    .controls button:hover {
+      background: var(--pink);
+      color: var(--cream);
+    }
+
+    /* ── Three-up grid ──────────────────────────────────────────────── */
+    .grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; max-width: 480px; } }
+
+    .demo {
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(197, 58, 86, 0.15);
+      border-radius: 8px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    .demo__label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--marigold);
+      margin: 0 0 6px;
+    }
+    .demo__title {
+      font-family: 'Marcellus', serif;
+      color: var(--burgundy);
+      font-size: 1.4rem;
+      margin: 0 0 4px;
+    }
+    .demo__subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--inkSoft);
+      font-size: 0.95rem;
+      margin: 0 0 16px;
+      min-height: 2.6em;
+    }
+
+    /* ── Stage: a 3D-perspective viewport ───────────────────────────── */
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: var(--cream);
+      border-radius: 4px;
+      overflow: hidden;
+      perspective: 1400px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+    .panel {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-family: 'Marcellus', serif;
+      font-size: 2rem;
+      color: var(--burgundy);
+      letter-spacing: 0.02em;
+      backface-visibility: hidden;
+      will-change: transform, opacity;
+    }
+    .panel--cream    { background: var(--cream); }
+    .panel--burgundy { background: linear-gradient(180deg, var(--burgundy), #4A1322); color: var(--cream); }
+    .panel--pink     { background: #F4D8DD; color: var(--pinkDeep); }
+
+    .panel .small {
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: currentColor;
+      opacity: 0.65;
+      margin-bottom: 8px;
+    }
+    .panel .italic {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      margin-top: 6px;
+      opacity: 0.7;
+    }
+
+    /* Decorative hinge line (used in A & B). */
+    .panel--hinged-top::before,
+    .panel--hinged-bottom::after {
+      content: '';
+      position: absolute;
+      left: 8%; right: 8%;
+      height: 1px;
+      background: linear-gradient(to right,
+        transparent 0%, rgba(197,58,86,0.6) 50%, transparent 100%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+    .panel--hinged-top::before    { top: 0; }
+    .panel--hinged-bottom::after  { bottom: 0; }
+
+    /* Soft shadow drawn UNDER the descending bottom edge during a fold. */
+    .panel .fold-shadow {
+      position: absolute;
+      left: 0; right: 0; bottom: -2px;
+      height: 28px;
+      background: linear-gradient(to top, rgba(0,0,0,0.22), transparent);
+      opacity: 0;
+      transition: opacity 200ms;
+    }
+
+    /* ──────────────────────────────────────────────────────────────────
+       Option A — Flipchart: every section lifts at its TOP hinge.
+       Same motion as the current Hero fold, repeated for every page.
+       Transform origin: top center.
+       ────────────────────────────────────────────────────────────────── */
+    .a-page {
+      transform-origin: top center;
+    }
+    .stage.playing-a .a-page--first {
+      animation: foldTopHinge 1.8s cubic-bezier(.215, .61, .355, 1) forwards;
+    }
+    .stage.playing-a .a-page--first .fold-shadow {
+      animation: shadowGrow 1.8s cubic-bezier(.215, .61, .355, 1) forwards;
+    }
+    @keyframes foldTopHinge {
+      0%   { transform: rotateX(0deg);   opacity: 1; }
+      70%  { transform: rotateX(85deg);  opacity: 1; }
+      100% { transform: rotateX(115deg); opacity: 0; }
+    }
+    @keyframes shadowGrow {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    /* ──────────────────────────────────────────────────────────────────
+       Option B — Accordion: hinge direction alternates.
+       First fold (hero → milestones) is top-hinged (same as A).
+       Second fold (milestones → gallery) is BOTTOM-hinged — the panel's
+       top edge swings up and back, anchored at the bottom.
+       The demo plays both in sequence so the alternation is visible.
+       ────────────────────────────────────────────────────────────────── */
+    .b-page--first  { transform-origin: top center; z-index: 3; }
+    .b-page--second { transform-origin: bottom center; z-index: 2; }
+    .b-page--third  { z-index: 1; }
+
+    .stage.playing-b .b-page--first {
+      animation: foldTopHinge 1.6s cubic-bezier(.215, .61, .355, 1) forwards;
+    }
+    .stage.playing-b .b-page--first .fold-shadow {
+      animation: shadowGrow 1.6s cubic-bezier(.215, .61, .355, 1) forwards;
+    }
+    .stage.playing-b .b-page--second {
+      animation: foldBottomHinge 1.6s 1.7s cubic-bezier(.215, .61, .355, 1) forwards;
+    }
+    @keyframes foldBottomHinge {
+      0%   { transform: rotateX(0deg);    opacity: 1; }
+      70%  { transform: rotateX(-85deg);  opacity: 1; }
+      100% { transform: rotateX(-115deg); opacity: 0; }
+    }
+    /* B's second-fold shadow lives at the TOP edge of the lifting panel
+       (since it's anchored at the bottom and the top edge moves away). */
+    .b-page--second .fold-shadow-top {
+      position: absolute;
+      left: 0; right: 0; top: -2px;
+      height: 28px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.22), transparent);
+      opacity: 0;
+    }
+    .stage.playing-b .b-page--second .fold-shadow-top {
+      animation: shadowGrow 1.6s 1.7s cubic-bezier(.215, .61, .355, 1) forwards;
+    }
+
+    /* ──────────────────────────────────────────────────────────────────
+       Option C — Sliding panels with crease detail.
+       The leaving panel translates upward; a faint horizontal crease
+       (pink hairline + soft drop shadow) briefly becomes visible at its
+       bottom edge during the motion. No 3D rotation.
+       ────────────────────────────────────────────────────────────────── */
+    .c-page--first {
+      z-index: 3;
+      will-change: transform;
+    }
+    .c-page--first .c-crease {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 1px;
+      background: linear-gradient(to right,
+        transparent 0%, rgba(197,58,86,0.45) 30%, rgba(197,58,86,0.85) 50%, rgba(197,58,86,0.45) 70%, transparent 100%);
+      opacity: 0;
+    }
+    .c-page--first .c-crease-shadow {
+      position: absolute;
+      left: 0; right: 0; bottom: -10px;
+      height: 18px;
+      background: linear-gradient(to top, rgba(0,0,0,0.18), transparent);
+      opacity: 0;
+    }
+    .stage.playing-c .c-page--first {
+      animation: slideUp 1.6s cubic-bezier(.65, 0, .35, 1) forwards;
+    }
+    .stage.playing-c .c-page--first .c-crease {
+      animation: creaseAppear 1.6s cubic-bezier(.65, 0, .35, 1) forwards;
+    }
+    .stage.playing-c .c-page--first .c-crease-shadow {
+      animation: creaseShadow 1.6s cubic-bezier(.65, 0, .35, 1) forwards;
+    }
+    @keyframes slideUp {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-100%); }
+    }
+    @keyframes creaseAppear {
+      0%   { opacity: 0; }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes creaseShadow {
+      0%   { opacity: 0; }
+      15%  { opacity: 0.9; }
+      85%  { opacity: 0.9; }
+      100% { opacity: 0; }
+    }
+
+    /* ── Caption beneath each stage ─────────────────────────────────── */
+    .caption {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--inkSoft);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      margin: 12px 0 0;
+    }
+    .caption strong {
+      font-style: normal;
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .pros-cons {
+      margin-top: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--inkSoft);
+    }
+    .pros-cons span.tag {
+      display: inline-block;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 2px;
+      margin-right: 4px;
+      vertical-align: 1px;
+    }
+    .pros-cons span.tag--pro { background: rgba(8, 100, 60, 0.1); color: #226A3C; }
+    .pros-cons span.tag--con { background: rgba(197, 58, 86, 0.1); color: var(--pinkDeep); }
+  </style>
+</head>
+<body>
+  <div class="intro">
+    <h1>Section transition · three options</h1>
+    <p>
+      Click <em>Play all</em> to see each motion run in parallel, or hit a single demo's
+      "Replay" to see it again. Cover, middle, and last panels are stand-ins for
+      Hero / Milestones / Gallery so you can read the geometry rather than the content.
+    </p>
+    <div class="controls">
+      <button onclick="playAll()">Play all</button>
+      <button onclick="resetAll()">Reset</button>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         OPTION A — FLIPCHART
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="demo">
+      <p class="demo__label">Option A</p>
+      <h2 class="demo__title">Flipchart</h2>
+      <p class="demo__subtitle">All sections share one motion: top hinge, bottom edge lifts.</p>
+
+      <div class="stage" id="stage-a">
+        <!-- Underneath: revealed -->
+        <div class="panel panel--burgundy" style="z-index: 1;">
+          <span class="small">II</span>
+          THE THREE
+          <span class="italic">milestones</span>
+        </div>
+        <!-- Top page that lifts (same as the Hero fold) -->
+        <div class="panel panel--cream a-page a-page--first panel--hinged-top" style="z-index: 2;">
+          <span class="small">I · cover</span>
+          MÉLANGE
+          <span class="italic">— invites you to —</span>
+          <div class="fold-shadow"></div>
+        </div>
+      </div>
+
+      <button onclick="playOne('a')" style="align-self: flex-start; font-family: 'Outfit'; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; background: transparent; border: 1px solid var(--pink); color: var(--pink); padding: 8px 14px; cursor: pointer; border-radius: 2px;">Replay</button>
+
+      <p class="caption">
+        <strong>Every transition uses the same motion</strong> — every section is hinged at its top edge and lifts the same way Hero does today. Six identical page-lifts as you scroll through the card.
+      </p>
+      <p class="pros-cons">
+        <span class="tag tag--pro">Pro</span> Simplest to build; the existing HeroFold code can be parameterized and re-used five more times.<br>
+        <span class="tag tag--con">Con</span> Repetitive after the first; the metaphor doesn't really say "physical card" — it says "stack of pages bound at the top, like a notepad."
+      </p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         OPTION B — ACCORDION (alternating hinges)
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="demo">
+      <p class="demo__label">Option B</p>
+      <h2 class="demo__title">Accordion (Z-fold)</h2>
+      <p class="demo__subtitle">Hinges alternate per section — top, then bottom, then top.</p>
+
+      <div class="stage" id="stage-b">
+        <!-- Third panel (revealed last) -->
+        <div class="panel panel--pink b-page--third">
+          <span class="small">III</span>
+          A MEMORY
+          <span class="italic">album</span>
+        </div>
+        <!-- Second panel (bottom hinge, lifts second) -->
+        <div class="panel panel--burgundy b-page--second panel--hinged-bottom">
+          <span class="small">II ↑ from bottom</span>
+          THE THREE
+          <span class="italic">milestones</span>
+          <div class="fold-shadow-top"></div>
+        </div>
+        <!-- Top panel (top hinge, lifts first) -->
+        <div class="panel panel--cream b-page--first panel--hinged-top">
+          <span class="small">I · cover ↑ from top</span>
+          MÉLANGE
+          <span class="italic">— invites you to —</span>
+          <div class="fold-shadow"></div>
+        </div>
+      </div>
+
+      <button onclick="playOne('b')" style="align-self: flex-start; font-family: 'Outfit'; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; background: transparent; border: 1px solid var(--pink); color: var(--pink); padding: 8px 14px; cursor: pointer; border-radius: 2px;">Replay</button>
+
+      <p class="caption">
+        <strong>Hero lifts at the top hinge (current).</strong>
+        Milestones is connected to Hero at its TOP edge and to Gallery at its BOTTOM edge — so to reveal Gallery, Milestones <em>swings up and back at its bottom hinge</em> (top edge moves away from the viewer). Then Gallery → Details flips at the top again. The card "unfolds" like a real Z-fold pamphlet.
+      </p>
+      <p class="pros-cons">
+        <span class="tag tag--pro">Pro</span> Strongest "this is a physical card" feel; matches your "opposite side / same side" mental model exactly.<br>
+        <span class="tag tag--con">Con</span> Two timeline variants to maintain instead of one; bottom-hinge motion can feel like the page is "falling forward" if not tuned carefully.
+      </p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         OPTION C — SLIDE + CREASE
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="demo">
+      <p class="demo__label">Option C</p>
+      <h2 class="demo__title">Slide with crease</h2>
+      <p class="demo__subtitle">Panel translates upward; a faint pink crease hints at the fold.</p>
+
+      <div class="stage" id="stage-c">
+        <!-- Underneath -->
+        <div class="panel panel--burgundy" style="z-index: 1;">
+          <span class="small">II</span>
+          THE THREE
+          <span class="italic">milestones</span>
+        </div>
+        <!-- Sliding panel -->
+        <div class="panel panel--cream c-page--first" style="z-index: 2;">
+          <span class="small">I · cover</span>
+          MÉLANGE
+          <span class="italic">— invites you to —</span>
+          <div class="c-crease-shadow"></div>
+          <div class="c-crease"></div>
+        </div>
+      </div>
+
+      <button onclick="playOne('c')" style="align-self: flex-start; font-family: 'Outfit'; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; background: transparent; border: 1px solid var(--pink); color: var(--pink); padding: 8px 14px; cursor: pointer; border-radius: 2px;">Replay</button>
+
+      <p class="caption">
+        <strong>No 3D rotation.</strong> The leaving panel translates straight upward, and a faint pink hairline + soft drop-shadow appear briefly at its bottom edge as it slides — implying the seam where the paper was folded, without actually animating a fold. Lighter weight; the "card" is suggested, not demonstrated.
+      </p>
+      <p class="pros-cons">
+        <span class="tag tag--pro">Pro</span> Cheapest to produce, smoothest on low-end devices, easy to chain five times without feeling repetitive.<br>
+        <span class="tag tag--con">Con</span> Doesn't really say "I am turning a page" — more "I am scrolling a long document with paper-styled section breaks."
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    function playOne(letter) {
+      const stage = document.getElementById('stage-' + letter);
+      stage.classList.remove('playing-' + letter);
+      // Force reflow so the class re-add restarts the animation.
+      // eslint-disable-next-line no-unused-expressions
+      void stage.offsetWidth;
+      stage.classList.add('playing-' + letter);
+    }
+    function playAll() {
+      playOne('a'); playOne('b'); playOne('c');
+    }
+    function resetAll() {
+      ['a', 'b', 'c'].forEach(l => {
+        document.getElementById('stage-' + l).classList.remove('playing-' + l);
+      });
+    }
+    // Auto-play once on load so the user sees motion immediately.
+    window.addEventListener('load', () => setTimeout(playAll, 400));
+  </script>
+</body>
+</html>

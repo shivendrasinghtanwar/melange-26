@@ -1,107 +1,82 @@
 import type { ReactNode } from 'react';
 import { Reveal } from './Reveal';
-import { EVENT } from '../lib/config';
 
 /* Memory album — two continuous marquee strips drifting in opposite
    directions. Each strip's content is rendered twice inline (with the
    duplicates aria-hidden) so the translateX(-50%) keyframe makes a
-   truly seamless loop. CSS lives in src/index.css under "Memory album". */
+   truly seamless loop. CSS lives in src/index.css under "Memory album".
+
+   Photo assets live in public/assets/gallery-web/ — converted from
+   the originals in public/assets/gallery/ (HEIF→JPEG, downscaled to
+   1600px long-edge) via utils/heif_to_jpg.py. See the README in that
+   folder for the conversion recipe. */
+
+/** Build the absolute URL to a gallery photo, honouring the Vite
+ *  `base` (so it works under both the local dev `/` and the deployed
+ *  `/melange-26/`). */
+const photo = (filename: string) =>
+  `${import.meta.env.BASE_URL}assets/gallery-web/${filename}`;
 
 type Photo = {
   ar: '4-3' | '3-4' | '16-9' | '1-1';
   frame: 1 | 2 | 3;
   tag: string;
-  /** Inner content of the gradient frame: either a large italic
-   *  "photo-caption-num" mark, or a multi-line "frame-flourish" phrase. */
-  inner:
-    | { kind: 'num'; text: ReactNode }
-    | { kind: 'flourish'; lines: [string] | [string, string]; size?: 'sm' | 'md' };
+  src: string;
+  alt: string;
   caption: ReactNode;
 };
 
 const ROW_TOP: Photo[] = [
   {
     ar: '4-3', frame: 1, tag: 'No. I',
-    inner: { kind: 'num', text: <>XII<span className="text-cream/60">·</span>25</> },
-    caption: <>the ceremony &nbsp;·&nbsp; {EVENT.couple.ceremonyShort}</>,
+    src: photo('family_1.jpg'),
+    alt: 'The Tanwar family',
+    caption: 'the family, together',
   },
   {
     ar: '3-4', frame: 2, tag: 'No. II',
-    inner: { kind: 'flourish', lines: ['around', 'the haveli'] },
-    caption: 'around the haveli · spring 2026',
+    src: photo('shivdi_hyd_1.jpg'),
+    alt: 'Shivendra and Divyani, evening portrait',
+    caption: 'an evening · Hyderabad',
   },
   {
     ar: '16-9', frame: 3, tag: 'No. III',
-    inner: { kind: 'flourish', lines: ['a classroom,', 'thirty years on'] },
-    caption: 'Sophia School · last bell',
+    src: photo('shivdi_bali_2.jpg'),
+    alt: 'Shivendra and Divyani at the Bali cliffs',
+    caption: 'Bali · the cliffs',
   },
   {
-    ar: '1-1', frame: 1, tag: 'No. IV',
-    inner: { kind: 'flourish', lines: ['family,', 'gathered'], size: 'sm' },
-    caption: 'family portrait · winter 2025',
-  },
-  {
-    ar: '4-3', frame: 2, tag: 'No. V',
-    inner: { kind: 'num', text: "'92" },
-    caption: 'Sarandha’s class of ’92',
-  },
-  {
-    ar: '3-4', frame: 3, tag: 'No. VI',
-    inner: { kind: 'flourish', lines: ['the morning', 'after'] },
-    caption: 'the morning after',
-  },
-  {
-    ar: '16-9', frame: 1, tag: 'No. VII',
-    inner: { kind: 'flourish', lines: ['Bikaner,', 'on the way'] },
-    caption: 'Bikaner, on the way',
-  },
-  {
-    ar: '1-1', frame: 2, tag: 'No. VIII',
-    inner: { kind: 'flourish', lines: ['tea at', 'the haveli'], size: 'sm' },
-    caption: 'tea at the haveli',
+    ar: '3-4', frame: 1, tag: 'No. IV',
+    src: photo('shivdi_nashik.jpg'),
+    alt: 'Shivendra and Divyani at twilight',
+    caption: 'twilight · December',
   },
 ];
 
 const ROW_BOTTOM: Photo[] = [
   {
-    ar: '16-9', frame: 2, tag: 'No. IX',
-    inner: { kind: 'flourish', lines: ['the courtyard,', 'at dusk'] },
-    caption: 'the courtyard · early evening',
+    ar: '3-4', frame: 2, tag: 'No. V',
+    src: photo('shivdi_nashik_2.jpg'),
+    alt: 'Shivendra and Divyani in the garden at dusk',
+    caption: 'the garden, at dusk',
   },
   {
-    ar: '1-1', frame: 3, tag: 'No. X',
-    inner: { kind: 'flourish', lines: ['a quiet', 'page'], size: 'sm' },
-    caption: 'the staff room · last week',
+    ar: '4-3', frame: 3, tag: 'No. VI',
+    src: photo('shivdi_bali_1.jpg'),
+    alt: 'Shivendra and Divyani by the sea in Bali',
+    caption: 'the sea · Uluwatu',
   },
   {
-    ar: '3-4', frame: 1, tag: 'No. XI',
-    inner: { kind: 'flourish', lines: ['the long', 'drive home'] },
-    caption: 'Jaipur to Bikaner · February',
+    ar: '3-4', frame: 1, tag: 'No. VII',
+    src: photo('shivdi_1.jpg'),
+    alt: 'Shivendra and Divyani above the city',
+    caption: 'above the city',
   },
   {
-    ar: '4-3', frame: 2, tag: 'No. XII',
-    inner: { kind: 'num', text: 'MMXXV' },
-    caption: 'an anniversary, quietly',
-  },
-  {
-    ar: '16-9', frame: 1, tag: 'No. XIII',
-    inner: { kind: 'flourish', lines: ['the school', 'verandah'] },
-    caption: 'Sophia School · the verandah',
-  },
-  {
-    ar: '1-1', frame: 3, tag: 'No. XIV',
-    inner: { kind: 'flourish', lines: ['two', 'generations'], size: 'sm' },
-    caption: 'two generations, one frame',
-  },
-  {
-    ar: '3-4', frame: 2, tag: 'No. XV',
-    inner: { kind: 'flourish', lines: ['marigold', '& rain'] },
-    caption: 'marigold & rain · monsoon 2025',
-  },
-  {
-    ar: '4-3', frame: 1, tag: '& more',
-    inner: { kind: 'flourish', lines: ['… and many', 'more to come'] },
-    caption: '… and many more to come',
+    ar: '3-4', frame: 2, tag: 'No. VIII',
+    src: photo('shivdi_goa_1.jpg'),
+    alt: 'Shivendra and Divyani in Goa',
+    caption: 'Goa · monsoon',
   },
 ];
 
@@ -110,15 +85,7 @@ function PhotoItem({ p, dup }: { p: Photo; dup: boolean }) {
     <figure className={`marquee__item ar-${p.ar}`} aria-hidden={dup || undefined}>
       <div className={`photo-frame photo-${p.frame}`}>
         <span className="smallcaps frame-tag">{p.tag}</span>
-        {p.inner.kind === 'num' ? (
-          <div className="photo-caption-num">{p.inner.text}</div>
-        ) : (
-          <div className={`frame-flourish ${p.inner.size === 'sm' ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-3xl'}`}>
-            {p.inner.lines[0]}
-            <br />
-            {p.inner.lines[1] ?? ''}
-          </div>
-        )}
+        <img className="photo-image" src={p.src} alt={p.alt} loading="lazy" />
       </div>
       <figcaption className="smallcaps marquee__caption">{p.caption}</figcaption>
     </figure>

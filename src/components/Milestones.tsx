@@ -116,7 +116,7 @@ export function Milestones({ id }: { id?: string } = {}) {
        carry their own max-w-6xl wrapper. */
     <section
       id={id}
-      className="min-h-screen flex flex-col pt-6 sm:pt-10 pb-6 sm:pb-10"
+      className="paper-cloth paper-edge--soft min-h-screen flex flex-col pt-6 sm:pt-10 pb-6 sm:pb-10"
     >
       <div className="text-center shrink-0 px-5 sm:px-10 max-w-6xl mx-auto w-full">
         <Reveal>

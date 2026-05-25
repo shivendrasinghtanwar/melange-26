@@ -45,7 +45,7 @@ export function RsvpForm() {
 
   if (status === 'success') {
     return (
-      <section id="rsvp" className="min-h-screen flex flex-col">
+      <section id="rsvp" className="paper-cloth paper-edge--soft min-h-screen flex flex-col">
         <div className="flex-1 flex flex-col justify-center px-5 sm:px-10">
           <div className="text-center max-w-2xl mx-auto">
             <p className="smallcaps text-emerald">Reply received</p>
@@ -72,7 +72,7 @@ export function RsvpForm() {
      the on-dark divider that sits at the bottom of the burgundy
      Particulars section above. */
   return (
-    <section id="rsvp" className="min-h-screen flex flex-col pt-16 sm:pt-20">
+    <section id="rsvp" className="paper-cloth paper-edge--soft min-h-screen flex flex-col pt-16 sm:pt-20">
       <div className="px-5 sm:px-10 max-w-6xl mx-auto w-full">
         <div className="text-center max-w-2xl mx-auto">
           <Reveal>

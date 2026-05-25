@@ -125,7 +125,7 @@ export function Gallery({ id }: { id?: string } = {}) {
   return (
     <section
       id={id}
-      className="min-h-screen flex flex-col pt-6 sm:pt-10"
+      className="paper-cloth paper-cloth--no-sides paper-edge--soft min-h-screen flex flex-col pt-6 sm:pt-10"
       aria-labelledby="album-title"
     >
       <div className="px-5 sm:px-10 max-w-6xl mx-auto w-full">

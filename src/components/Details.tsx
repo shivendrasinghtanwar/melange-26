@@ -118,7 +118,7 @@ export function Details() {
                   >
                     <use href="#floret-dot" />
                   </svg>
-                  Children most welcome.
+                  Bring an appetite, and a good shoe.
                 </p>
               </div>
             </aside>

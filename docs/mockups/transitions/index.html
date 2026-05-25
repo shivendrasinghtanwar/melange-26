@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mélange — Hero → Milestones · Transition Options</title>
+  <meta name="description" content="Two scroll-pinned card-opening transitions between the hero and The Three Milestones. Pick one." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --cream: #FAF1E4;
+      --pink: #C53A56;
+      --burgundy: #5C1A2B;
+      --marigold: #E0A436;
+      --ink: #3B1410;
+      --inkSoft: #6F4640;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(circle at 22% 14%, rgba(197,58,86,0.045) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 73% 41%, rgba(59,20,16,0.05) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 38% 78%, rgba(224,164,54,0.06) 0 1.2px, transparent 2px);
+      background-size: 380px 380px, 290px 290px, 510px 510px;
+    }
+
+    header.page {
+      padding: 5rem 1.5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: .45em;
+      text-transform: uppercase;
+      color: var(--marigold);
+      font-weight: 500;
+    }
+    h1 {
+      font-family: 'Marcellus', serif;
+      font-weight: 400;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1.05;
+      margin: 1.25rem 0 .75rem;
+      color: var(--burgundy);
+    }
+    h1 em { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--pink); font-weight: 500; }
+    .lede {
+      max-width: 42rem;
+      margin: 0 auto;
+      color: var(--inkSoft);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    .lede strong { color: var(--ink); font-weight: 500; }
+    .rule {
+      width: 80px;
+      height: 1px;
+      background: var(--marigold);
+      margin: 1.75rem auto 0;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    @media (min-width: 880px) {
+      main { grid-template-columns: 1fr 1fr; gap: 2.5rem 2rem; }
+    }
+
+    .card {
+      background: #FBF6EC;
+      border: 1px solid rgba(197,58,86,0.22);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(59,20,16,0.08); }
+    .card__frame {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      background: #fff;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(197,58,86,0.22);
+    }
+    .card__frame iframe {
+      position: absolute; top: 0; left: 0;
+      width: 1400px; height: 1750px;
+      border: 0;
+      transform: scale(0.35);
+      transform-origin: top left;
+      pointer-events: none;
+    }
+    @media (max-width: 600px) {
+      .card__frame iframe { width: 1200px; height: 1500px; transform: scale(0.30); }
+    }
+    .card__body {
+      padding: 1.5rem 1.5rem 1.75rem;
+      display: flex; flex-direction: column; gap: .9rem;
+    }
+    .card__index {
+      font-family: 'Marcellus', serif;
+      color: var(--marigold);
+      font-size: 1.75rem;
+      line-height: 1;
+    }
+    .card__title {
+      font-family: 'Marcellus', serif;
+      font-size: 2rem;
+      line-height: 1.05;
+      margin: 0;
+      color: var(--burgundy);
+    }
+    .card__title em { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--pink); }
+    .card__desc { color: var(--inkSoft); line-height: 1.65; font-size: 14px; margin: 0; }
+    .card__how {
+      margin-top: .4rem;
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: rgba(197,58,86,0.05);
+      border-left: 2px solid var(--marigold);
+      padding: 0.65rem 0.9rem;
+    }
+    .card__how strong { font-weight: 500; color: var(--burgundy); }
+    .card__actions { display: flex; gap: .75rem; margin-top: .5rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .8rem 1.25rem;
+      border: 1px solid var(--burgundy);
+      background: transparent;
+      color: var(--burgundy);
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .25s ease, color .25s ease, letter-spacing .25s ease;
+    }
+    .btn:hover { background: var(--burgundy); color: var(--cream); letter-spacing: .25em; }
+
+    .legend {
+      max-width: 1100px;
+      margin: 0 auto 5rem;
+      padding: 0 1.5rem;
+      font-size: 13px;
+      color: var(--inkSoft);
+      line-height: 1.7;
+    }
+    .legend p { margin: 0 0 .8rem; }
+    .legend code { background: rgba(197,58,86,0.08); color: var(--burgundy); padding: 1px 6px; }
+    .legend .archived { font-size: 12px; color: var(--inkSoft); opacity: 0.8; }
+    .legend a { color: var(--burgundy); text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <header class="page">
+    <p class="eyebrow">Mélange · Hero → Milestones</p>
+    <h1>Two final<br/><em>candidates.</em></h1>
+    <p class="lede">
+      The hero is the closed cover of the invitation; on scroll, the card <strong>opens</strong> and reveals
+      <strong>The Three Milestones</strong> inside. Book Cover and Envelope are out. Bi-fold has been re-tuned so
+      the doors stay visible on mobile too. Top-fold replaced with <strong>bottom-fold</strong> (the card drops
+      open downward instead of lifting up).
+    </p>
+    <div class="rule"></div>
+  </header>
+
+  <main>
+
+    <!-- I · Bi-fold doors -->
+    <article class="card">
+      <div class="card__frame">
+        <iframe src="01-bifold-doors.html" loading="lazy" title="Bi-fold doors preview" tabindex="-1"></iframe>
+      </div>
+      <div class="card__body">
+        <span class="card__index">I</span>
+        <h2 class="card__title">Bi-fold <em>doors.</em></h2>
+        <p class="card__desc">
+          A thin vertical seam runs down the centre of the hero. As you scroll, the two halves rotate outward —
+          left half swings left, right half swings right — exposing The Three Milestones in the middle.
+        </p>
+        <p class="card__how">
+          <strong>How it feels:</strong> the classic Indian invitation-card opening. Symmetric, ceremonial.
+          <br/><strong>Mobile:</strong> the doors stay visible — perspective is gently reduced and the rotation
+          softens to 100° so the two narrower halves still clear the inside cleanly.
+        </p>
+        <div class="card__actions">
+          <a class="btn" href="01-bifold-doors.html" target="_blank">Open in full ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- V · Bottom-fold open -->
+    <article class="card">
+      <div class="card__frame">
+        <iframe src="05-bottom-fold-open.html" loading="lazy" title="Bottom-fold open preview" tabindex="-1"></iframe>
+      </div>
+      <div class="card__body">
+        <span class="card__index">II</span>
+        <h2 class="card__title">Bottom-fold <em>open.</em></h2>
+        <p class="card__desc">
+          The hinge is at the top edge of the hero. As you scroll, the card rotates around that top edge so the
+          bottom swings downward and forward — the card "drops open" — revealing The Three Milestones underneath.
+        </p>
+        <p class="card__how">
+          <strong>How it feels:</strong> matches the direction of scroll (you scroll down, the card opens down).
+          The simplest, most universally legible of the openings, and identical behaviour on mobile and desktop.
+          <br/><strong>Mobile:</strong> identical — no fallback needed, single-edge rotation works perfectly at 375px.
+        </p>
+        <div class="card__actions">
+          <a class="btn" href="05-bottom-fold-open.html" target="_blank">Open in full ↗</a>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <aside class="legend">
+    <p>
+      <strong>How to evaluate:</strong> open one full-screen, scroll slowly, watch the card open as you go. Try at
+      desktop and at mobile width (Chrome DevTools → device toolbar → iPhone). Reduced-motion preference is honoured
+      — the animation is skipped if the OS asks for it.
+    </p>
+    <p>
+      <strong>Scroll mechanics in both:</strong> the hero stays pinned (<code>position: sticky</code>) for one
+      additional viewport-height of scroll. During that scroll the opening transform progresses from 0 → 1. After it
+      finishes, normal flow resumes into The Three Milestones (then Gallery, Particulars, RSVP, Footer — exactly as
+      the site already scrolls today).
+    </p>
+    <p class="archived">
+      <strong>Rejected / archived for reference:</strong>
+      <a href="02-top-fold-lift.html" target="_blank">II Top-fold lift</a> ·
+      <a href="03-book-cover-lift.html" target="_blank">III Book cover lift</a> ·
+      <a href="04-envelope-flap.html" target="_blank">IV Envelope flap</a>.
+    </p>
+  </aside>
+
+</body>
+</html>

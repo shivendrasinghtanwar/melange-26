@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Mélange — Book Cover Lift</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap"
+  rel="stylesheet"
+/>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cream:    '#FAF1E4',
+          rose:     '#F2D6CC',
+          blush:    '#EAD7C4',
+          pink:     '#C53A56',
+          burgundy: '#5C1A2B',
+          marigold: '#E0A436',
+          goldSoft: '#D4B57C',
+          emerald:  '#1B5E3F',
+          ink:      '#3B1410',
+          inkSoft:  '#6F4640',
+        },
+        fontFamily: {
+          display:  ['Marcellus', 'serif'],
+          accent:   ['"Cormorant Garamond"', 'serif'],
+          body:     ['Outfit', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root {
+    --cream:    #FAF1E4;
+    --rose:     #F2D6CC;
+    --blush:    #EAD7C4;
+    --pink:     #C53A56;
+    --burgundy: #5C1A2B;
+    --marigold: #E0A436;
+    --goldSoft: #D4B57C;
+    --emerald:  #1B5E3F;
+    --ink:      #3B1410;
+    --inkSoft:  #6F4640;
+  }
+
+  html, body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Outfit', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body { overflow-x: hidden; }
+
+  .font-display { font-family: 'Marcellus', serif; }
+  .font-accent  { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+  .smallcaps {
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-weight: 500;
+  }
+
+  /* ---------- Card frame / scroll-pin ---------- */
+  .card-frame { height: 220svh; position: relative; }
+  .card-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    perspective: 1800px;
+    perspective-origin: 30% 50%;
+    background:
+      radial-gradient(120% 80% at 50% 110%, rgba(92,26,43,0.10), transparent 60%),
+      linear-gradient(180deg, #efe2cf 0%, #e6d3bb 100%);
+  }
+
+  .hero-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  /* Inside (milestones preview) sits behind the cover and is gradually revealed. */
+  .card-inside-preview {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: var(--cream);
+    /* Faint inner ruling like an opened spread */
+    background-image:
+      radial-gradient(120% 90% at 0% 50%, rgba(0,0,0,0.06), transparent 50%),
+      linear-gradient(180deg, #FAF1E4 0%, #F6E9D2 100%);
+    /* Slight push back so cover floats above when lifting */
+    transform: translateZ(-1px);
+    /* Make it feel like the page beneath darkens when cover overhangs */
+  }
+
+  /* A soft cast shadow on the inside that grows as the cover lifts */
+  .card-inside-preview::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(0,0,0, calc(var(--progress, 0) * 0.22)) 0%,
+      rgba(0,0,0, calc(var(--progress, 0) * 0.10)) 30%,
+      rgba(0,0,0, 0) 70%
+    );
+    pointer-events: none;
+    transition: opacity 120ms linear;
+  }
+
+  /* Inside content layout */
+  .inside-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    padding: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .inside-content {
+    width: 100%;
+    max-width: 1100px;
+    /* Gentle reveal as the cover starts to lift */
+    opacity: calc(0.4 + var(--progress, 0) * 0.9);
+    transform: translateX(calc(var(--progress, 0) * 6px));
+    transition: opacity 80ms linear, transform 80ms linear;
+  }
+
+  /* ---------- The cover itself ---------- */
+  .hero-cover {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(140% 90% at 30% 20%, rgba(255,255,255,0.55), transparent 55%),
+      linear-gradient(180deg, #FBF3E4 0%, #F2E2C6 100%);
+    transform-origin: left center;
+    transform:
+      translateZ(calc(var(--progress, 0) * 40px))
+      rotateY(calc(var(--progress, 0) * -160deg));
+    will-change: transform, box-shadow, opacity;
+    backface-visibility: hidden;
+    box-shadow:
+      0 calc(var(--progress, 0) * 30px) calc(var(--progress, 0) * 60px) rgba(0,0,0,0.18),
+      0 calc(var(--progress, 0) * 6px) calc(var(--progress, 0) * 14px) rgba(92,26,43,0.10);
+    /* slight fade past 0.9 so the flipped-away cover doesn't dominate */
+    opacity: calc(1 - max(0, (var(--progress, 0) - 0.9)) * 3.5);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Spine hairline on the LEFT edge of the cover */
+  .cover-spine {
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 6px;
+    background:
+      linear-gradient(to right,
+        rgba(92,26,43,0.55),
+        rgba(92,26,43,0.18) 60%,
+        transparent);
+    pointer-events: none;
+  }
+  .cover-spine::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 1px;
+    background: var(--pink);
+    opacity: 0.55;
+  }
+
+  /* Inner shadow on the right edge so it reads as a real edge */
+  .hero-cover::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; right: 0;
+    width: 8px;
+    background: linear-gradient(to left, rgba(0,0,0,0.10), transparent);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* Inside-of-cover (back face) — paper feel, faint watermark */
+  .hero-cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    background:
+      radial-gradient(60% 50% at 50% 50%, rgba(224,164,54,0.06), transparent 70%),
+      linear-gradient(180deg, #FBF6EC 0%, #F5E9D0 100%);
+    z-index: 0;
+  }
+
+  /* Decorative border frame on the cover */
+  .cover-frame {
+    position: absolute;
+    inset: clamp(1rem, 3vw, 2.25rem);
+    border: 1px solid rgba(197,58,86,0.35);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .cover-frame::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 0.5px solid rgba(224,164,54,0.35);
+    pointer-events: none;
+  }
+
+  /* Corner ornaments */
+  .corner {
+    position: absolute;
+    width: 28px; height: 28px;
+    color: var(--marigold);
+  }
+  .corner.tl { top:  clamp(1rem, 3vw, 2.25rem); left:  clamp(1rem, 3vw, 2.25rem); }
+  .corner.tr { top:  clamp(1rem, 3vw, 2.25rem); right: clamp(1rem, 3vw, 2.25rem); transform: scaleX(-1); }
+  .corner.bl { bottom: clamp(1rem, 3vw, 2.25rem); left:  clamp(1rem, 3vw, 2.25rem); transform: scaleY(-1); }
+  .corner.br { bottom: clamp(1rem, 3vw, 2.25rem); right: clamp(1rem, 3vw, 2.25rem); transform: scale(-1, -1); }
+
+  /* Hero content stack */
+  .cover-content {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: clamp(1.5rem, 5vw, 3rem);
+    z-index: 2;
+    /* The content should not show on the back side */
+    backface-visibility: hidden;
+  }
+
+  .arch-wrap {
+    position: relative;
+    width: min(560px, 90vw);
+    aspect-ratio: 5 / 6;
+    display: grid;
+    place-items: center;
+  }
+  .arch-wrap svg.arch {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .arch-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: clamp(0.5rem, 1.4vw, 0.9rem);
+    padding: 0 clamp(1rem, 4vw, 2rem);
+  }
+
+  .wordmark {
+    font-family: 'Marcellus', serif;
+    color: var(--pink);
+    font-size: clamp(2.6rem, 9vmin, 6rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+
+  .date-strip {
+    font-family: 'Outfit', sans-serif;
+    color: var(--inkSoft);
+    letter-spacing: 0.35em;
+    font-size: clamp(0.65rem, 1.6vmin, 0.8rem);
+    text-transform: uppercase;
+    border-top: 1px solid rgba(197,58,86,0.35);
+    border-bottom: 1px solid rgba(197,58,86,0.35);
+    padding: 0.55rem 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Hairline gradient under milestone titles */
+  .gold-hairline {
+    height: 1px;
+    background: linear-gradient(to right,
+      transparent,
+      rgba(224,164,54,0.6) 20%,
+      rgba(197,58,86,0.5) 50%,
+      rgba(224,164,54,0.6) 80%,
+      transparent);
+    width: 100%;
+    margin: 0.85rem 0 1.1rem;
+  }
+
+  /* Milestones (the real section below) */
+  .milestones-section {
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 4vw, 3rem) clamp(4rem, 10vw, 7rem);
+  }
+
+  /* Bottom footer/closing band */
+  .closing-band {
+    padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 3rem);
+    border-top: 1px solid rgba(92,26,43,0.15);
+    background: linear-gradient(180deg, #FAF1E4 0%, #F4E3CC 100%);
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .card-frame { height: auto !important; }
+    .card-pin   { position: relative !important; height: auto !important; overflow: visible !important; }
+    .hero-cover { display: none !important; }
+    .card-inside-preview { position: relative !important; inset: auto !important; }
+    .inside-content { opacity: 1 !important; transform: none !important; }
+    .card-inside-preview::before { display: none !important; }
+  }
+
+  /* Mobile-first tweaks */
+  @media (max-width: 768px) {
+    .card-pin { perspective: 1400px; perspective-origin: 25% 50%; }
+    .arch-wrap { width: min(380px, 92vw); }
+  }
+
+  @media (max-width: 420px) {
+    .card-pin { perspective: 1200px; }
+  }
+
+  /* Helper: scroll hint */
+  .scroll-hint {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(1rem, 3vw, 2rem);
+    transform: translateX(-50%);
+    color: var(--inkSoft);
+    opacity: calc(1 - var(--progress, 0) * 2);
+    pointer-events: none;
+    z-index: 5;
+    text-align: center;
+  }
+  .scroll-hint .line {
+    width: 1px;
+    height: 28px;
+    background: linear-gradient(to bottom, transparent, var(--pink));
+    margin: 0.5rem auto 0;
+  }
+</style>
+</head>
+<body class="font-body">
+
+<!-- SVG defs (reusable) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="marigold" viewBox="0 0 64 64">
+      <g fill="none" stroke="#C53A56" stroke-width="1.2" stroke-linecap="round">
+        <ellipse cx="32" cy="14" rx="5" ry="9"/>
+        <ellipse cx="32" cy="50" rx="5" ry="9"/>
+        <ellipse cx="14" cy="32" rx="9" ry="5"/>
+        <ellipse cx="50" cy="32" rx="9" ry="5"/>
+        <ellipse cx="20" cy="20" rx="5" ry="9" transform="rotate(-45 20 20)"/>
+        <ellipse cx="44" cy="20" rx="5" ry="9" transform="rotate(45 44 20)"/>
+        <ellipse cx="20" cy="44" rx="5" ry="9" transform="rotate(45 20 44)"/>
+        <ellipse cx="44" cy="44" rx="5" ry="9" transform="rotate(-45 44 44)"/>
+        <circle cx="32" cy="32" r="6" fill="#E0A436" stroke="none"/>
+      </g>
+    </symbol>
+    <symbol id="cornerOrn" viewBox="0 0 32 32">
+      <g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+        <path d="M2 12 C2 6, 6 2, 12 2"/>
+        <path d="M5 14 C5 9, 9 5, 14 5" opacity="0.7"/>
+        <circle cx="2" cy="12" r="1.4" fill="currentColor" stroke="none"/>
+        <circle cx="12" cy="2" r="1.4" fill="currentColor" stroke="none"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- =================== SCROLL-PINNED COVER LIFT =================== -->
+<section class="card-frame" data-card-frame aria-label="Mélange invitation cover">
+  <div class="card-pin">
+    <div class="hero-stage">
+
+      <!-- Inside: milestones preview (rendered behind the cover from the start) -->
+      <div class="card-inside-preview" aria-hidden="true">
+        <div class="inside-wrap">
+          <div class="inside-content">
+            <div class="text-center">
+              <p class="smallcaps text-pink text-[0.7rem] sm:text-xs">The Three Milestones</p>
+              <h2 class="font-display text-burgundy mt-3 text-[clamp(1.4rem,3.2vw,2.4rem)] leading-tight">
+                One evening, three reasons to gather.
+              </h2>
+              <p class="font-accent text-inkSoft mt-2 text-[clamp(0.95rem,1.8vw,1.15rem)]">
+                Three quiet stories, folded together into one warm Bikaner night.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10 mt-8 sm:mt-10 max-w-5xl mx-auto">
+              <article class="text-center md:text-left px-1">
+                <div class="font-display text-marigold text-[3rem] leading-none">I</div>
+                <p class="smallcaps text-[0.65rem] text-inkSoft/80 mt-2">The Reason</p>
+                <h3 class="font-display text-burgundy text-2xl sm:text-3xl mt-1">Love</h3>
+                <div class="gold-hairline"></div>
+                <p class="text-sm sm:text-[0.95rem] leading-relaxed text-ink/85">
+                  Shivendra Singh Tanwar & Divyani Jain — a wedding reception, finally home in Bikaner.
+                </p>
+              </article>
+              <article class="text-center md:text-left px-1">
+                <div class="font-display text-marigold text-[3rem] leading-none">II</div>
+                <p class="smallcaps text-[0.65rem] text-inkSoft/80 mt-2">The Occasion</p>
+                <h3 class="font-display text-burgundy text-2xl sm:text-3xl mt-1">Life</h3>
+                <div class="gold-hairline"></div>
+                <p class="text-sm sm:text-[0.95rem] leading-relaxed text-ink/85">
+                  Sarandha Tanwar turns sixty — six decades of grace, taught and lived.
+                </p>
+              </article>
+              <article class="text-center md:text-left px-1">
+                <div class="font-display text-marigold text-[3rem] leading-none">III</div>
+                <p class="smallcaps text-[0.65rem] text-inkSoft/80 mt-2">The Farewell</p>
+                <h3 class="font-display text-burgundy text-2xl sm:text-3xl mt-1">Legacy</h3>
+                <div class="gold-hairline"></div>
+                <p class="text-sm sm:text-[0.95rem] leading-relaxed text-ink/85">
+                  A retirement bow from Sophia School — chalk laid down, students forever.
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Front cover (the hero) -->
+      <div class="hero-cover" data-hero-cover>
+        <span class="cover-spine" aria-hidden="true"></span>
+        <span class="cover-frame" aria-hidden="true"></span>
+
+        <svg class="corner tl" aria-hidden="true"><use href="#cornerOrn"/></svg>
+        <svg class="corner tr" aria-hidden="true"><use href="#cornerOrn"/></svg>
+        <svg class="corner bl" aria-hidden="true"><use href="#cornerOrn"/></svg>
+        <svg class="corner br" aria-hidden="true"><use href="#cornerOrn"/></svg>
+
+        <div class="cover-content">
+          <div class="arch-wrap">
+            <svg class="arch" viewBox="0 0 600 720" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <g fill="none" stroke="#C53A56" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M40 700 V300 C40 170 160 40 300 40 C440 40 560 170 560 300 V700" stroke-width="1.6"/>
+                <path d="M60 700 V304 C60 184 168 60 300 60 C432 60 540 184 540 304 V700" stroke-width="0.9" opacity="0.85"/>
+                <g stroke-width="1.2">
+                  <path d="M285 36 C292 18, 308 18, 315 36"/>
+                  <circle cx="300" cy="22" r="3" fill="#E0A436" stroke="none"/>
+                </g>
+                <g stroke-width="1" opacity="0.85">
+                  <circle cx="40" cy="700" r="14" fill="none"/>
+                  <circle cx="40" cy="700" r="6" fill="#E0A436" stroke="none"/>
+                  <circle cx="560" cy="700" r="14" fill="none"/>
+                  <circle cx="560" cy="700" r="6" fill="#E0A436" stroke="none"/>
+                </g>
+              </g>
+            </svg>
+
+            <div class="arch-content">
+              <p class="smallcaps text-pink text-[0.62rem] sm:text-[0.7rem]">Tanwar Family</p>
+              <p class="font-accent text-ink/80 text-[clamp(0.95rem,2vw,1.2rem)]">— invites you to —</p>
+              <h1 class="wordmark">Mélange</h1>
+              <svg width="32" height="32" aria-hidden="true"><use href="#marigold"/></svg>
+              <p class="font-accent text-ink text-[clamp(0.95rem,2vw,1.25rem)] max-w-xs">
+                A celebration of love, life &amp; legacy.
+              </p>
+              <p class="date-strip">Tuesday · 30 · VI · 2026 · Bikaner</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="scroll-hint" aria-hidden="true">
+        <p class="smallcaps text-[0.6rem]">Open the invitation</p>
+        <span class="line"></span>
+      </div>
+
+    </div>
+  </div>
+  <div class="card-spacer" aria-hidden="true"></div>
+</section>
+
+<!-- =================== THE THREE MILESTONES (real, full content) =================== -->
+<section class="milestones milestones-section" aria-labelledby="milestones-heading">
+  <div class="max-w-6xl mx-auto">
+    <header class="text-center max-w-2xl mx-auto">
+      <p class="smallcaps text-pink text-xs sm:text-sm">The Three Milestones</p>
+      <h2 id="milestones-heading" class="font-display text-burgundy mt-4 text-[clamp(1.8rem,4.5vw,3rem)] leading-tight">
+        One evening, three reasons to gather.
+      </h2>
+      <p class="font-accent text-inkSoft mt-3 text-[clamp(1.05rem,2vw,1.35rem)]">
+        Three quiet stories, folded together into one warm Bikaner night.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12 mt-12 sm:mt-16">
+      <article class="text-center md:text-left">
+        <div class="font-display text-marigold text-5xl leading-none">I</div>
+        <p class="smallcaps text-[0.7rem] text-inkSoft mt-3">The Reason</p>
+        <h3 class="font-display text-burgundy text-3xl sm:text-4xl mt-1">Love</h3>
+        <div class="gold-hairline"></div>
+        <p class="text-[0.98rem] leading-relaxed text-ink/90">
+          Shivendra Singh Tanwar &amp; Divyani Jain — a wedding reception held at last in the family seat,
+          a private dinner under Bikaner&rsquo;s sandstone sky.
+        </p>
+      </article>
+
+      <article class="text-center md:text-left">
+        <div class="font-display text-marigold text-5xl leading-none">II</div>
+        <p class="smallcaps text-[0.7rem] text-inkSoft mt-3">The Occasion</p>
+        <h3 class="font-display text-burgundy text-3xl sm:text-4xl mt-1">Life</h3>
+        <div class="gold-hairline"></div>
+        <p class="text-[0.98rem] leading-relaxed text-ink/90">
+          Sarandha Tanwar turns sixty — six decades of teaching, mothering, mending; we&rsquo;d like to
+          embarrass her gently with the full attention she deserves.
+        </p>
+      </article>
+
+      <article class="text-center md:text-left">
+        <div class="font-display text-marigold text-5xl leading-none">III</div>
+        <p class="smallcaps text-[0.7rem] text-inkSoft mt-3">The Farewell</p>
+        <h3 class="font-display text-burgundy text-3xl sm:text-4xl mt-1">Legacy</h3>
+        <div class="gold-hairline"></div>
+        <p class="text-[0.98rem] leading-relaxed text-ink/90">
+          A retirement bow from Sophia Senior Secondary School — chalk laid down after thirty-odd
+          years, but the students stay, as students always do.
+        </p>
+      </article>
+    </div>
+
+    <div class="flex items-center justify-center mt-16 sm:mt-20">
+      <span class="h-px w-12 bg-pink/40"></span>
+      <svg width="28" height="28" class="mx-4" aria-hidden="true"><use href="#marigold"/></svg>
+      <span class="h-px w-12 bg-pink/40"></span>
+    </div>
+  </div>
+</section>
+
+<!-- =================== CLOSING BAND =================== -->
+<section class="closing-band text-center">
+  <p class="smallcaps text-pink text-xs">With love</p>
+  <p class="font-accent text-inkSoft text-xl sm:text-2xl mt-3 max-w-xl mx-auto">
+    Folded with care, sent with warmth — we hope you&rsquo;ll come.
+  </p>
+  <p class="smallcaps text-inkSoft/80 text-[0.7rem] mt-6">Tuesday · 30 · VI · 2026 · Bikaner</p>
+</section>
+
+<script>
+  (function () {
+    const frame = document.querySelector('[data-card-frame]');
+    if (!frame) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (reduce.matches) {
+      frame.style.setProperty('--progress', '0');
+      return;
+    }
+
+    let ticking = false;
+
+    function update() {
+      const rect  = frame.getBoundingClientRect();
+      const total = frame.offsetHeight - window.innerHeight;
+      const p     = total > 0 ? Math.max(0, Math.min(1, -rect.top / total)) : 0;
+      frame.style.setProperty('--progress', p.toFixed(4));
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  })();
+</script>
+
+</body>
+</html>

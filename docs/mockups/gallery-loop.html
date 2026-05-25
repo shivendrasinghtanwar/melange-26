@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mélange · Memory Album · Continuous Loop Mockup</title>
+  <meta name="description" content="A marquee-style infinite horizontal photo loop for the Mélange Memory Album section — two strips of dignified, slowly drifting memories." />
+  <meta name="theme-color" content="#5C1A2B" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FAF1E4'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23C53A56'%3EM%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream:    '#FAF1E4',
+            cream2:   '#EFE7D8',
+            rose:     '#F2D6CC',
+            blush:    '#EAD7C4',
+            pink:     '#C53A56',
+            pinkDeep: '#A02642',
+            burgundy: '#5C1A2B',
+            wine:     '#7A2235',
+            marigold: '#E0A436',
+            goldSoft: '#D4B57C',
+            emerald:  '#1B5E3F',
+            ink:      '#3B1410',
+            inkSoft:  '#6F4640',
+          },
+          fontFamily: {
+            display:    ['"Marcellus"', 'serif'],
+            italicserif:['"Cormorant Garamond"', 'serif'],
+            body:       ['"Outfit"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root{
+      --cream:#FAF1E4;
+      --rose:#F2D6CC;
+      --blush:#EAD7C4;
+      --pink:#C53A56;
+      --burgundy:#5C1A2B;
+      --wine:#7A2235;
+      --marigold:#E0A436;
+      --goldSoft:#D4B57C;
+      --emerald:#1B5E3F;
+      --ink:#3B1410;
+      --inkSoft:#6F4640;
+    }
+
+    html { scroll-behavior: smooth; }
+    html,body{ background:var(--cream); color:var(--ink); }
+    body{
+      font-family:"Outfit", system-ui, sans-serif;
+      font-weight:400;
+      background-image:
+        radial-gradient(circle at 22% 14%, rgba(197,58,86,0.045) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 73% 41%, rgba(59,20,16,0.05)  0 1px, transparent 1.5px),
+        radial-gradient(circle at 38% 78%, rgba(224,164,54,0.06) 0 1.2px, transparent 2px),
+        radial-gradient(circle at 86% 88%, rgba(59,20,16,0.04)  0 1px, transparent 1.5px),
+        radial-gradient(circle at 12% 60%, rgba(197,58,86,0.05) 0 1px, transparent 1.5px);
+      background-size: 380px 380px, 290px 290px, 510px 510px, 430px 430px, 360px 360px;
+      background-attachment: fixed;
+    }
+    ::selection{ background: var(--marigold); color: var(--ink); }
+
+    /* ─── Small caps ─────────────────────────────────── */
+    .smallcaps{
+      font-family:"Outfit", sans-serif;
+      font-weight:500;
+      text-transform:uppercase;
+      letter-spacing:0.32em;
+      font-size:0.72rem;
+    }
+    @media (min-width: 768px){ .smallcaps{ font-size:0.78rem; } }
+
+    .ornament-rule{
+      display:flex; align-items:center; gap:0.9rem;
+      color:var(--pink);
+    }
+    .ornament-rule::before, .ornament-rule::after{
+      content:""; flex:1; height:1px;
+      background: linear-gradient(to right, transparent, currentColor 30%, currentColor 70%, transparent);
+      opacity:0.55;
+    }
+
+    /* ─── Photo frames (existing aesthetic, verbatim) ────────────── */
+    .photo-frame{
+      position:relative;
+      box-shadow:
+        inset 0 0 0 1px rgba(250,241,228,0.5),
+        inset 0 0 0 10px rgba(0,0,0,0.0),
+        inset 0 0 0 11px rgba(250,241,228,0.65),
+        0 1px 0 rgba(59,20,16,0.12);
+    }
+    .photo-1{
+      background:
+        radial-gradient(120% 80% at 30% 20%, rgba(255,255,255,0.35), transparent 60%),
+        linear-gradient(135deg, #C53A56 0%, #8E2740 55%, #3B1410 100%);
+    }
+    .photo-2{
+      background:
+        radial-gradient(120% 80% at 70% 30%, rgba(255,255,255,0.3), transparent 60%),
+        linear-gradient(135deg, #E0A436 0%, #C53A56 60%, #6F2238 100%);
+    }
+    .photo-3{
+      background:
+        radial-gradient(120% 80% at 50% 40%, rgba(255,255,255,0.28), transparent 60%),
+        linear-gradient(135deg, #1B5E3F 0%, #3B1410 70%, #2A0A08 100%);
+    }
+    .photo-caption-num{
+      font-family:"Cormorant Garamond", serif;
+      font-style:italic;
+      font-size: 4.2rem;
+      line-height:0.85;
+      color: rgba(250,241,228,0.85);
+      letter-spacing:-0.02em;
+    }
+
+    /* ─── Marquee container & track ───────────────────────────────── */
+    /* Outer container clips the strip and adds left/right cream fades so
+       photos appear to dissolve into the page rather than slam against an
+       edge — feels more like a film reel and less like a news ticker. */
+    .marquee{
+      position:relative;
+      overflow:hidden;
+      /* Fade the edges with a mask so the cream background bleeds in. */
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        #000 8%,
+        #000 92%,
+        transparent 100%
+      );
+              mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        #000 8%,
+        #000 92%,
+        transparent 100%
+      );
+    }
+
+    .marquee__track{
+      display:flex;
+      flex-shrink:0;
+      gap:1.5rem;
+      width:max-content;        /* track is N+N photos wide */
+      will-change: transform;
+    }
+
+    /* Two directions. The second strip is offset so the seams don't line up
+       vertically and the two rows feel independent. */
+    .marquee--rtl .marquee__track{
+      animation: marquee-rtl 64s linear infinite;
+    }
+    .marquee--ltr .marquee__track{
+      animation: marquee-ltr 72s linear infinite;
+    }
+
+    @keyframes marquee-rtl{
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes marquee-ltr{
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+
+    /* Pause on hover — only on devices that actually hover. */
+    @media (hover: hover){
+      .marquee:hover .marquee__track{
+        animation-play-state: paused;
+      }
+      .marquee__item:hover{
+        transform: translateY(-3px);
+        transition: transform .5s cubic-bezier(.16,.84,.44,1);
+      }
+    }
+
+    /* ─── Marquee item sizing ────────────────────────────────────── */
+    /* Heights are fixed per row; widths vary per aspect ratio. Mobile
+       shrinks the row height so the strip stays a reasonable share of the
+       viewport (~200px is roughly a third of a 600px-tall phone). */
+    .marquee__item{
+      flex-shrink:0;
+      display:flex;
+      flex-direction:column;
+      gap:0.65rem;
+    }
+    .marquee__item .photo-frame{
+      height: 200px;
+      padding: 1rem;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    @media (min-width:640px){
+      .marquee__item .photo-frame{
+        height: 240px;
+        padding: 1.15rem;
+      }
+    }
+    @media (min-width:1024px){
+      .marquee__item .photo-frame{
+        height: 280px;
+        padding: 1.25rem;
+      }
+    }
+
+    /* Aspect-ratio widths derived from the row height. */
+    .ar-4-3   .photo-frame{ aspect-ratio: 4 / 3;  }
+    .ar-3-4   .photo-frame{ aspect-ratio: 3 / 4;  }
+    .ar-16-9  .photo-frame{ aspect-ratio: 16 / 9; }
+    .ar-1-1   .photo-frame{ aspect-ratio: 1 / 1;  }
+
+    /* Caption: small caps below the frame, in inkSoft. */
+    .marquee__caption{
+      color: var(--inkSoft);
+      max-width: 32ch;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Inside-frame ornamentation — keep it minimal so the gradient breathes. */
+    .frame-tag{
+      color: rgba(250,241,228,0.78);
+    }
+    .frame-flourish{
+      font-family:"Cormorant Garamond", serif;
+      font-style:italic;
+      color: rgba(250,241,228,0.85);
+      line-height:0.95;
+    }
+
+    /* ─── Reduced motion: fall back to a manual horizontal scroll ─ */
+    @media (prefers-reduced-motion: reduce){
+      .marquee{
+        overflow-x:auto;
+        overflow-y:hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        -webkit-mask-image: none;
+                mask-image: none;
+      }
+      .marquee__track{
+        animation: none !important;
+        transform: none !important;
+      }
+      .marquee__item{ scroll-snap-align: start; }
+      /* Hide the duplicated set under reduced motion — no need for it when
+         the user is scrolling manually. */
+      .marquee__item[aria-hidden="true"]{ display: none; }
+      .reduced-motion-note{ display:block; }
+    }
+    .reduced-motion-note{ display:none; }
+
+    /* ─── Reveal-on-scroll (header bits) ─────────────────────────── */
+    .reveal{
+      opacity:0; transform:translateY(14px);
+      transition: opacity .9s cubic-bezier(.16,.84,.44,1),
+                  transform .9s cubic-bezier(.16,.84,.44,1);
+      will-change:opacity, transform;
+    }
+    .reveal.is-visible{ opacity:1; transform:none; }
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ opacity:1; transform:none; transition:none; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <main class="pt-16 sm:pt-24 pb-20">
+
+    <!-- ═══════════════ MEMORY ALBUM — CONTINUOUS LOOP ═══════════════ -->
+    <section id="album" aria-labelledby="album-title">
+
+      <!-- Section header — kept narrow & centred-ish, same rhythm as final.html -->
+      <header class="px-5 sm:px-10 max-w-6xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+          <div class="max-w-xl">
+            <p class="smallcaps text-emerald reveal">A Memory Album</p>
+            <h2 id="album-title"
+                class="mt-4 font-display text-burgundy leading-[1.05] reveal text-4xl sm:text-5xl md:text-[3.4rem]"
+                data-reveal-delay="80">
+              Moments, <span class="font-italicserif italic text-pink">kept.</span>
+            </h2>
+          </div>
+          <p class="font-italicserif italic text-inkSoft text-base sm:text-lg max-w-sm sm:text-right reveal"
+             data-reveal-delay="160">
+            A few photographs from a year that took the long way round to this evening.
+          </p>
+        </div>
+
+        <p class="reduced-motion-note mt-6 text-xs italic text-inkSoft/80 font-italicserif">
+          (Motion paused on your request — scroll the strips sideways at your own pace.)
+        </p>
+      </header>
+
+      <!-- ───────────────── Strip 1 — drifts right → left ───────────────── -->
+      <div class="mt-12 sm:mt-16" aria-label="Memory album, top row">
+        <div class="marquee marquee--rtl" role="region" aria-roledescription="carousel">
+          <div class="marquee__track">
+
+            <!-- ── ORIGINAL SET (8 photos) ────────────────────────────── -->
+            <figure class="marquee__item ar-4-3">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">No. I</span>
+                <div class="photo-caption-num">XII<span class="text-cream/60">·</span>25</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">the ceremony · 12 Dec 2025</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-3-4">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. II</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">around<br/>the haveli</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">around the haveli · spring 2026</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-16-9">
+              <div class="photo-frame photo-3">
+                <span class="smallcaps frame-tag">No. III</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">a classroom,<br/>thirty years on</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">Sophia School · last bell</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-1-1">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">No. IV</span>
+                <div class="frame-flourish text-xl sm:text-2xl">family,<br/>gathered</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">family portrait · winter 2025</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-4-3">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. V</span>
+                <div class="photo-caption-num">'92</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">Sarandha's class of '92</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-3-4">
+              <div class="photo-frame photo-3">
+                <span class="smallcaps frame-tag">No. VI</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">the morning<br/>after</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">the morning after</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-16-9">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">No. VII</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">Bikaner,<br/>on the way</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">Bikaner, on the way</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-1-1">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. VIII</span>
+                <div class="frame-flourish text-xl sm:text-2xl">tea at<br/>the haveli</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">tea at the haveli</figcaption>
+            </figure>
+
+            <!-- ── DUPLICATE SET (identical, aria-hidden so SR reads once) ── -->
+            <figure class="marquee__item ar-4-3" aria-hidden="true">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">No. I</span>
+                <div class="photo-caption-num">XII<span class="text-cream/60">·</span>25</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">the ceremony · 12 Dec 2025</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-3-4" aria-hidden="true">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. II</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">around<br/>the haveli</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">around the haveli · spring 2026</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-16-9" aria-hidden="true">
+              <div class="photo-frame photo-3">
+                <span class="smallcaps frame-tag">No. III</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">a classroom,<br/>thirty years on</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">Sophia School · last bell</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-1-1" aria-hidden="true">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">No. IV</span>
+                <div class="frame-flourish text-xl sm:text-2xl">family,<br/>gathered</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">family portrait · winter 2025</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-4-3" aria-hidden="true">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. V</span>
+                <div class="photo-caption-num">'92</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">Sarandha's class of '92</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-3-4" aria-hidden="true">
+              <div class="photo-frame photo-3">
+                <span class="smallcaps frame-tag">No. VI</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">the morning<br/>after</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">the morning after</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-16-9" aria-hidden="true">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">No. VII</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">Bikaner,<br/>on the way</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">Bikaner, on the way</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-1-1" aria-hidden="true">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. VIII</span>
+                <div class="frame-flourish text-xl sm:text-2xl">tea at<br/>the haveli</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">tea at the haveli</figcaption>
+            </figure>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ───────────────── Strip 2 — drifts left → right ───────────────── -->
+      <div class="mt-8 sm:mt-10" aria-label="Memory album, bottom row">
+        <div class="marquee marquee--ltr" role="region" aria-roledescription="carousel">
+          <div class="marquee__track">
+
+            <!-- A different ordering & aspect mix so the two rows feel
+                 independent rather than mirrored. -->
+            <figure class="marquee__item ar-16-9">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. IX</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">the courtyard,<br/>at dusk</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">the courtyard · early evening</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-1-1">
+              <div class="photo-frame photo-3">
+                <span class="smallcaps frame-tag">No. X</span>
+                <div class="frame-flourish text-xl sm:text-2xl">a quiet<br/>page</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">the staff room · last week</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-3-4">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">No. XI</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">the long<br/>drive home</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">Jaipur to Bikaner · February</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-4-3">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. XII</span>
+                <div class="photo-caption-num">MMXXV</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">an anniversary, quietly</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-16-9">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">No. XIII</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">the school<br/>verandah</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">Sophia School · the verandah</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-1-1">
+              <div class="photo-frame photo-3">
+                <span class="smallcaps frame-tag">No. XIV</span>
+                <div class="frame-flourish text-xl sm:text-2xl">two<br/>generations</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">two generations, one frame</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-3-4">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. XV</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">marigold<br/>&amp; rain</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">marigold &amp; rain · monsoon 2025</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-4-3">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">&amp; more</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">… and many<br/>more to come</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">… and many more to come</figcaption>
+            </figure>
+
+            <!-- ── DUPLICATE SET (aria-hidden) ────────────────────────── -->
+            <figure class="marquee__item ar-16-9" aria-hidden="true">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. IX</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">the courtyard,<br/>at dusk</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">the courtyard · early evening</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-1-1" aria-hidden="true">
+              <div class="photo-frame photo-3">
+                <span class="smallcaps frame-tag">No. X</span>
+                <div class="frame-flourish text-xl sm:text-2xl">a quiet<br/>page</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">the staff room · last week</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-3-4" aria-hidden="true">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">No. XI</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">the long<br/>drive home</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">Jaipur to Bikaner · February</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-4-3" aria-hidden="true">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. XII</span>
+                <div class="photo-caption-num">MMXXV</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">an anniversary, quietly</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-16-9" aria-hidden="true">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">No. XIII</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">the school<br/>verandah</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">Sophia School · the verandah</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-1-1" aria-hidden="true">
+              <div class="photo-frame photo-3">
+                <span class="smallcaps frame-tag">No. XIV</span>
+                <div class="frame-flourish text-xl sm:text-2xl">two<br/>generations</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">two generations, one frame</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-3-4" aria-hidden="true">
+              <div class="photo-frame photo-2">
+                <span class="smallcaps frame-tag">No. XV</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">marigold<br/>&amp; rain</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">marigold &amp; rain · monsoon 2025</figcaption>
+            </figure>
+
+            <figure class="marquee__item ar-4-3" aria-hidden="true">
+              <div class="photo-frame photo-1">
+                <span class="smallcaps frame-tag">&amp; more</span>
+                <div class="frame-flourish text-2xl sm:text-3xl">… and many<br/>more to come</div>
+              </div>
+              <figcaption class="smallcaps marquee__caption">… and many more to come</figcaption>
+            </figure>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Small ornamented footnote — anchors the section visually -->
+      <div class="px-5 sm:px-10 max-w-3xl mx-auto mt-14 sm:mt-20">
+        <div class="ornament-rule">
+          <span class="smallcaps text-pink">a film reel of memories</span>
+        </div>
+        <p class="mt-4 text-center font-italicserif italic text-inkSoft text-sm sm:text-base">
+          Real photographs will replace these gradients in the weeks before the evening.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+    // Reveal-on-scroll for the header text — same pattern as final.html.
+    (function(){
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const els = document.querySelectorAll('.reveal');
+      if (reduced || !('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const delay = parseInt(e.target.dataset.revealDelay || '0', 10);
+            setTimeout(() => e.target.classList.add('is-visible'), delay);
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      els.forEach(el => io.observe(el));
+    })();
+  </script>
+
+</body>
+</html>

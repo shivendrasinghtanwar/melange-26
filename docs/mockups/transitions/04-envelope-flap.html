@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Mélange — Envelope Flap Transition</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cream: '#FAF1E4',
+          rose: '#F2D6CC',
+          blush: '#EAD7C4',
+          pink: '#C53A56',
+          burgundy: '#5C1A2B',
+          marigold: '#E0A436',
+          goldSoft: '#D4B57C',
+          emerald: '#1B5E3F',
+          ink: '#3B1410',
+          inkSoft: '#6F4640'
+        },
+        fontFamily: {
+          display: ['Marcellus', 'serif'],
+          accent: ['"Cormorant Garamond"', 'serif'],
+          body: ['Outfit', 'system-ui', 'sans-serif']
+        }
+      }
+    }
+  };
+</script>
+<style>
+  html, body { background:#FAF1E4; color:#3B1410; font-family: 'Outfit', system-ui, sans-serif; }
+  body { -webkit-font-smoothing: antialiased; }
+
+  .font-display { font-family: 'Marcellus', serif; }
+  .font-accent  { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+  /* ---- Scroll frame ---- */
+  .card-frame {
+    height: 250svh;
+    position: relative;
+  }
+  .card-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    perspective: 1700px;
+    background: #FAF1E4;
+  }
+  .hero-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  /* The milestones preview behind the envelope - this is what gets revealed */
+  .card-inside-preview {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: #FAF1E4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Envelope wrapper — slides up in phase 2 */
+  .envelope {
+    position: absolute;
+    inset: 0;
+    transform: translateY(calc(max(0, var(--progress, 0) - 0.5) * -200%));
+    will-change: transform;
+  }
+
+  /* Envelope body — holds the hero content. Top: 18% leaves room for the flap. */
+  .envelope__body {
+    position: absolute;
+    left: 0; right: 0;
+    top: 18%;
+    bottom: 0;
+    background: #FAF1E4;
+    box-shadow: 0 4px 30px rgba(59,20,16,0.08),
+                inset 0 1px 0 rgba(197,58,86,0.08);
+    overflow: hidden;
+    /* a subtle inner border-line where the body meets the flap, like an envelope edge */
+    border-top: 1px solid rgba(197,58,86,0.12);
+  }
+  @media (max-width: 768px) {
+    .envelope__body { top: 15%; }
+  }
+
+  /* Subtle paper grain via radial gradient (hand-drawn feel without an image) */
+  .envelope__body::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(197,58,86,0.06), transparent 55%),
+      radial-gradient(ellipse at 80% 100%, rgba(224,164,54,0.05), transparent 55%);
+    pointer-events: none;
+  }
+
+  /* Triangular flap — pivots from the top edge */
+  .envelope__flap {
+    position: absolute;
+    left: 0; right: 0;
+    top: 0;
+    height: 35%;
+    background:
+      linear-gradient(180deg, #F2D6CC 0%, #EAC8BC 100%);
+    transform-origin: top center;
+    transform: rotateX(calc(var(--progress, 0) * -170deg));
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
+    filter: drop-shadow(0 calc(var(--progress, 0) * 8px) calc(var(--progress, 0) * 16px) rgba(0,0,0,0.18));
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+    z-index: 2;
+  }
+  @media (max-width: 768px) {
+    .envelope__flap { height: 30%; }
+  }
+
+  /* Subtle inner crease line on the flap, marigold ink */
+  .envelope__flap::before {
+    content: "";
+    position: absolute;
+    left: 8%; right: 8%; top: 6%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(224,164,54,0.35), transparent);
+    pointer-events: none;
+  }
+
+  /* Wax seal — sits at the bottom point of the closed flap */
+  .envelope__seal {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 50%) scale(calc(1 - var(--progress, 0) * 1.5));
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background:
+      radial-gradient(ellipse at 35% 30%, #E8B14A 0%, #C53A56 55%, #7A2235 100%);
+    box-shadow:
+      0 2px 6px rgba(0,0,0,0.22),
+      inset 0 -3px 6px rgba(122,34,53,0.5),
+      inset 0 2px 3px rgba(255,255,255,0.18);
+    opacity: calc(1 - var(--progress, 0) * 6.6);
+    z-index: 3;
+    pointer-events: none;
+  }
+  @media (max-width: 768px) {
+    .envelope__seal { width: 52px; height: 52px; }
+  }
+
+  /* Tiny monogram stamped on the seal */
+  .envelope__seal::after {
+    content: "M";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Marcellus', serif;
+    font-size: 1.6rem;
+    color: rgba(250,241,228,0.85);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+  @media (max-width: 768px) {
+    .envelope__seal::after { font-size: 1.3rem; }
+  }
+
+  /* A second seal half — the part that "stays" on the body and breaks free.
+     This sits on the body (z below the flap seal) and fades as the flap rises. */
+  .envelope__seal-shadow {
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    transform: translate(-50%, -50%);
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 35% 30%, #B4863A 0%, #7A2235 70%, #4B1320 100%);
+    opacity: calc(max(0, 0.45 - var(--progress, 0) * 3));
+    z-index: 1;
+    filter: blur(0.5px);
+  }
+  @media (max-width: 768px) {
+    .envelope__seal-shadow { width: 52px; height: 52px; }
+  }
+
+  /* Hero content layout */
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .arch-wrap {
+    position: relative;
+    width: min(88vw, 480px);
+    aspect-ratio: 5 / 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .arch-wrap svg.arch {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .arch-inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 14% 8% 8%;
+    gap: 0.85rem;
+  }
+
+  .kicker {
+    font-size: 0.7rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #C53A56;
+    font-weight: 500;
+  }
+  .wordmark {
+    font-family: 'Marcellus', serif;
+    color: #C53A56;
+    font-size: clamp(2.2rem, 8vmin, 5rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+  .date-strip {
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    color: #6F4640;
+    text-transform: uppercase;
+  }
+  @media (max-width: 480px) {
+    .arch-inner { gap: 0.6rem; padding: 12% 6% 6%; }
+    .kicker { font-size: 0.62rem; }
+    .date-strip { font-size: 0.6rem; letter-spacing: 0.22em; }
+  }
+
+  /* Hairline divider */
+  .hairline {
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, #E0A436, transparent);
+    margin: 0.25rem 0;
+  }
+
+  /* Scroll hint */
+  .scroll-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 1.25rem;
+    transform: translateX(-50%);
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #6F4640;
+    opacity: calc(1 - var(--progress, 0) * 3);
+    pointer-events: none;
+    z-index: 5;
+  }
+  .scroll-hint::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 28px;
+    margin: 8px auto 0;
+    background: linear-gradient(180deg, #6F4640, transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(4px); }
+  }
+
+  /* ---- Milestones section ---- */
+  .milestones {
+    background: #FAF1E4;
+    padding: 6rem 1.5rem 8rem;
+  }
+  @media (min-width: 768px) {
+    .milestones { padding: 8rem 3rem 10rem; }
+  }
+
+  .milestone-card {
+    position: relative;
+    padding: 2rem 0;
+  }
+  .milestone-numeral {
+    font-family: 'Marcellus', serif;
+    font-size: 3rem;
+    color: #D4B57C;
+    line-height: 1;
+  }
+  .milestone-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #6F4640;
+    margin-top: 1rem;
+  }
+  .milestone-title {
+    font-family: 'Marcellus', serif;
+    font-size: 2rem;
+    color: #5C1A2B;
+    margin-top: 0.5rem;
+  }
+  .milestone-hairline {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, #E0A436, transparent);
+    margin: 1rem 0 1.25rem;
+  }
+  .milestone-body {
+    color: #3B1410;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* The preview of milestones inside the pinned area (behind the envelope) */
+  .card-inside-preview .milestones-preview {
+    width: 100%;
+    max-width: 1100px;
+    padding: 4rem 1.5rem;
+    opacity: calc(0.4 + var(--progress, 0) * 0.6);
+  }
+  @media (min-width: 768px) {
+    .card-inside-preview .milestones-preview { padding: 4rem 3rem; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .card-frame { height: auto !important; }
+    .card-pin { position: relative !important; height: auto !important; perspective: none !important; overflow: visible !important; }
+    .envelope { display: none !important; }
+    .card-inside-preview { position: relative !important; height: auto !important; }
+    .card-inside-preview .milestones-preview { opacity: 1 !important; }
+    .scroll-hint { display: none !important; }
+  }
+
+  /* Tiny header */
+  .top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 50;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+  .top-bar .brand {
+    font-family: 'Marcellus', serif;
+    color: #5C1A2B;
+    font-size: 0.95rem;
+    letter-spacing: 0.18em;
+  }
+  .top-bar .meta {
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    color: #6F4640;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body class="font-body">
+
+  <!-- shared SVG defs -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="marigold" viewBox="0 0 64 64">
+      <g fill="none" stroke="#C53A56" stroke-width="1.2" stroke-linecap="round">
+        <ellipse cx="32" cy="14" rx="5" ry="9"/>
+        <ellipse cx="32" cy="50" rx="5" ry="9"/>
+        <ellipse cx="14" cy="32" rx="9" ry="5"/>
+        <ellipse cx="50" cy="32" rx="9" ry="5"/>
+        <ellipse cx="20" cy="20" rx="5" ry="9" transform="rotate(-45 20 20)"/>
+        <ellipse cx="44" cy="20" rx="5" ry="9" transform="rotate(45 44 20)"/>
+        <ellipse cx="20" cy="44" rx="5" ry="9" transform="rotate(45 20 44)"/>
+        <ellipse cx="44" cy="44" rx="5" ry="9" transform="rotate(-45 44 44)"/>
+        <circle cx="32" cy="32" r="6" fill="#E0A436" stroke="none"/>
+      </g>
+    </symbol>
+  </svg>
+
+  <header class="top-bar">
+    <div class="brand">M &middot; T</div>
+    <div class="meta">04 &middot; Envelope</div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- SCROLL FRAME: ENVELOPE FLAP TRANSITION                       -->
+  <!-- ============================================================ -->
+  <section class="card-frame" data-card-frame aria-label="Hero, envelope opening">
+    <div class="card-pin">
+      <div class="hero-stage">
+
+        <!-- Behind the envelope: a preview of the milestones section -->
+        <div class="card-inside-preview" aria-hidden="true">
+          <div class="milestones-preview">
+            <div class="text-center mb-10">
+              <p class="kicker">The Three Milestones</p>
+              <h2 class="font-display text-burgundy mt-3" style="font-size: clamp(1.6rem, 4.5vmin, 2.6rem); line-height:1.15;">One evening, three reasons to gather.</h2>
+              <p class="font-accent text-inkSoft mt-3" style="font-size: clamp(0.95rem, 2.2vmin, 1.2rem);">Three quiet stories, folded together into one warm Bikaner night.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
+              <div>
+                <div class="milestone-numeral">I</div>
+                <p class="milestone-eyebrow">The Reason</p>
+                <h3 class="milestone-title">Love</h3>
+                <div class="milestone-hairline"></div>
+              </div>
+              <div>
+                <div class="milestone-numeral">II</div>
+                <p class="milestone-eyebrow">The Occasion</p>
+                <h3 class="milestone-title">Life</h3>
+                <div class="milestone-hairline"></div>
+              </div>
+              <div>
+                <div class="milestone-numeral">III</div>
+                <p class="milestone-eyebrow">The Farewell</p>
+                <h3 class="milestone-title">Legacy</h3>
+                <div class="milestone-hairline"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- The envelope -->
+        <div class="envelope" data-envelope>
+
+          <!-- Envelope body — contains hero -->
+          <div class="envelope__body">
+            <!-- The "broken" half of the wax seal that stayed on the body -->
+            <div class="envelope__seal-shadow" aria-hidden="true"></div>
+
+            <div class="hero-content">
+              <div class="arch-wrap">
+                <svg class="arch" viewBox="0 0 600 720" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                  <g fill="none" stroke="#C53A56" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M40 700 V300 C40 170 160 40 300 40 C440 40 560 170 560 300 V700" stroke-width="1.6"/>
+                    <path d="M60 700 V304 C60 184 168 60 300 60 C432 60 540 184 540 304 V700" stroke-width="0.9" opacity="0.85"/>
+                    <g stroke-width="1.2">
+                      <path d="M285 36 C292 18, 308 18, 315 36"/>
+                      <circle cx="300" cy="22" r="3" fill="#E0A436" stroke="none"/>
+                    </g>
+                    <g stroke-width="1" opacity="0.85">
+                      <circle cx="40" cy="700" r="14" fill="none"/>
+                      <circle cx="40" cy="700" r="6" fill="#E0A436" stroke="none"/>
+                      <circle cx="560" cy="700" r="14" fill="none"/>
+                      <circle cx="560" cy="700" r="6" fill="#E0A436" stroke="none"/>
+                    </g>
+                  </g>
+                </svg>
+
+                <div class="arch-inner">
+                  <p class="kicker">Tanwar Family</p>
+                  <p class="font-accent text-inkSoft" style="font-size: clamp(0.95rem, 2.4vmin, 1.2rem);">— invites you to —</p>
+                  <h1 class="wordmark">Mélange</h1>
+                  <svg width="32" height="32" aria-hidden="true"><use href="#marigold"/></svg>
+                  <p class="font-accent text-ink" style="font-size: clamp(0.9rem, 2.2vmin, 1.05rem);">A celebration of love, life &amp; legacy.</p>
+                  <div class="hairline"></div>
+                  <p class="date-strip">Tuesday &middot; 30 &middot; VI &middot; 2026 &middot; Bikaner</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- The triangular flap -->
+          <div class="envelope__flap" data-flap aria-hidden="true">
+            <!-- Wax seal at the bottom point of the closed flap -->
+            <div class="envelope__seal" aria-label="Wax seal"></div>
+          </div>
+        </div>
+
+        <div class="scroll-hint">scroll to open</div>
+      </div>
+    </div>
+    <div class="card-spacer" aria-hidden="true"></div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- MILESTONES SECTION (full content)                            -->
+  <!-- ============================================================ -->
+  <section class="milestones" aria-label="The three milestones">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-14 md:mb-20">
+        <p class="kicker">The Three Milestones</p>
+        <h2 class="font-display text-burgundy mt-4" style="font-size: clamp(1.8rem, 5vmin, 3rem); line-height:1.15;">One evening, three reasons to gather.</h2>
+        <p class="font-accent text-inkSoft mt-4 max-w-xl mx-auto" style="font-size: clamp(1rem, 2.4vmin, 1.3rem);">Three quiet stories, folded together into one warm Bikaner night.</p>
+        <div class="flex justify-center mt-6"><svg width="32" height="32" aria-hidden="true"><use href="#marigold"/></svg></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
+        <article class="milestone-card">
+          <div class="milestone-numeral">I</div>
+          <p class="milestone-eyebrow">The Reason</p>
+          <h3 class="milestone-title">Love</h3>
+          <div class="milestone-hairline"></div>
+          <p class="milestone-body">The wedding reception of <span class="font-accent text-burgundy">Shivendra Singh Tanwar</span> &amp; <span class="font-accent text-burgundy">Divyani Jain</span> — two families gathering to bless a new beginning under desert stars.</p>
+        </article>
+
+        <article class="milestone-card">
+          <div class="milestone-numeral">II</div>
+          <p class="milestone-eyebrow">The Occasion</p>
+          <h3 class="milestone-title">Life</h3>
+          <div class="milestone-hairline"></div>
+          <p class="milestone-body"><span class="font-accent text-burgundy">Sarandha Tanwar</span> turns sixty. A toast to a life lived widely, generously, and with a great deal of laughter.</p>
+        </article>
+
+        <article class="milestone-card">
+          <div class="milestone-numeral">III</div>
+          <p class="milestone-eyebrow">The Farewell</p>
+          <h3 class="milestone-title">Legacy</h3>
+          <div class="milestone-hairline"></div>
+          <p class="milestone-body">After decades shaping young minds, <span class="font-accent text-burgundy">Sarandha</span> retires from <span class="font-accent text-burgundy">Sophia School</span>. We gather to honour every classroom she made warmer.</p>
+        </article>
+      </div>
+
+      <div class="text-center mt-20 md:mt-28">
+        <div class="flex justify-center mb-4">
+          <svg width="40" height="40" aria-hidden="true"><use href="#marigold"/></svg>
+        </div>
+        <p class="font-accent text-inkSoft" style="font-size: clamp(1rem, 2.4vmin, 1.25rem);">— folded into one envelope, sent with love —</p>
+      </div>
+    </div>
+  </section>
+
+<script>
+(function() {
+  const frame = document.querySelector('[data-card-frame]');
+  if (!frame) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduced.matches) {
+    frame.style.setProperty('--progress', '1');
+    return;
+  }
+
+  let ticking = false;
+
+  function update() {
+    const rect = frame.getBoundingClientRect();
+    const total = frame.offsetHeight - window.innerHeight;
+    const p = Math.max(0, Math.min(1, -rect.top / total));
+    frame.style.setProperty('--progress', p.toFixed(4));
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(update);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+</script>
+</body>
+</html>

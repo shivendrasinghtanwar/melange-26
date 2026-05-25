@@ -534,7 +534,7 @@ body {
   width: 1px;
   background: linear-gradient(to bottom, rgba(212,181,124,0), rgba(212,181,124,.55), rgba(212,181,124,0));
 }
-@media (max-width: 640px) { .timeline::before { left: 76px; } }
+@media (max-width: 640px) { .timeline::before { left: 96px; } }
 .timeline__row {
   display: grid;
   grid-template-columns: 94px 1fr;
@@ -542,7 +542,12 @@ body {
   gap: 1rem;
   position: relative;
 }
-@media (max-width: 640px) { .timeline__row { grid-template-columns: 76px 1fr; } }
+/* Time column must be wide enough for the longest entry ("10 : 00 PM"),
+   which at the desktop font-size is ~107px — wider than the 76px column
+   it used to live in, so the absolutely-positioned dot was landing on
+   top of the "M" in "PM". Bumped the column to 96px AND nudged the time
+   font down to 0.88rem on phones so two-digit hours fit cleanly. */
+@media (max-width: 640px) { .timeline__row { grid-template-columns: 96px 1fr; } }
 .timeline__time {
   font-family: 'Marcellus', serif;
   font-size: 0.98rem;
@@ -552,6 +557,7 @@ body {
   /* Keep "6 : 00 PM" together — at 320px it was breaking onto two lines. */
   white-space: nowrap;
 }
+@media (max-width: 640px) { .timeline__time { font-size: 0.88rem; } }
 .timeline__dot {
   position: absolute;
   left: 92px;
@@ -562,7 +568,7 @@ body {
   background: var(--goldSoft);
   box-shadow: 0 0 0 4px rgba(212,181,124,0.18);
 }
-@media (max-width: 640px) { .timeline__dot { left: 74px; } }
+@media (max-width: 640px) { .timeline__dot { left: 94px; } }
 .timeline__body { padding-left: 1.25rem; color: var(--cream); }
 .timeline__title {
   font-family: 'Cormorant Garamond', serif;

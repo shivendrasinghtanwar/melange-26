@@ -28,11 +28,11 @@ export default function App() {
             again — it's still there in the document. */}
         <Hero />
 
+        {/* Milestones owns its trailing blockprint divider as the
+            "bottom divider" inside its 100svh layout — necessary so
+            the band lands inside the viewport when SectionSnap holds
+            the user on this section. No separator needed here. */}
         <Milestones id="milestones" />
-
-        <div className="px-0 py-8 sm:py-12" aria-hidden="true">
-          <div className="blockprint-band" />
-        </div>
 
         {/* Gallery owns its own trailing blockprint divider as the
             "bottom divider" part of its three-part 100vh layout — no

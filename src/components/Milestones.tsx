@@ -110,11 +110,15 @@ export function Milestones({ id }: { id?: string } = {}) {
   };
 
   return (
+    /* Section is full-bleed (no horizontal padding or max-width) so
+       the trailing blockprint-band can reach the viewport edges, the
+       same way Gallery does it. The header + carousel + dots each
+       carry their own max-w-6xl wrapper. */
     <section
       id={id}
-      className="min-h-screen flex flex-col px-5 sm:px-10 max-w-6xl mx-auto pt-6 sm:pt-10 pb-6 sm:pb-10"
+      className="min-h-screen flex flex-col pt-6 sm:pt-10 pb-6 sm:pb-10"
     >
-      <div className="text-center shrink-0">
+      <div className="text-center shrink-0 px-5 sm:px-10 max-w-6xl mx-auto w-full">
         <Reveal>
           <p className="smallcaps text-pink">The Three Milestones</p>
         </Reveal>
@@ -140,28 +144,35 @@ export function Milestones({ id }: { id?: string } = {}) {
         </Reveal>
       </div>
 
-      <ol
-        ref={carouselRef}
-        className="milestones__grid flex-1 mt-4 sm:mt-20 md:mt-24"
-        role="list"
-      >
-        {MILESTONES.map((m, i) => (
-          <Reveal delay={100 + i * 80} key={i}>
-            <li className={`milestone ${m.variant === 'center' ? 'milestone--center' : ''}`}>
-              <span className="milestone__numeral">{m.numeral}</span>
-              <p className="milestone__eyebrow">{m.eyebrow}</p>
-              <h3 className="milestone__title">{m.title}</h3>
-              <div className="milestone__rule" aria-hidden="true" />
-              <p className="milestone__attribution">
-                <svg width="22" height="22"><use href={m.iconHref} /></svg>
-                {m.attribution}
-              </p>
-              <p className="milestone__body">{m.body}</p>
-              <p className="milestone__meta">{m.meta}</p>
-            </li>
-          </Reveal>
-        ))}
-      </ol>
+      {/* Grid wrapper deliberately drops the max-w-6xl constraint
+          (which kept the desktop cards huddled in the middle) and uses
+          generous progressive padding so the three columns spread
+          across the viewport — modern, in line with the Gallery's
+          edge-to-edge feel. The header above keeps its max-w-6xl. */}
+      <div className="flex-1 flex flex-col px-5 sm:px-10 lg:px-16 xl:px-24 w-full">
+        <ol
+          ref={carouselRef}
+          className="milestones__grid flex-1 mt-4 sm:mt-20 md:mt-24"
+          role="list"
+        >
+          {MILESTONES.map((m, i) => (
+            <Reveal delay={100 + i * 80} key={i}>
+              <li className={`milestone ${m.variant === 'center' ? 'milestone--center' : ''}`}>
+                <span className="milestone__numeral">{m.numeral}</span>
+                <p className="milestone__eyebrow">{m.eyebrow}</p>
+                <h3 className="milestone__title">{m.title}</h3>
+                <div className="milestone__rule" aria-hidden="true" />
+                <p className="milestone__attribution">
+                  <svg width="22" height="22"><use href={m.iconHref} /></svg>
+                  {m.attribution}
+                </p>
+                <p className="milestone__body">{m.body}</p>
+                <p className="milestone__meta">{m.meta}</p>
+              </li>
+            </Reveal>
+          ))}
+        </ol>
+      </div>
 
       <div
         className="milestones__dots md:hidden mt-3 shrink-0"
@@ -179,6 +190,12 @@ export function Milestones({ id }: { id?: string } = {}) {
             className={`milestones__dot ${i === active ? 'is-active' : ''}`}
           />
         ))}
+      </div>
+
+      {/* Bottom blockprint divider, full-bleed at section level so it
+          spans viewport edges (matches Gallery / Details / RsvpForm). */}
+      <div className="pt-6 sm:pt-8 shrink-0" aria-hidden="true">
+        <div className="blockprint-band" />
       </div>
     </section>
   );

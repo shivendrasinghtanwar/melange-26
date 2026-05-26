@@ -23,7 +23,7 @@ import { Reveal } from './Reveal';
    the originals in public/assets/gallery/ (HEIF→JPEG, downscaled to
    1600px long-edge) via utils/heif_to_jpg.py. */
 
-const REPEAT_PER_ROW = 8;
+const REPEAT_PER_ROW = 4;
 
 const photo = (filename: string) =>
   `${import.meta.env.BASE_URL}assets/gallery-web/${filename}`;
@@ -36,6 +36,10 @@ type Photo = {
   caption: ReactNode;
 };
 
+/* Photos are deliberately jumbled — couple moments and Sarandha's
+   teaching life shuffled together rather than segregated into a
+   "couple row" and a "school row". Reads as one continuous family
+   album with three stories braided into it. */
 const ROW_TOP: Photo[] = [
   {
     ar: '4-3', frame: 1,
@@ -44,10 +48,22 @@ const ROW_TOP: Photo[] = [
     caption: 'the family, together',
   },
   {
+    ar: '16-9', frame: 3,
+    src: photo('sarandha_school/IMG_20210106_002338.jpg'),
+    alt: 'Sarandha with her students at the Taj Mahal',
+    caption: 'a class outing · Agra',
+  },
+  {
     ar: '3-4', frame: 2,
     src: photo('shivdi_hyd_1.jpg'),
     alt: 'Shivendra and Divyani, evening portrait',
     caption: 'an evening · Hyderabad',
+  },
+  {
+    ar: '3-4', frame: 1,
+    src: photo('sarandha_school/6f5d7495-8674-447d-aae0-fedc3a463497.jpg'),
+    alt: 'Sarandha with three colleagues on a terrace',
+    caption: 'a Sunday on the terrace',
   },
   {
     ar: '16-9', frame: 3,
@@ -56,10 +72,22 @@ const ROW_TOP: Photo[] = [
     caption: 'Bali · the cliffs',
   },
   {
+    ar: '3-4', frame: 2,
+    src: photo('sarandha_school/B612_20230810_193431_572.jpg'),
+    alt: 'Sarandha and a colleague, indoor portrait',
+    caption: 'between two friends',
+  },
+  {
     ar: '3-4', frame: 1,
     src: photo('shivdi_nashik.jpg'),
     alt: 'Shivendra and Divyani at twilight',
     caption: 'twilight · December',
+  },
+  {
+    ar: '16-9', frame: 3,
+    src: photo('sarandha_school/96dbc085-e68f-44e7-97b1-d653b570de39.jpg'),
+    alt: 'Sophia School faculty, Christmas gathering',
+    caption: 'the staff room · Sophia',
   },
 ];
 
@@ -71,10 +99,22 @@ const ROW_BOTTOM: Photo[] = [
     caption: 'the garden, at dusk',
   },
   {
+    ar: '3-4', frame: 1,
+    src: photo('sarandha_school/B612_20230827_213834_992.jpg'),
+    alt: 'Sarandha with two colleagues, afternoon portrait',
+    caption: 'an afternoon out',
+  },
+  {
     ar: '4-3', frame: 3,
     src: photo('shivdi_bali_1.jpg'),
     alt: 'Shivendra and Divyani by the sea in Bali',
     caption: 'the sea · Uluwatu',
+  },
+  {
+    ar: '3-4', frame: 2,
+    src: photo('sarandha_school/B612_20230827_213436_610.jpg'),
+    alt: "Sarandha and colleagues at a Rajasthani haveli",
+    caption: 'the haveli · summer',
   },
   {
     ar: '3-4', frame: 1,
@@ -83,10 +123,22 @@ const ROW_BOTTOM: Photo[] = [
     caption: 'above the city',
   },
   {
+    ar: '4-3', frame: 3,
+    src: photo('sarandha_school/a062c831-5945-4c9c-8c61-86111d39e5ee.jpg'),
+    alt: 'Sarandha and colleagues by the pool',
+    caption: 'by the water',
+  },
+  {
     ar: '3-4', frame: 2,
     src: photo('shivdi_goa_1.jpg'),
     alt: 'Shivendra and Divyani in Goa',
     caption: 'Goa · monsoon',
+  },
+  {
+    ar: '4-3', frame: 1,
+    src: photo('sarandha_school/a7a33656-e409-4fe3-b0c9-247a8f2580ef.jpg'),
+    alt: "Sarandha's colleagues, gathered",
+    caption: 'colleagues, gathered',
   },
 ];
 

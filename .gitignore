@@ -36,4 +36,6 @@ public/assets/gallery/*.heic
 public/assets/gallery/*.heif
 public/assets/gallery/*.HEIC
 public/assets/gallery/*.HEIF
+# Subfolders of originals (e.g. sarandha_school_pics/) — also local only.
+public/assets/gallery/*/
 !public/assets/gallery/.gitkeep

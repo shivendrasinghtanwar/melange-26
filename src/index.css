@@ -32,8 +32,24 @@
    the CSS default doesn't need to be smooth — and leaving it smooth
    makes the browser's smooth-scroll queue fight GSAP's ScrollToPlugin
    in the HeroFold open/close timelines (the page lags behind the lid
-   animation by ~0.5s because the queued smooth-scrolls run after). */
-html { scroll-behavior: auto; }
+   animation by ~0.5s because the queued smooth-scrolls run after).
+
+   scroll-snap-type: y mandatory + scroll-snap-align: start on each
+   section/footer below replaces the JS-driven SectionSnap. The browser
+   handles all the gesture detection, momentum, and snapping natively —
+   smoother on mobile than anything we can do in JS, plays nicely with
+   the horizontal scroll-snap carousels inside Milestones/Details, and
+   doesn't need a cooldown to feel responsive. HeroFold still owns
+   the Hero ↔ Milestones boundary because its 3D animation can't be
+   triggered by native snap. */
+html {
+  scroll-behavior: auto;
+  scroll-snap-type: y mandatory;
+}
+section, footer {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
 html, body { background: var(--cream); color: var(--ink); }
 body {
   font-family: 'Outfit', system-ui, sans-serif;

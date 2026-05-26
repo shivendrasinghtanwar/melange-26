@@ -1,7 +1,6 @@
 import { OrnamentSprites } from './components/OrnamentSprites';
 import { Hero } from './components/Hero';
 import { HeroFold } from './components/HeroFold';
-import { SectionSnap } from './components/SectionSnap';
 import { Milestones } from './components/Milestones';
 import { Gallery } from './components/Gallery';
 import { Details } from './components/Details';
@@ -30,8 +29,8 @@ export default function App() {
 
         {/* Milestones owns its trailing blockprint divider as the
             "bottom divider" inside its 100svh layout — necessary so
-            the band lands inside the viewport when SectionSnap holds
-            the user on this section. No separator needed here. */}
+            the band lands inside the viewport when the user is
+            snapped to this section. No separator needed here. */}
         <Milestones id="milestones" />
 
         {/* Gallery owns its own trailing blockprint divider as the
@@ -52,14 +51,11 @@ export default function App() {
       </main>
 
       {/* Fold-open overlay — fixed on top of everything while still
-          closed/opening; returns null once the fold has played. */}
+          closed/opening; returns null once the fold has played. The
+          four boundaries below it (Milestones ↔ Gallery ↔ Details ↔
+          RSVP) are handled by native CSS scroll-snap on <html>, not
+          by JS — see the `scroll-snap-type` rule in index.css. */}
       <HeroFold />
-
-      {/* Snap-scroll between Milestones / Gallery / Details / RsvpForm.
-          One scroll at the top of any of those sections smooth-scrolls
-          to the adjacent one. No fold animation — just controlled
-          scroll. See SectionSnap.tsx. */}
-      <SectionSnap />
     </>
   );
 }

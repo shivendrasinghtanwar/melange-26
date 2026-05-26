@@ -2,7 +2,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { Hero } from './Hero';
-import { canStartFold, markFoldStarted, markFoldEnded } from '../lib/foldCoordination';
+/* HeroFold owns its own state machine (closed → opening → open →
+   closing) and re-entry guards. SectionSnap and its cross-fold
+   coordination module are gone — native CSS scroll-snap handles every
+   other boundary, so the only fold-vs-fold collision we used to worry
+   about (HeroFold's open running into SectionSnap's snap-down) no
+   longer exists. */
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -114,15 +119,10 @@ export function HeroFold() {
 
     const triggerOpen = () => {
       if (stateRef.current !== 'closed') return;
-      // Don't fire if another fold is currently animating or its
-      // post-animation cooldown is still in effect (cross-fold
-      // coordination — see src/lib/foldCoordination.ts).
-      if (!canStartFold()) return;
       setState('opening');
     };
     const triggerClose = () => {
       if (stateRef.current !== 'open') return;
-      if (!canStartFold()) return;
       setState('closing');
     };
 
@@ -235,10 +235,9 @@ export function HeroFold() {
     const el = document.getElementById('milestones');
     const target = el ? el.getBoundingClientRect().top + window.scrollY : window.innerHeight;
 
-    markFoldStarted();
     const tl = gsap.timeline({
       defaults: { duration: FOLD_DURATION, ease: FOLD_EASE },
-      onComplete: () => { markFoldEnded(); setState('open'); },
+      onComplete: () => setState('open'),
     });
 
     tl.to(lidRef.current,    { rotateX: 110 }, 0);
@@ -247,7 +246,7 @@ export function HeroFold() {
     tl.to(shadowRef.current, { opacity: 1 }, 0);
     tl.to(window,            { scrollTo: { y: target }, duration: FOLD_DURATION * 0.7 }, 0);
 
-    return () => { tl.kill(); markFoldEnded(); };
+    return () => { tl.kill(); };
   }, [state]);
 
   // CLOSE timeline. The overlay is freshly mounted (it was unmounted
@@ -265,10 +264,9 @@ export function HeroFold() {
     gsap.set(shadowRef.current, { opacity: 1 });
     gsap.set(hingeRef.current,  { opacity: 0 });
 
-    markFoldStarted();
     const tl = gsap.timeline({
       defaults: { duration: FOLD_DURATION, ease: FOLD_EASE },
-      onComplete: () => { markFoldEnded(); setState('closed'); },
+      onComplete: () => setState('closed'),
     });
 
     // Opacity returns fast (first 30%), then lid rotates back from 110→0.
@@ -281,7 +279,7 @@ export function HeroFold() {
     // and the scroll happens "behind" an opaque lid.
     tl.to(window,            { scrollTo: { y: 0 }, duration: FOLD_DURATION * 0.7 }, FOLD_DURATION * 0.3);
 
-    return () => { tl.kill(); markFoldEnded(); };
+    return () => { tl.kill(); };
   }, [state]);
 
   if (state === 'open') return null;

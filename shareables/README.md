@@ -9,13 +9,11 @@ edited (e.g., the `{{Name}}` placeholder), and forwarded as-is.
 
 | File | What it is | Where to use |
 |------|------------|--------------|
-| `share-card.png` | 1200×630 branded preview card (Open Graph spec) | Already wired into `index.html` as `og:image`. WhatsApp / Facebook / iMessage / Slack auto-render this when the live URL is pasted into a chat — you don't need to attach it manually. Keep a copy here for re-uploads and visual reference. |
-| `qr-code.png` | 820×820 QR code in the invitation's burgundy-on-cream palette | Drop into a printed card, a WhatsApp story, or anywhere a guest can scan instead of typing the URL. Scans to the live site. |
-| `whatsapp-message.txt` | Warm personal WhatsApp body (with `{{Name}}` placeholder) | Replace the placeholder, paste into a WhatsApp chat. The site URL inside it will automatically expand into the share-card preview. |
-| `whatsapp-message-short.txt` | One-line WhatsApp variant | When something briefer feels right — e.g., to acquaintances. |
-| `sms-message.txt` | Single-line SMS body | Stays under the 160-char SMS limit. |
-| `email-subject.txt` | Suggested email subject line | Paste into your mail client's Subject field. |
-| `email-body.txt` | Plain-text email body (with `{{Name}}` placeholder) | Paste into the body. Modern mail clients (Apple Mail, Gmail's app) will render a rich preview of the URL using the same Open Graph tags. |
+| [`share-card.png`](share-card.png) | 1200×630 branded preview card (Open Graph spec) | Already wired into `index.html` as `og:image`. WhatsApp / Telegram / Facebook / iMessage / Slack auto-render this when the live URL is pasted into a chat — no need to attach it manually. Kept here for re-uploads and visual reference. |
+| [`qr-code.png`](qr-code.png) | 820×820 QR code in the invitation's burgundy-on-cream palette | Drop into a printed card, a WhatsApp story, or anywhere a guest can scan instead of typing the URL. Scans to the live site. |
+| [`whatsapp.md`](whatsapp.md) | WhatsApp message bodies — a warm/personal variant and a short one-liner | Paste either into a WhatsApp chat. The URL inside expands into the share-card preview automatically. |
+| [`sms.md`](sms.md) | Single-line SMS body | Stays under the 160-char limit so it fits in one segment. |
+| [`email.md`](email.md) | Suggested email subject + plain-text body | Modern mail clients render a rich preview of the URL using the same Open Graph tags WhatsApp uses, so no attachment needed. |
 
 ## URL of the live site
 
@@ -54,5 +52,5 @@ EOF
 ```
 
 If the live URL ever changes (e.g., custom domain), regenerate this
-file — and update every other text file in this folder that hardcodes
-the URL.
+file — and update every other message file in this folder that
+hardcodes the URL.

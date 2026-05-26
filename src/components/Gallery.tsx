@@ -1,4 +1,6 @@
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { Reveal } from './Reveal';
 
 /* Memory album — two CSS-keyframe marquees drifting in opposite
@@ -166,10 +168,25 @@ const ROW_BOTTOM: Photo[] = [
   },
 ];
 
-function PhotoSlide({ p, k }: { p: Photo; k: string }) {
+type RowId = 'top' | 'bottom';
+
+function PhotoSlide({ p, k, onOpen }: { p: Photo; k: string; onOpen: (p: Photo) => void }) {
+  const captionText = typeof p.caption === 'string' ? p.caption : p.alt;
   return (
     <figure key={k} className={`marquee__item ar-${p.ar}`}>
-      <div className={`photo-frame photo-${p.frame}`}>
+      <div
+        className={`photo-frame photo-frame--clickable photo-${p.frame}`}
+        role="button"
+        tabIndex={0}
+        aria-label={`Open photo: ${captionText}`}
+        onClick={() => onOpen(p)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onOpen(p);
+          }
+        }}
+      >
         <img className="photo-image" src={p.src} alt={p.alt} loading="lazy" />
       </div>
       <figcaption className="smallcaps marquee__caption">{p.caption}</figcaption>
@@ -177,27 +194,94 @@ function PhotoSlide({ p, k }: { p: Photo; k: string }) {
   );
 }
 
-function MarqueeRow({ photos, direction, label }: {
+function MarqueeRow({ photos, direction, label, rowId, onOpen, isPaused }: {
   photos: Photo[];
   direction: 'rtl' | 'ltr';
   label: string;
+  rowId: RowId;
+  onOpen: (p: Photo, rowId: RowId) => void;
+  isPaused: boolean;
 }) {
   const oneCopy = Array.from({ length: REPEAT_PER_ROW }, () => photos).flat();
+  // Bind this row's id so PhotoSlide doesn't need to know it.
+  const handleOpen = (p: Photo) => onOpen(p, rowId);
   return (
     <div
-      className={`marquee memory-marquee marquee--${direction}`}
+      className={`marquee memory-marquee marquee--${direction}${isPaused ? ' marquee--paused' : ''}`}
       role="region"
       aria-label={label}
     >
       <div className="marquee__track">
-        {oneCopy.map((p, i) => <PhotoSlide k={`a-${i}`} p={p} key={`a-${i}`} />)}
-        {oneCopy.map((p, i) => <PhotoSlide k={`b-${i}`} p={p} key={`b-${i}`} />)}
+        {oneCopy.map((p, i) => <PhotoSlide k={`a-${i}`} p={p} key={`a-${i}`} onOpen={handleOpen} />)}
+        {oneCopy.map((p, i) => <PhotoSlide k={`b-${i}`} p={p} key={`b-${i}`} onOpen={handleOpen} />)}
       </div>
     </div>
   );
 }
 
+/* Fullscreen lightbox — opens when a photo in the marquee is
+   clicked/tapped. Rendered via createPortal to document.body so it
+   escapes the marquee track's transform context and `position: fixed`
+   anchors to the viewport, not the moving track. */
+function Lightbox({ photo, onClose }: { photo: Photo; onClose: () => void }) {
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeBtnRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [onClose]);
+
+  return (
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+      <button
+        type="button"
+        className="lightbox__backdrop"
+        onClick={onClose}
+        aria-label="Close photo"
+        tabIndex={-1}
+      />
+      <button
+        ref={closeBtnRef}
+        type="button"
+        className="lightbox__close"
+        onClick={onClose}
+        aria-label="Close photo"
+      >
+        ×
+      </button>
+      <figure className="lightbox__figure">
+        <img className="lightbox__img" src={photo.src} alt={photo.alt} />
+        <figcaption className="lightbox__caption">{photo.caption}</figcaption>
+      </figure>
+    </div>
+  );
+}
+
 export function Gallery({ id }: { id?: string } = {}) {
+  const [lightbox, setLightbox] = useState<Photo | null>(null);
+  // Which row was the clicked photo in? That row's marquee pauses
+  // until the lightbox closes, so when the user dismisses the photo
+  // the same row is sitting still under their finger / cursor — they
+  // can pick a neighbour without chasing it.
+  const [pausedRow, setPausedRow] = useState<RowId | null>(null);
+  const openLightbox = (p: Photo, rowId: RowId) => {
+    setLightbox(p);
+    setPausedRow(rowId);
+  };
+  const closeLightbox = () => {
+    setLightbox(null);
+    setPausedRow(null);
+  };
+
   return (
     <section
       id={id}
@@ -228,13 +312,33 @@ export function Gallery({ id }: { id?: string } = {}) {
       </div>
 
       <div className="flex-1 flex flex-col justify-center gap-6 sm:gap-8 py-6 sm:py-8">
-        <MarqueeRow photos={ROW_TOP} direction="rtl" label="Memory album, top row" />
-        <MarqueeRow photos={ROW_BOTTOM} direction="ltr" label="Memory album, bottom row" />
+        <MarqueeRow
+          photos={ROW_TOP}
+          direction="rtl"
+          label="Memory album, top row"
+          rowId="top"
+          onOpen={openLightbox}
+          isPaused={pausedRow === 'top'}
+        />
+        <MarqueeRow
+          photos={ROW_BOTTOM}
+          direction="ltr"
+          label="Memory album, bottom row"
+          rowId="bottom"
+          onOpen={openLightbox}
+          isPaused={pausedRow === 'bottom'}
+        />
       </div>
 
       <div className="px-0 py-6 sm:py-8" aria-hidden="true">
         <div className="blockprint-band" />
       </div>
+
+      {lightbox &&
+        createPortal(
+          <Lightbox photo={lightbox} onClose={closeLightbox} />,
+          document.body,
+        )}
     </section>
   );
 }

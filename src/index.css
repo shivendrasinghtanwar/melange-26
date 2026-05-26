@@ -398,6 +398,102 @@ body {
   transition: transform .5s cubic-bezier(.16,.84,.44,1);
 }
 .photo-frame:hover { transform: translateY(-3px); }
+.photo-frame--clickable { cursor: pointer; }
+.photo-frame--clickable:focus-visible {
+  outline: 2px solid var(--marigold);
+  outline-offset: 4px;
+}
+
+/* ─── Lightbox / photo popup ─────────────────────────────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: lightbox-in 220ms cubic-bezier(.2,.7,.2,1);
+}
+@keyframes lightbox-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 8, 5, 0.92);
+  border: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.lightbox__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 1px solid rgba(250, 241, 228, 0.45);
+  color: var(--cream);
+  border-radius: 50%;
+  cursor: pointer;
+  font-family: 'Marcellus', serif;
+  font-size: 28px;
+  line-height: 1;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .2s ease, background-color .2s ease;
+}
+.lightbox__close:hover,
+.lightbox__close:focus-visible {
+  border-color: var(--cream);
+  background: rgba(250, 241, 228, 0.12);
+  outline: none;
+}
+.lightbox__figure {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 0 1rem;
+  max-width: 96vw;
+}
+.lightbox__img {
+  display: block;
+  max-width: min(96vw, 1400px);
+  max-height: 80vh;
+  object-fit: contain;
+  /* Cream matte echoing the photo-frame's inset cream border. */
+  box-shadow:
+    0 0 0 8px rgba(250, 241, 228, 0.95),
+    0 24px 60px rgba(0, 0, 0, 0.55);
+  border-radius: 2px;
+  animation: lightbox-img-in 320ms cubic-bezier(.2,.7,.2,1);
+}
+@keyframes lightbox-img-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.lightbox__caption {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--cream);
+  font-size: 1.05rem;
+  text-align: center;
+  margin-top: 0.5rem;
+  /* small breathing room from the cream matte */
+}
+@media (max-width: 640px) {
+  .lightbox__close { top: 0.6rem; right: 0.6rem; width: 40px; height: 40px; font-size: 24px; }
+  .lightbox__img { max-height: 76vh; box-shadow: 0 0 0 6px rgba(250,241,228,0.95), 0 16px 36px rgba(0,0,0,0.55); }
+  .lightbox__caption { font-size: 0.95rem; }
+}
 .photo-1 {
   background:
     radial-gradient(120% 80% at 30% 20%, rgba(255,255,255,0.35), transparent 60%),
@@ -460,6 +556,9 @@ body {
    independent rather than mirrored. */
 .marquee--rtl .marquee__track { animation: marquee-rtl 300s linear infinite; }
 .marquee--ltr .marquee__track { animation: marquee-ltr 340s linear infinite; }
+/* When a row is paused (a photo from it is open in the lightbox),
+   hold the track exactly where it is. The other row keeps drifting. */
+.marquee--paused .marquee__track { animation-play-state: paused; }
 
 @keyframes marquee-rtl {
   from { transform: translateX(0); }

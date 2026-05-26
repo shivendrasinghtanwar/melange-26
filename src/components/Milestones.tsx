@@ -76,38 +76,117 @@ const MILESTONES: MilestoneData[] = [
 export function Milestones({ id }: { id?: string } = {}) {
   const carouselRef = useRef<HTMLOListElement>(null);
   const [active, setActive] = useState(0);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined'
+      ? window.matchMedia('(max-width: 767px)').matches
+      : false,
+  );
+  // Set while we teleport from a ghost to its real counterpart, so the
+  // settled-position handler doesn't re-fire on the landing card.
+  const isJumpingRef = useRef(false);
 
+  // Track viewport so the ghost copies only render when the carousel
+  // is actually active (desktop grid would otherwise show 5 cards).
   useEffect(() => {
-    const el = carouselRef.current;
-    if (!el) return;
-    // The carousel scrolls horizontally on mobile; observe each
-    // direct child and mark the one that's mostly visible as active.
-    // Skip on desktop (no scroll-snap, no carousel UX needed).
-    const isCarouselMode = () => window.matchMedia('(max-width: 767px)').matches;
-    if (!isCarouselMode()) return;
-
-    const cards = Array.from(el.children) as HTMLElement[];
-    const io = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
-            const idx = cards.indexOf(entry.target as HTMLElement);
-            if (idx >= 0) setActive(idx);
-          }
-        });
-      },
-      { root: el, threshold: [0.55, 0.85] },
-    );
-    cards.forEach(c => io.observe(c));
-    return () => io.disconnect();
+    const mq = window.matchMedia('(max-width: 767px)');
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, []);
 
-  const scrollToIndex = (i: number) => {
+  // Carousel with infinite loop. The rendered children on mobile are:
+  //   [ghost = copy of LAST real, real-0, real-1, real-2, ghost = copy of FIRST real]
+  // On mount we scroll to the first real card (DOM index 1). When the
+  // user reaches a ghost (the first or last DOM child), a scrollend
+  // listener teleports them to the matching real card on the opposite
+  // side — visually invisible because the ghost IS a copy of the real.
+  useEffect(() => {
+    const el = carouselRef.current;
+    if (!el || !isMobile) return;
+
+    const cards = Array.from(el.children) as HTMLElement[];
+    const realCount = MILESTONES.length;
+    const lastIdx = cards.length - 1;
+
+    const centerOf = (c: HTMLElement) =>
+      c.offsetLeft - (el.clientWidth - c.clientWidth) / 2;
+
+    // Initial: land on the first real card (DOM index 1)
+    el.scrollLeft = centerOf(cards[1]);
+
+    const jumpTo = (domIdx: number) => {
+      const t = cards[domIdx];
+      if (!t) return;
+      isJumpingRef.current = true;
+      el.scrollLeft = centerOf(t);
+      // Give the browser a frame to settle, then clear.
+      setTimeout(() => {
+        isJumpingRef.current = false;
+      }, 120);
+    };
+
+    // Use scrollend when available (Chrome/Edge/Firefox 109+); otherwise
+    // fall back to a debounced scroll listener that fires when the
+    // user has stopped moving for ~90ms.
+    const settle = () => {
+      if (isJumpingRef.current) return;
+      const center = el.scrollLeft + el.clientWidth / 2;
+      let closest = 0;
+      let best = Infinity;
+      cards.forEach((c, i) => {
+        const cc = c.offsetLeft + c.clientWidth / 2;
+        const d = Math.abs(cc - center);
+        if (d < best) { best = d; closest = i; }
+      });
+      if (closest === 0) {
+        // Ghost (copy of last) → teleport to real last
+        jumpTo(realCount);
+        setActive(realCount - 1);
+      } else if (closest === lastIdx) {
+        // Ghost (copy of first) → teleport to real first
+        jumpTo(1);
+        setActive(0);
+      } else {
+        setActive(closest - 1);
+      }
+    };
+
+    // `scrollend` is supported in Chromium 114+, Firefox 109+. Fall
+    // back to a debounced scroll listener on Safari and older browsers.
+    if ('onscrollend' in (el as HTMLElement)) {
+      const onScrollEnd = () => settle();
+      (el as HTMLElement).addEventListener('scrollend', onScrollEnd as EventListener);
+      return () => (el as HTMLElement).removeEventListener('scrollend', onScrollEnd as EventListener);
+    }
+
+    let timer: number | null = null;
+    const onScroll = () => {
+      if (timer) clearTimeout(timer);
+      timer = window.setTimeout(settle, 90);
+    };
+    el.addEventListener('scroll', onScroll);
+    return () => {
+      if (timer) clearTimeout(timer);
+      el.removeEventListener('scroll', onScroll);
+    };
+  }, [isMobile]);
+
+  const scrollToIndex = (dotIdx: number) => {
     const cards = carouselRef.current?.children;
-    const target = cards?.[i] as HTMLElement | undefined;
+    // Dot indexes (0..n-1) map to DOM indexes 1..n on mobile (ghost at 0),
+    // and to 0..n-1 on desktop (no ghosts — but desktop is grid mode, this
+    // path doesn't really run there).
+    const domIdx = isMobile ? dotIdx + 1 : dotIdx;
+    const target = cards?.[domIdx] as HTMLElement | undefined;
     if (!target) return;
     target.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
   };
+
+  // Render order: ghost(last) + reals + ghost(first) on mobile,
+  // just the reals on desktop (CSS grid would otherwise show 5 cards).
+  const cardsToRender: MilestoneData[] = isMobile
+    ? [MILESTONES[MILESTONES.length - 1], ...MILESTONES, MILESTONES[0]]
+    : MILESTONES;
 
   return (
     /* Section is full-bleed (no horizontal padding or max-width) so
@@ -155,22 +234,28 @@ export function Milestones({ id }: { id?: string } = {}) {
           className="milestones__grid flex-1 mt-4 sm:mt-20 md:mt-24"
           role="list"
         >
-          {MILESTONES.map((m, i) => (
-            <Reveal delay={100 + i * 80} key={i}>
-              <li className={`milestone ${m.variant === 'center' ? 'milestone--center' : ''}`}>
-                <span className="milestone__numeral">{m.numeral}</span>
-                <p className="milestone__eyebrow">{m.eyebrow}</p>
-                <h3 className="milestone__title">{m.title}</h3>
-                <div className="milestone__rule" aria-hidden="true" />
-                <p className="milestone__attribution">
-                  <svg width="22" height="22"><use href={m.iconHref} /></svg>
-                  {m.attribution}
-                </p>
-                <p className="milestone__body">{m.body}</p>
-                <p className="milestone__meta">{m.meta}</p>
-              </li>
-            </Reveal>
-          ))}
+          {cardsToRender.map((m, i) => {
+            const isGhost = isMobile && (i === 0 || i === cardsToRender.length - 1);
+            return (
+              <Reveal delay={100 + i * 80} key={`card-${i}-${m.numeral}`}>
+                <li
+                  className={`milestone ${m.variant === 'center' ? 'milestone--center' : ''}`}
+                  aria-hidden={isGhost ? true : undefined}
+                >
+                  <span className="milestone__numeral">{m.numeral}</span>
+                  <p className="milestone__eyebrow">{m.eyebrow}</p>
+                  <h3 className="milestone__title">{m.title}</h3>
+                  <div className="milestone__rule" aria-hidden="true" />
+                  <p className="milestone__attribution">
+                    <svg width="22" height="22"><use href={m.iconHref} /></svg>
+                    {m.attribution}
+                  </p>
+                  <p className="milestone__body">{m.body}</p>
+                  <p className="milestone__meta">{m.meta}</p>
+                </li>
+              </Reveal>
+            );
+          })}
         </ol>
       </div>
 

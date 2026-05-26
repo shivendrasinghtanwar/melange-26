@@ -436,6 +436,15 @@ body {
   -webkit-mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
           mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
 }
+/* Mobile: drop the edge fades so the photos can use every pixel of
+   the (already narrow) viewport. The cross-hatch paper-cloth still
+   provides a soft visual cushion around the photos. */
+@media (max-width: 640px) {
+  .memory-marquee {
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+}
 .marquee {
   position: relative;
   overflow: hidden;

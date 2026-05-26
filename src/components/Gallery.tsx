@@ -66,10 +66,10 @@ const ROW_TOP: Photo[] = [
     caption: 'a Sunday on the terrace',
   },
   {
-    ar: '16-9', frame: 3,
-    src: photo('shivdi_bali_2.jpg'),
-    alt: 'Shivendra and Divyani at the Bali cliffs',
-    caption: 'Bali · the cliffs',
+    ar: '3-4', frame: 3,
+    src: photo('shivdi_finery.jpg'),
+    alt: 'Shivendra and Divyani in traditional finery',
+    caption: 'an evening in finery',
   },
   {
     ar: '3-4', frame: 2,
@@ -78,16 +78,28 @@ const ROW_TOP: Photo[] = [
     caption: 'between two friends',
   },
   {
+    ar: '16-9', frame: 3,
+    src: photo('shivdi_bali_2.jpg'),
+    alt: 'Shivendra and Divyani at the Bali cliffs',
+    caption: 'Bali · the cliffs',
+  },
+  {
+    ar: '16-9', frame: 1,
+    src: photo('sarandha_school/96dbc085-e68f-44e7-97b1-d653b570de39.jpg'),
+    alt: 'Sophia School faculty, Christmas gathering',
+    caption: 'the staff room · Sophia',
+  },
+  {
+    ar: '3-4', frame: 2,
+    src: photo('shivdi_beach.jpg'),
+    alt: 'Shivendra and Divyani on the beach at dusk',
+    caption: 'the tide at dusk',
+  },
+  {
     ar: '3-4', frame: 1,
     src: photo('shivdi_nashik.jpg'),
     alt: 'Shivendra and Divyani at twilight',
     caption: 'twilight · December',
-  },
-  {
-    ar: '16-9', frame: 3,
-    src: photo('sarandha_school/96dbc085-e68f-44e7-97b1-d653b570de39.jpg'),
-    alt: 'Sophia School faculty, Christmas gathering',
-    caption: 'the staff room · Sophia',
   },
 ];
 
@@ -117,28 +129,40 @@ const ROW_BOTTOM: Photo[] = [
     caption: 'the haveli · summer',
   },
   {
-    ar: '3-4', frame: 1,
-    src: photo('shivdi_1.jpg'),
-    alt: 'Shivendra and Divyani above the city',
-    caption: 'above the city',
+    ar: '3-4', frame: 3,
+    src: photo('shivdi_hills.jpg'),
+    alt: 'Shivendra and Divyani at a hill-road lookout',
+    caption: 'a road in the hills',
   },
   {
-    ar: '4-3', frame: 3,
+    ar: '4-3', frame: 1,
     src: photo('sarandha_school/a062c831-5945-4c9c-8c61-86111d39e5ee.jpg'),
     alt: 'Sarandha and colleagues by the pool',
     caption: 'by the water',
   },
   {
     ar: '3-4', frame: 2,
-    src: photo('shivdi_goa_1.jpg'),
-    alt: 'Shivendra and Divyani in Goa',
-    caption: 'Goa · monsoon',
+    src: photo('shivdi_1.jpg'),
+    alt: 'Shivendra and Divyani above the city',
+    caption: 'above the city',
   },
   {
-    ar: '4-3', frame: 1,
+    ar: '4-3', frame: 3,
     src: photo('sarandha_school/a7a33656-e409-4fe3-b0c9-247a8f2580ef.jpg'),
     alt: "Sarandha's colleagues, gathered",
     caption: 'colleagues, gathered',
+  },
+  {
+    ar: '3-4', frame: 1,
+    src: photo('shivdi_river.jpg'),
+    alt: 'Shivendra and Divyani on a boat',
+    caption: 'a river afternoon',
+  },
+  {
+    ar: '3-4', frame: 2,
+    src: photo('shivdi_goa_1.jpg'),
+    alt: 'Shivendra and Divyani in Goa',
+    caption: 'Goa · monsoon',
   },
 ];
 
